@@ -111,4 +111,68 @@ begin
 	DELETE FROM LICH_LAM_VIEC
 	where MaNhanVien = @MaNhanVien and MaCa = @MaCa and NgayLamViec = @NgayLamViec
 end
-go
+Go
+Create proc SelectAllPhim
+As
+Begin
+	Select * From PHIM
+End
+Go
+Create proc SelectAllTheLoaiPhim
+As
+Begin
+	Select * From THE_LOAI_PHIM
+End
+Go
+Create proc FindById(@MaPhim nvarchar(6))
+As
+Begin
+	Select * From PHIM where MaPhim = @MaPhim
+End
+Go
+Create proc SelectTheLoaiPhim
+As
+Begin
+	Select * From THE_LOAI_PHIM
+End
+Create proc ThemPhim
+
+	@TenPhim nvarchar(50),
+	@ThoiLuong int,
+	@QuocGia nvarchar(20),
+	@NamSanXuat datetime,
+	@DoTuoiXem int,
+	@MaTheLoai varchar(6),
+	@DaoDien nvarchar(50)
+	As 
+	Begin 
+		INSERT INTO PHIM (TenPhim,ThoiLuong,QuocGia,NamSanXuat,DoTuoiXem,MaTheLoai ,DaoDien)
+		Values (@TenPhim,@ThoiLuong,@QuocGia,@NamSanXuat, @DoTuoiXem, @MaTheLoai ,@DaoDien);
+	End
+Create proc XoaPhim(@MaPhim varchar(6))
+As
+Begin
+	Delete PHIM Where MaPhim = @MaPhim
+End
+Go
+Create proc SuaPhim
+	@MaPhim varchar(6),
+	@TenPhim nvarchar(50),
+	@ThoiLuong int,
+	@QuocGia nvarchar(20),
+	@NamSanXuat datetime,
+	@DoTuoiXem int,
+	@MaTheLoai varchar(6),
+	@DaoDien nvarchar(50)
+	As
+	Begin
+		Update PHIM Set TenPhim = @TenPhim, ThoiLuong = @ThoiLuong, QuocGia = @QuocGia, NamSanXuat = @NamSanXuat, DoTuoiXem = @DoTuoiXem, MaTheLoai = @MaTheLoai, DaoDien = @DaoDien
+		Where MaPhim = @MaPhim
+	End
+Create proc LoadPhim
+As
+Begin
+	Select p.MaPhim, p.TenPhim, p.ThoiLuong, p.QuocGia, p.NamSanXuat, p.DoTuoiXem, t.TenTheLoaiPhim, p.DaoDien
+	From PHIM as p, THE_LOAI_PHIM as t
+	Where p.MaTheLoai = t.MaTheLoaiPhim
+End	
