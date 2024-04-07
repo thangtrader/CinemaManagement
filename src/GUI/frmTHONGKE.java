@@ -5,9 +5,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JMonthChooser;
-import com.toedter.calendar.JYearChooser;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;

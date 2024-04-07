@@ -94,11 +94,11 @@ public class PHIM {
 		this.maTheLoai = maTheLoai;
 	}
 
-	public String getNoiDung() {
+	public String getDaoDien() {
 		return daoDien;
 	}
 
-	public void setNoiDung(String daoDien) {
+	public void setDaoDien(String daoDien) {
 		this.daoDien = daoDien;
 	}
 

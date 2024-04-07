@@ -23,5 +23,8 @@ public class THELOAIPHIM {
 	public void setTenTheLoaiPhim(String tenTheLoaiPhim) {
 		this.tenTheLoaiPhim = tenTheLoaiPhim;
 	}
+	public String toString() {
+		return this.tenTheLoaiPhim;
+	}
 	
 }
