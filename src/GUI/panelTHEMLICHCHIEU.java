@@ -10,7 +10,8 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
@@ -77,7 +78,7 @@ public class panelTHEMLICHCHIEU extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 
-		JCalendar calendar = new JCalendar();
+		JDateChooser calendar = new JDateChooser();
 		calendar.setBounds(0, 5, 261, 143);
 		panel.add(calendar);  
 
