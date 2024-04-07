@@ -60,6 +60,7 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
     public DefaultTableModel model;
     PhimBLL phimBLL;
     PhimDAL phimDAL;
+    GUI.frmThemThongTinPhim themPhim;
     
 	int current = 0;
 	private JButton btnThem;
@@ -292,12 +293,11 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
 			public void propertyChange(PropertyChangeEvent evt) {
 				String namsx;
 				 if ("date".equals(evt.getPropertyName())) {
-					 	
-		                System.out.println((Date) evt.getNewValue());
 		                Date namsanxuat = ((Date) evt.getNewValue());
 		                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
 		            		namsx = dateFormat.format(namsanxuat);
 			                textFieldNamSanXuat.setText(namsx);
+			                System.out.println("form" + textFieldNamSanXuat.getText());
 			                phimBLL.ValidateDate(textFieldNamSanXuat.getText());
 
 		            }
@@ -478,6 +478,43 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
             System.out.println("Không có hàng nào được chọn.");
         }
     }
+    public void getRowDatafrm() {
+        int selectedRow = table.getSelectedRow();
+        System.out.println(selectedRow);
+        if (selectedRow != -1 && selectedRow < table.getRowCount()) {
+            String maphim = table.getValueAt(selectedRow, 0).toString();
+            String tenphim = table.getValueAt(selectedRow, 1).toString();
+            String thoiluong = table.getValueAt(selectedRow, 2).toString();
+            String quocgia = table.getValueAt(selectedRow, 3).toString();
+            String daodien = table.getValueAt(selectedRow, 4).toString();
+            String namsanxuat = table.getValueAt(selectedRow, 5).toString();
+            String dotuoixem = table.getValueAt(selectedRow, 6).toString();
+            String matheloai = table.getValueAt(selectedRow, 7).toString();
+            
+//            themPhim.textField.setText(maphim);
+            themPhim.txtFieldTenPhim.setText(tenphim);
+            themPhim.txtFieldThoiLuong.setText(thoiluong);
+            themPhim.txtFieldQuocGia.setText(quocgia);
+            themPhim.txtFieldDaoDien.setText(daodien);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date ngaySanXuat = null;
+            try {
+                ngaySanXuat = dateFormat.parse(namsanxuat);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            themPhim.calendar.setDate(ngaySanXuat);
+            themPhim.calendar.setToolTipText(namsanxuat);
+            System.out.println(namsanxuat);
+            themPhim.txtDoTuoi.setText(dotuoixem);
+//            comboBoxTheLoai.setToolTipText(matheloai);
+        } else {
+            // Xử lý khi không có hàng nào được chọn
+            // Ví dụ: Hiển thị thông báo cho người dùng
+            System.out.println("Không có hàng nào được chọn.");
+        }
+    }
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -511,8 +548,8 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
 	@Override
 	public void actionPerformed(ActionEvent e) {
         	if (e.getSource() == btnThem) {
-//        		ThemPhim = new frmThemThongTinPhim();
-//        		ThemPhim.main(null);
+//        		themPhim = new frmThemThongTinPhim();
+//        		themPhim.main(null);
         		if(phimBLL.ValidatedForm() == false || phimBLL.ValidatedRegex() == false) {
             		if(phimBLL.ValidatedForm() == false) {
             			JOptionPane.showMessageDialog(null, "Cần nhập đủ các trường!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
