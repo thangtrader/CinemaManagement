@@ -21,31 +21,31 @@ import javax.swing.table.DefaultTableModel;
 import ENTITY.PHIM;
 import Process_Data.DBHelper;
 import Process_Data.PhimDAL;
+import Process_Data.TheLoaiPhimDAL;
 
 public class PhimBLL extends DBHelper {
     GUI.frmTHONGTINPHIM guiPhim;
     GUI.frmThemThongTinPhim addPhim;
     Process_Data.PhimDAL phimDAL; 
     
-    public Vector<ENTITY.PHIM> ListPhim() {
-        Vector<ENTITY.PHIM> vector = new Vector<ENTITY.PHIM>();
+    public Vector<ENTITY.PhimViewDTO> ListPhim() {
+        Vector<ENTITY.PhimViewDTO> vector = new Vector<ENTITY.PhimViewDTO>();
         try {
-        	String sql = "Select * From PHIM";
+        	String sql = "	SELECT p.MaPhim, p.TenPhim, p.ThoiLuong, p.QuocGia, p.NamSanXuat, p.DoTuoiXem, t.TenTheLoaiPhim, p.DaoDien FROM PHIM as p INNER JOIN THE_LOAI_PHIM as t ON p.MaTheLoai = t.MaTheLoaiPhim";
         	PreparedStatement pre = cnn.prepareStatement(sql);
         	ResultSet rs = pre.executeQuery();
             while (rs.next()) {
-            	ENTITY.PHIM phim = new ENTITY.PHIM();
-            	phim.setMaPhim(rs.getString("MaPhim"));
-            	phim.setTenPhim(rs.getString("TenPhim"));
-            	phim.setThoiLuong(rs.getInt("ThoiLuong"));
-            	phim.setQuocGia(rs.getString("QuocGia"));
-            	phim.setDaoDien(rs.getString("DaoDien"));
-            	phim.setNanSanXuat(rs.getDate("NamSanXuat"));
-            	phim.setDoTuoiXem(rs.getInt("DoTuoiXem"));
-            	phim.setMaTheLoai(rs.getString("MaTheLoai"));
+            	ENTITY.PhimViewDTO phimview = new ENTITY.PhimViewDTO();
+            	phimview.setMaPhim(rs.getString("MaPhim"));
+            	phimview.setTenPhim(rs.getString("TenPhim"));
+            	phimview.setThoiLuong(rs.getInt("ThoiLuong"));
+            	phimview.setQuocGia(rs.getString("QuocGia"));
+            	phimview.setDaoDien(rs.getString("DaoDien"));
+            	phimview.setNamSanXuat(rs.getDate("NamSanXuat"));
+            	phimview.setDoTuoiXem(rs.getInt("DoTuoiXem"));
+            	phimview.setTenTheLoai(rs.getString("TenTheLoaiPhim"));
             	
-            	
-                vector.addElement(phim);
+                vector.addElement(phimview);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,8 +97,8 @@ public class PhimBLL extends DBHelper {
         for (int i = guiPhim.model.getRowCount() - 1; i >= 0; i--) {
         	guiPhim.model.removeRow(i);
         }
-        for (ENTITY.PHIM phim : phimDAL.ListPhim()) {
-        	guiPhim.model.addRow(new Object[]{phim.getMaPhim(), phim.getTenPhim(), phim.getThoiLuong(), phim.getQuocGia(), phim.getDaoDien(), phim.getNanSanXuat(), phim.getDoTuoiXem(), phim.getMaTheLoai()});
+        for (ENTITY.PhimViewDTO phimview : phimDAL.ListPhim()) {
+        	guiPhim.model.addRow(new Object[]{phimview.getMaPhim(), phimview.getTenPhim(), phimview.getThoiLuong(), phimview.getQuocGia(), phimview.getDaoDien(), phimview.getNamSanXuat(), phimview.getDoTuoiXem(), phimview.getTenTheLoai()});
         }
     }
     public boolean ValidatedForm() {
@@ -189,20 +189,12 @@ public class PhimBLL extends DBHelper {
 				guiPhim.lbRegexNamSX.setText("");
 			}
     	}  	
-    //Hàm trim() loại bỏ khoảng trống đầu cuối
     public int addData() {
-    	Date namsanxuatDate = null;
     	String tenphim = guiPhim.textFieldTenPhim.getText().trim();
     	String thoiluong = guiPhim.textFieldThoiLuong.getText().trim();
     	String quocgia = guiPhim.textFieldQuocGia.getText().trim();
     	String daodien = guiPhim.textFieldDaoDien.getText().trim();
     	Date namsanxuat = guiPhim.calendar.getDate();
-//    	try {
-//    	   namsanxuatDate = dateFormat.parse(namsanxuat);
-//    	   System.out.println(namsanxuatDate);
-//    	} catch (ParseException e) {
-//    	    e.printStackTrace();
-//    	}
     	String dotuoixem = guiPhim.textFieldDoTuoi.getText().trim();
     	String maloaiphim = ((ENTITY.THELOAIPHIM) guiPhim.comboBoxTheLoai.getSelectedItem()).getMaTheLoaiPhim();
     	Object[] param = new Object[] {tenphim, thoiluong, quocgia, namsanxuat, dotuoixem, maloaiphim, daodien};
@@ -214,23 +206,14 @@ public class PhimBLL extends DBHelper {
     	return phimDAL.removeData(param);
     }
     public int updateData() {
-//    	Date namsanxuatDate;
     	String maphim = guiPhim.textFieldMaPhim.getText().trim();
     	String tenphim = guiPhim.textFieldTenPhim.getText().trim();
     	String thoiluong = guiPhim.textFieldThoiLuong.getText().trim();
     	String quocgia = guiPhim.textFieldQuocGia.getText().trim();
     	String daodien = guiPhim.textFieldDaoDien.getText().trim();
     	Date namsanxuat = guiPhim.calendar.getDate();
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//    	try {
-//    	   namsanxuatDate = dateFormat.parse(namsanxuat);
-//    	   System.out.println(namsanxuatDate);
-//    	} catch (ParseException e) {
-//    	    e.printStackTrace();
-//    	}
     	String dotuoixem = guiPhim.textFieldDoTuoi.getText().trim();
     	String maloaiphim = ((ENTITY.THELOAIPHIM) guiPhim.comboBoxTheLoai.getSelectedItem()).getMaTheLoaiPhim();
-//    	System.out.println(namsanxuatDate);
     	Object[] param = new Object[] {maphim,tenphim, thoiluong, quocgia, namsanxuat, dotuoixem, maloaiphim, daodien};
     	return phimDAL.updateData(param);	
     }

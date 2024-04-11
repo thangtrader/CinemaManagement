@@ -19,23 +19,23 @@ public class PhimDAL {
     }
     
     
-	public Vector<ENTITY.PHIM> ListPhim() {
-        Vector<ENTITY.PHIM> vector = new Vector<ENTITY.PHIM>();
+	public Vector<ENTITY.PhimViewDTO> ListPhim() {
+        Vector<ENTITY.PhimViewDTO> vector = new Vector<ENTITY.PhimViewDTO>();
         try {
-            ResultSet rs = cnn.getResultSet_StoredProcedures("SelectAllPhim");
+            ResultSet rs = cnn.getResultSet_StoredProcedures("LoadPhim");
             while (rs.next()) {
-            	ENTITY.PHIM phim = new ENTITY.PHIM();
-            	phim.setMaPhim(rs.getString("MaPhim"));
-            	phim.setTenPhim(rs.getString("TenPhim"));
-            	phim.setThoiLuong(rs.getInt("ThoiLuong"));
-            	phim.setQuocGia(rs.getString("QuocGia"));
-            	phim.setDaoDien(rs.getString("DaoDien"));
-            	phim.setNanSanXuat(rs.getDate("NamSanXuat"));
-            	phim.setDoTuoiXem(rs.getInt("DoTuoiXem"));
-            	phim.setMaTheLoai(rs.getString("MaTheLoai"));
+            	ENTITY.PhimViewDTO phimview = new ENTITY.PhimViewDTO();
+            	phimview.setMaPhim(rs.getString("MaPhim"));
+            	phimview.setTenPhim(rs.getString("TenPhim"));
+            	phimview.setThoiLuong(rs.getInt("ThoiLuong"));
+            	phimview.setQuocGia(rs.getString("QuocGia"));
+            	phimview.setDaoDien(rs.getString("DaoDien"));
+            	phimview.setNamSanXuat(rs.getDate("NamSanXuat"));
+            	phimview.setDoTuoiXem(rs.getInt("DoTuoiXem"));
+            	phimview.setTenTheLoai(rs.getString("TenTheLoaiPhim"));
             	
             	
-                vector.addElement(phim);
+                vector.addElement(phimview);
             }
         } catch (Exception e) {
             e.printStackTrace();

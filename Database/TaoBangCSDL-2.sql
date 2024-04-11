@@ -87,7 +87,7 @@ Create table NHAN_VIEN(
 	MaNhanVien varchar(6) primary key not null constraint IDNV default dbo.AUTO_IDNV(),
 	TenNhanVien nvarchar(30),
 	NgaySinh date,
-	GioiTinh bit,
+	GioiTinh nvarchar(3),
 	DiaChi nvarchar(50),
 	SoDienThoai varchar(15),
 	CCCD varchar(20),

@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
+import Business_Logic.NhanVienBLL;
+import quanlyrapphim.frmQuanLyPhim;
 import quanlyrapphim.frmQuanLyRapPhim;
 
 import javax.swing.JLabel;
@@ -29,7 +31,7 @@ public class dialogLOGIN extends JDialog {
 	private static final long serialVersionUID = 1L;
 	public JTextField textFieldUser;
 	public JTextField  textFieldPassword;
-	public quanlyrapphim.frmQuanLyRapPhim mainForm;
+	public quanlyrapphim.frmQuanLyPhim mainForm;
 
 	/**
 	 * Launch the application.
@@ -74,17 +76,30 @@ public class dialogLOGIN extends JDialog {
 		btnLogin.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				String user = textFieldUser.getText();
-				String password = textFieldPassword.getText();
-				if(user.equals("admin") && password.equals("123")) {
-					setVisible(false);
-					mainForm = new  frmQuanLyRapPhim();
-					mainForm.show();
-					
-				}else {
-					JOptionPane.showMessageDialog(btnLogin, "Tài khoản hoặc Mật khẩu của bạn không đúng");
+				if (!textFieldPassword.getText().equals("") && !textFieldUser.getText().equals("")) {
+				    int result = NhanVienBLL.getInstance().KiemTraDangNhap(textFieldUser.getText(), textFieldPassword.getText());
+				    System.out.println(result);
+				    if (result == 0)
+				        JOptionPane.showMessageDialog(null, "Sai tài khoản hoặc mật khẩu! Vui lòng kiểm tra lại!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				    if (result == -1)
+				        JOptionPane.showMessageDialog(null, "Tài khoản chưa tồn tại! Vui lòng kiểm tra lại!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				    if (result == -2)
+				        JOptionPane.showMessageDialog(null, "Tài khoản này đã bị khóa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+//				    if (result == 3) {
+//				        FrmDashboardAD frmDashboardAD = new FrmDashboardAD(NhanVienBLL.getInstance().GetNhanVienByTenTaiKhoan(txtTenTaiKhoan.getText()));
+//				        frmDashboardAD.setVisible(true);
+//				    }
+				    if (result == 2) {
+				    	
+				    	mainForm= new frmQuanLyPhim();
+				    	mainForm.setVisible(true);
+				    	
+				    }
+//				    if (result > 0) {
+//				        this.setVisible(false);
+//				    }
 				}
-			}
+	        }
 		});
 //		btnLogin.setActionCommand("OK");
 		btnLogin.setBounds(153, 158, 70, 31);

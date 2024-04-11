@@ -2,55 +2,69 @@ package GUI;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import Business_Logic.NhanVienBLL;
+import Process_Data.NhanVienDAL;
 import quanlyrapphim.frmQuanLyRapPhim;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 
-public class frmNHANVIEN extends JPanel {
+public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldTimKiem;
-	private JTable table;
+	public JTable table;
+    public DefaultTableModel model;
+    NhanVienBLL nvBLL;
+    NhanVienDAL nvDAL;
+	private JButton btnThem;
+	private JButton btnXemChiTiet;
+	private JButton btnTimKiem;
+	private JButton btnXoa;
 
 	/**
 	 * Create the panel.
 	 */
 	public frmNHANVIEN() {
+		
 		setLayout(null);
 		
-		JComboBox comboBoxTrangThai = new JComboBox();
-		comboBoxTrangThai.setBounds(132, 22, 107, 21);
-		add(comboBoxTrangThai);
-		
 		JComboBox comboBoxSapXep = new JComboBox();
-		comboBoxSapXep.setBounds(516, 22, 117, 21);
+		comboBoxSapXep.setBounds(472, 22, 101, 21);
 		add(comboBoxSapXep);
-		
-		JComboBox comboBoxTimKiem = new JComboBox();
-		comboBoxTimKiem.setBounds(614, 56, 112, 21);
-		add(comboBoxTimKiem);
 		
 		textFieldTimKiem = new JTextField();
 		textFieldTimKiem.setBackground(new Color(240, 240, 240));
-		textFieldTimKiem.setBounds(396, 23, 101, 19);
+		textFieldTimKiem.setBounds(596, 23, 101, 19);
 		add(textFieldTimKiem);
 		textFieldTimKiem.setColumns(10);
 		
 		JLabel lblDanhSchNhn = new JLabel("Danh sách nhân viên");
 		lblDanhSchNhn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblDanhSchNhn.setBounds(21, 55, 117, 21);
+		lblDanhSchNhn.setBounds(21, 21, 117, 21);
 		add(lblDanhSchNhn);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(21, 86, 767, 267);
+		scrollPane.setBounds(21, 54, 767, 299);
 		add(scrollPane);
 		
 		table = new JTable();
@@ -68,51 +82,114 @@ public class frmNHANVIEN extends JPanel {
 		table.getColumnModel().getColumn(4).setPreferredWidth(85);
 		table.getColumnModel().getColumn(5).setPreferredWidth(114);
 		table.getColumnModel().getColumn(6).setPreferredWidth(119);
-		table.setCellSelectionEnabled(true);
-		table.setColumnSelectionAllowed(true);
 		table.setFillsViewportHeight(true);
 		scrollPane.setViewportView(table);
 		
-		JButton btnXemChiTiet = new JButton("Xem chi tiết");
+		btnXemChiTiet = new JButton("Xem chi tiết");
 		btnXemChiTiet.setBackground(new Color(255, 165, 0));
 		btnXemChiTiet.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnXemChiTiet.setIcon(new ImageIcon(frmNHANVIEN.class.getResource("/image/find.png")));
 		btnXemChiTiet.setBounds(104, 376, 135, 34);
 		add(btnXemChiTiet);
 		
-		JButton btnXoa = new JButton("Xóa");
+		btnXoa = new JButton("Xóa");
 		btnXoa.setBackground(new Color(255, 147, 150));
 		btnXoa.setIcon(new ImageIcon(frmNHANVIEN.class.getResource("/image/x.png")));
 		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnXoa.setBounds(338, 376, 85, 34);
 		add(btnXoa);
 		
-		JButton btnThem = new JButton("Thêm");
+		btnThem = new JButton("Thêm");
 		btnThem.setBackground(new Color(192, 192, 192));
 		btnThem.setIcon(new ImageIcon(frmNHANVIEN.class.getResource("/image/them.png")));
 		btnThem.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnThem.setBounds(516, 376, 85, 34);
 		add(btnThem);
 		
-		JButton btnTrangThai = new JButton("Trạng thái");
-		btnTrangThai.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnTrangThai.setBackground(new Color(0, 255, 255));
-		btnTrangThai.setBounds(21, 19, 93, 24);
-		add(btnTrangThai);
-		
-		JButton btnTimKiem = new JButton("Tìm kiếm");
+		btnTimKiem = new JButton("");
 		btnTimKiem.setIcon(new ImageIcon(frmNHANVIEN.class.getResource("/image/find.png")));
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnTimKiem.setBackground(Color.CYAN);
-		btnTimKiem.setBounds(269, 20, 107, 24);
+		btnTimKiem.setBounds(697, 22, 27, 21);
 		add(btnTimKiem);
-		
-		JButton btnSapXep = new JButton("Sắp xếp");
-		btnSapXep.setIcon(new ImageIcon(frmNHANVIEN.class.getResource("/image/sapxep.png")));
-		btnSapXep.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnSapXep.setBackground(Color.CYAN);
-		btnSapXep.setBounds(490, 53, 103, 24);
-		add(btnSapXep);
+        nvBLL = new Business_Logic.NhanVienBLL(this);
+        nvDAL = new Process_Data.NhanVienDAL(this);
+        btnThem.addActionListener(this);
+        btnXoa.addActionListener(this);
+        table.addMouseListener(this);
+	}
+	public void getRowData() {
+        int selectedRow = table.getSelectedRow();
+        System.out.println(selectedRow);
+        if (selectedRow != -1 && selectedRow < table.getRowCount()) {
+            String manv = table.getValueAt(selectedRow, 0).toString();
+            String tennv = table.getValueAt(selectedRow, 1).toString();
+            String ngaysinh = table.getValueAt(selectedRow, 2).toString();
+            String gioitinh = table.getValueAt(selectedRow, 3).toString();
+            String sdt = table.getValueAt(selectedRow, 4).toString();
+            String tencs = table.getValueAt(selectedRow, 5).toString();
+            String tencv = table.getValueAt(selectedRow, 6).toString();
+            
+        } else {
+            System.out.println("Không có hàng nào được chọn.");
+        }
+    }
 
+	@Override
+	public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == table) {
+            if (table.getSelectedRow() >= 0) {
+                getRowData();
+            }
+        }
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+    	if (e.getSource() == btnThem) {
+    		GUI.dialogThemNhanVien themnv = new dialogThemNhanVien();
+    		themnv.setVisible(true);
+    		themnv.addWindowListener(new WindowAdapter() {
+    		    @Override
+    		    public void windowClosed(WindowEvent e) {
+    		        System.out.println("123");
+    		        nvBLL.LoadNhanVien(); // Thực hiện tải nhân viên sau khi dialog đã đóng
+    		    }
+    		});
+    	}
+        if (e.getSource() == btnXoa) {
+            int k = nvBLL.removeData();
+            if(k==1) {
+            	JOptionPane.showMessageDialog(null, "Đã xóa thông tin phim thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else {
+            	JOptionPane.showMessageDialog(null, "Xóa phim không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+            nvBLL.LoadNhanVien();
+        }
 	}
 }
