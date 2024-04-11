@@ -452,7 +452,7 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
             String daodien = table.getValueAt(selectedRow, 4).toString();
             String namsanxuat = table.getValueAt(selectedRow, 5).toString();
             String dotuoixem = table.getValueAt(selectedRow, 6).toString();
-            String matheloai = table.getValueAt(selectedRow, 7).toString();
+            String tentheloai = table.getValueAt(selectedRow, 7).toString();
             
             textFieldMaPhim.setText(maphim);
             textFieldTenPhim.setText(tenphim);
@@ -460,18 +460,24 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
             textFieldQuocGia.setText(quocgia);
             textFieldDaoDien.setText(daodien);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+            SimpleDateFormat dateFormat2 = new SimpleDateFormat("MMM d,y");
+            
             Date ngaySanXuat = null;
             try {
                 ngaySanXuat = dateFormat.parse(namsanxuat);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            textFieldNamSanXuat.setText(dateFormat2.format(ngaySanXuat));
             calendar.setDate(ngaySanXuat);
             calendar.setToolTipText(namsanxuat);
             System.out.println(namsanxuat);
             textFieldDoTuoi.setText(dotuoixem);
-            comboBoxTheLoai.setToolTipText(matheloai);
+            for(int i = 0; i<comboBoxTheLoai.getItemCount(); i++) {
+            	if(comboBoxTheLoai.getItemAt(i).toString().equalsIgnoreCase(tentheloai)) {
+                    comboBoxTheLoai.setSelectedIndex(i);
+            	}
+            }
         } else {
             // Xử lý khi không có hàng nào được chọn
             // Ví dụ: Hiển thị thông báo cho người dùng
@@ -591,9 +597,9 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
             	else {
             			int k = phimBLL.updateData();
             			if(k==1)
-            				JOptionPane.showMessageDialog(null, "Đã thêm thông tin phim thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            				JOptionPane.showMessageDialog(null, "Đã sửa thông tin phim thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             			else
-            				JOptionPane.showMessageDialog(null, "Thêm phim không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            				JOptionPane.showMessageDialog(null, "Sửa phim không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             			phimBLL.LoadPhim();
             			phimBLL.ClearData();
 //            		}
