@@ -32,7 +32,7 @@ public class frmQuanLyPhim extends JFrame {
 	private JPanel panelLICHCHIEUPHIM;
 	private JPanel panelCANHAN;
 	private JPanel panelTHONGKE;
-	private JPanel panelNHANVIEN;
+	public JPanel panelNHANVIEN;
 	private JPanel panel6;
 
 	/**
@@ -63,7 +63,7 @@ public class frmQuanLyPhim extends JFrame {
 		setContentPane(contentPane);
 		setTitle("QUẢN LÝ RẠP PHIM");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(938, 664);
+        setSize(939, 540);
         
         mainPanel = new JPanel(new CardLayout());
         mainPanel.setBounds(121, 60, 800, 441);

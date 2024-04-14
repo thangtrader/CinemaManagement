@@ -106,30 +106,30 @@ insert into CHINH_SACH(TenChinhSach,HeSoLuong,BHXH,TienThuong) values ('Chính s
 insert into CHINH_SACH(TenChinhSach,HeSoLuong,BHXH,TienThuong) values ('Chính sách 3','2','6 tháng','300000');
 ----- Đã xong
 -----17.Chức vụ ------ CV0001
-insert into CHUC_VU(TenChucVu) values (N'Quản lý phim');
+insert into CHUC_VU(TenChucVu) values (N'Nhân viên');
 insert into CHUC_VU(TenChucVu) values (N'Quản trị viên');
 ----- Đã xong
-------18.Nhân viên ----- NV0001 (10 NV), 4P, 4VT, 2admin
+------18.Nhân viên -----
 insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456789
-Values (N'Phạm Khắc Luận','2002-04-20','0',N'Huế','0982756449','046205010716','luanqlp','123456','CS0002','CV0001','1');
+Values (N'Nguyễn Đức Thắng','2004-08-30',N'Nam',N'Quảng Trị','0325043590','045204000730','thangadmin','123456','CS0002','CV0002','1');
 insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456789
-Values (N'Phạm Chính Hải','2002-08-20','0',N'Huế','0982758887','046202010716','haiqlp','123456','CS0002','CV0001','1');
+Values (N'Nguyễn Văn Toàn','2004-06-15',N'Nam',N'Quảng Nam','0325045456','0452041234674','toanadmin','123456','CS0002','CV0002','1');
 insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456789
-Values (N'Lê Duy Quý','2001-04-20','0',N'Quảng Nam','0988752737','046202019128','quyqlp','123456','CS0002','CV0001','1');
+Values (N'Lê Thành Ý','2004-07-24',N'Nam',N'Bình Định','0325041234','045204999808','ynhanvien','123456','CS0001','CV0001','1');
 insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456
-Values (N'Trương Khởi Linh','2002-09-12','1',N'Hà Nội','0356285861','046201910842','linhqlp','123456','CS0002','CV0001','1');
+Values (N'Hồ Văn Thanh','2004-07-30',N'Nam',N'Quảng Trị','0325011234','04520401252','thanhnhanvien','123456','CS0001','CV0001','1');
 insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--987654321
-Values (N'Trần Trung Hiếu','2002-03-01','0',N'Quảng Trị','0982782647','046202011112','hieuqlvt','123456','CS0002','CV0002','1');
+Values (N'Nguyễn Thị Huyền Thương','2004-05-12',N'Nữ',N'Hà Tĩnh','031452342','0452041111235','thuongnhanvien','123456','CS0002','CV0001','1');
 insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456
-Values (N'Trần Hải Phong','2002-03-12','1',N'Đà Nẵng','0359235856','046202510866','phongqlvt','123456','CS0002','CV0002','1');
+Values (N'Phan Thị Kim Ngân','2004-08-03',N'Nữ',N'Quảng Trị','0325041236','04520430078242','ngannhanvien','123456','CS0001','CV0001','1');
 insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456
-Values (N'Trương Hải Khách','2002-03-12','1',N'Đà Nẵng','0359237152','04619253039','khachqlvt','123456','CS0002','CV0002','0');
+Values (N'Nguyễn Văn Thắng','2004-10-30',N'Nam',N'Đà Nẵng','097860007','045201234567','thangnhanvien','123456','CS0002','CV0001','1');
 insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456
-Values (N'Huỳnh Thế Anh','2002-12-12','1',N'Đà Nẵng','0359235856','046202510856','anhqlvt','123456','CS0002','CV0002','0');
+Values (N'Trần Trung Hiếu','2004-01-30',N'Nam',N'Quảng Trị','0325049999','045204550730','hieuadmin','123456','CS0002','CV0002','1');
 insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456
-Values (N'Lê Văn Hào','2002-02-22','1',N'Huế','0827582932','046202010711','haoadmin','123456','CS0003','CV0002','1');
+Values (N'Nguyễn Thị Yến Nhi','2004-04-30',N'Nữ',N'Hà Nội','0325048888','045204099990','nhinhanvien','123456','CS0001','CV0001','1');
 insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456
-Values (N'Trần Văn Hữu','2002-02-12','1',N'Huế','0359235204','046202010816','huuadmin','123456','CS0003','CV0002','0');
+Values (N'Nguyễn Phan Hà','2004-11-30',N'Nữ',N'Cà Mau','0943754517','045204700898','hanhanvien','123456','CS0001','CV0001','1');
 
 -----Đã xong
 ------19. lịch làm việc
