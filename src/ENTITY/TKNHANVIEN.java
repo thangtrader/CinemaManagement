@@ -3,19 +3,19 @@ package ENTITY;
 public class TKNHANVIEN {
 	 	private String maNhanVien;
 	    private String tenNhanVien;
-	    private boolean gioiTinh;
+	    private String gioiTinh;
 	    private double sogiolam;
 	    private double tongtien;
-		public TKNHANVIEN(String maNhanVien, String tenNhanVien, boolean gioiTinh, double sogiolam, double tongtien) {
+		public TKNHANVIEN() {
+			super();
+		}
+		public TKNHANVIEN(String maNhanVien, String tenNhanVien, String gioiTinh, double sogiolam, double tongtien) {
 			super();
 			this.maNhanVien = maNhanVien;
 			this.tenNhanVien = tenNhanVien;
 			this.gioiTinh = gioiTinh;
 			this.sogiolam = sogiolam;
 			this.tongtien = tongtien;
-		}
-		public TKNHANVIEN() {
-			super();
 		}
 		public String getMaNhanVien() {
 			return maNhanVien;
@@ -29,10 +29,10 @@ public class TKNHANVIEN {
 		public void setTenNhanVien(String tenNhanVien) {
 			this.tenNhanVien = tenNhanVien;
 		}
-		public boolean isGioiTinh() {
+		public String getGioiTinh() {
 			return gioiTinh;
 		}
-		public void setGioiTinh(boolean gioiTinh) {
+		public void setGioiTinh(String gioiTinh) {
 			this.gioiTinh = gioiTinh;
 		}
 		public double getSogiolam() {
@@ -47,5 +47,6 @@ public class TKNHANVIEN {
 		public void setTongtien(double tongtien) {
 			this.tongtien = tongtien;
 		}
+		
 	    
 }

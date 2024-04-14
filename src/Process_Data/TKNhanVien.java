@@ -40,7 +40,7 @@ public class TKNhanVien {
                 ENTITY.TKNHANVIEN NhanVien = new ENTITY.TKNHANVIEN();
                 NhanVien.setMaNhanVien(rs.getString("MaNhanVien"));
                 NhanVien.setTenNhanVien(rs.getString("TenNhanVien"));
-                NhanVien.setGioiTinh(rs.getBoolean("GioiTinh"));
+                NhanVien.setGioiTinh(rs.getString("GioiTinh"));
                 NhanVien.setSogiolam(rs.getDouble("SoGioLam"));
                 NhanVien.setTongtien(rs.getDouble("TongLuong")); 
 

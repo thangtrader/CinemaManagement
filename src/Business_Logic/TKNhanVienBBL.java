@@ -70,7 +70,7 @@ public class TKNhanVienBBL extends DBHelper {
             	ENTITY.TKNHANVIEN NhanVien = new ENTITY.TKNHANVIEN();
                 NhanVien.setMaNhanVien(rs.getString("MaNhanVien"));
                 NhanVien.setTenNhanVien(rs.getString("TenNhanVien"));
-                NhanVien.setGioiTinh(rs.getBoolean("GioiTinh"));
+                NhanVien.setGioiTinh(rs.getString("GioiTinh"));
                 NhanVien.setSogiolam(rs.getDouble("SoGioLam"));
                 NhanVien.setTongtien(rs.getDouble("TongLuong")); // Sửa đổi thành setTongTien
                 vector.addElement(NhanVien);
@@ -132,7 +132,7 @@ public class TKNhanVienBBL extends DBHelper {
         }
         // Gọi phương thức ListTKNhanVien() thay vì ListNhanVien()
         for (ENTITY.TKNHANVIEN tknv : tknvDAL.ListNhanVien()) {
-            GUITKNhanVien.model.addRow(new Object[]{tknv.getMaNhanVien(), tknv.getTenNhanVien(), tknv.isGioiTinh(), tknv.getSogiolam(), tknv.getTongtien()});
+            GUITKNhanVien.model.addRow(new Object[]{tknv.getMaNhanVien(), tknv.getTenNhanVien(), tknv.getGioiTinh(), tknv.getSogiolam(), tknv.getTongtien()});
         }
     }
     public void UpdateTongLuongLabel(JLabel label) {
