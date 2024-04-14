@@ -59,5 +59,8 @@ public class CHINHSACH {
 	public void setTienThuong(int tienThuong) {
 		this.tienThuong = tienThuong;
 	}
+	public String toString() {
+		return this.tenChinhSach;
+	}
 
 }

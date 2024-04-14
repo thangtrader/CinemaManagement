@@ -28,5 +28,7 @@ public class CHUCVU {
 	public void setTenChucVu(String tenChucVu) {
 		this.tenChucVu = tenChucVu;
 	}
-
+	public String toString() {
+		return this.tenChucVu;
+	}
 }
