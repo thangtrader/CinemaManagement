@@ -23,7 +23,11 @@ public class DBHelper {
 
     public static DBHelper getInstance() {
         if (_Instance == null) {
+<<<<<<< HEAD
             String url = "jdbc:sqlserver://" + "NGUYENVANTOAN" + ":1433;databaseName=" + "QuanLyRapChieuPhim" + ";user=" + "sa" + " ;password=" + "123456" + ";encrypt=true;trustServerCertificate=true";
+=======
+            String url = "jdbc:sqlserver://" + "MSI\\SQLEXPRESS" + ":1433;databaseName=" + "QuanLyRapChieuPhim" + ";user=" + "sa" + " ;password=" + "123456" + ";encrypt=true;trustServerCertificate=true";
+>>>>>>> 2ea3b641280839ed7085563cd85303e5ef0f3daa
             _Instance = new DBHelper(url);
         }
         return _Instance;
@@ -38,7 +42,11 @@ public class DBHelper {
             String UserName = "sa";
             String PassWord = "123456";
             String DataBaseName = "QuanLyRapChieuPhim";
+<<<<<<< HEAD
             String ServerName = "NGUYENVANTOAN";
+=======
+            String ServerName = "MSI\\SQLEXPRESS";
+>>>>>>> 2ea3b641280839ed7085563cd85303e5ef0f3daa
 
             String IntegratedSecurity = "IntegratedSecurity=false";
             DriverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";

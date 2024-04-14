@@ -1,4 +1,4 @@
-use QuanLyRapChieuPhim
+﻿use QuanLyRapChieuPhim
 go
 --- dang nhap
 create proc KiemTraDangNhap
@@ -195,6 +195,32 @@ Begin
 	FROM PHIM as p INNER JOIN THE_LOAI_PHIM as t ON p.MaTheLoai = t.MaTheLoaiPhim;
 End	
 Go
+
+Create proc SelectAllTKNV
+As
+Begin
+	Select DISTINCT n.MaNhanVien, n.TenNhanVien, n.GioiTinh, DATEDIFF(HOUR, clv.GioBatDau, clv.GioKetThuc) AS SoGioLam, ROUND((DATEDIFF(HOUR, clv.GioBatDau, clv.GioKetThuc) * cs.HeSoLuong*18000),2) AS TongTien
+	FROM NHAN_VIEN n
+    INNER JOIN LICH_LAM_VIEC llv ON n.MaNhanVien = llv.MaNhanVien
+    INNER JOIN CA_LAM_VIEC clv ON llv.MaCa = clv.MaCa
+    INNER JOIN CHINH_SACH cs ON n.MaChinhSach = cs.MaChinhSach
+End	
+Go
+/*Create proc SelectTKNhanVien
+AS
+BEGIN
+    SELECT DISTINCT NV.MaNhanVien, 
+           NV.TenNhanVien, 
+           NV.GioiTinh, 
+           DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc) AS SoGioLam, 
+            ROUND((DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc) * CS.HeSoLuong*18000),2) AS TongTien
+    FROM NHAN_VIEN NV
+    INNER JOIN LICH_LAM_VIEC LLV ON NV.MaNhanVien = LLV.MaNhanVien
+    INNER JOIN CA_LAM_VIEC CLV ON LLV.MaCa = CLV.MaCa
+    INNER JOIN CHINH_SACH CS ON NV.MaChinhSach = CS.MaChinhSach
+END*/
+
+
 Create proc LoadNhanVien
 As
 Begin
@@ -239,3 +265,96 @@ Begin
 	Delete NHAN_VIEN Where MaNhanVien = @MaNhanVien
 End
 Go
+create PROCEDURE HienThiThongTinNhanVien
+AS
+BEGIN
+    SELECT DISTINCT NV.MaNhanVien, NV.TenNhanVien, NV.GioiTinh,
+           SUM(CASE 
+               WHEN CLV.GioBatDau IS NOT NULL AND CLV.GioKetThuc IS NOT NULL THEN DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc)
+               ELSE 0
+           END) OVER(PARTITION BY NV.MaNhanVien) AS SoGioLam,
+           ROUND(SUM(CS.HeSoLuong * 18000 * CASE 
+                             WHEN CLV.GioBatDau IS NOT NULL AND CLV.GioKetThuc IS NOT NULL THEN DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc)
+                             ELSE 0
+                         END) OVER(PARTITION BY NV.MaNhanVien), 2) AS TongLuong
+    FROM NHAN_VIEN NV
+    LEFT JOIN LICH_LAM_VIEC LLV ON NV.MaNhanVien = LLV.MaNhanVien
+    LEFT JOIN CA_LAM_VIEC CLV ON LLV.MaCa = CLV.MaCa
+    LEFT JOIN CHINH_SACH CS ON NV.MaChinhSach = CS.MaChinhSach
+END
+
+go 
+CREATE PROCEDURE TinhTongLuongNhanVien
+AS
+BEGIN
+    DECLARE @TongLuong DECIMAL(18, 2);
+
+    -- Tạo bảng tạm để lưu kết quả từ procedure HienThiThongTinNhanVien
+    CREATE TABLE #TempTable (
+        MaNhanVien NVARCHAR(50),
+        TenNhanVien NVARCHAR(100),
+        GioiTinh nvarchar(3),
+        SoGioLam DECIMAL(18, 2),
+        TongLuong DECIMAL(18, 2)
+    );
+
+    -- Thực thi procedure HienThiThongTinNhanVien và lưu kết quả vào bảng tạm
+    INSERT INTO #TempTable (MaNhanVien, TenNhanVien, GioiTinh, SoGioLam, TongLuong)
+    EXEC HienThiThongTinNhanVien;
+
+    -- Tính tổng số lương của tất cả các nhân viên
+    SELECT @TongLuong = SUM(TongLuong) FROM #TempTable;
+
+    -- Hiển thị tổng số lương
+    SELECT @TongLuong AS TongLuong;
+
+    -- Xóa bảng tạm sau khi sử dụng
+    DROP TABLE #TempTable;
+END;
+go
+create PROCEDURE HienThiTop5
+AS
+BEGIN
+    WITH EmployeeSalary AS (
+        SELECT DISTINCT 
+            NV.MaNhanVien, 
+            NV.TenNhanVien, 
+            NV.GioiTinh,
+            SUM(CASE 
+                WHEN CLV.GioBatDau IS NOT NULL AND CLV.GioKetThuc IS NOT NULL THEN DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc)
+                ELSE 0
+            END) AS SoGioLam,
+            ROUND(SUM(CS.HeSoLuong * 18000 * CASE 
+                WHEN CLV.GioBatDau IS NOT NULL AND CLV.GioKetThuc IS NOT NULL THEN DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc)
+                ELSE 0
+            END), 2) AS TongLuong
+        FROM 
+            NHAN_VIEN NV
+        LEFT JOIN 
+            LICH_LAM_VIEC LLV ON NV.MaNhanVien = LLV.MaNhanVien
+        LEFT JOIN 
+            CA_LAM_VIEC CLV ON LLV.MaCa = CLV.MaCa
+        LEFT JOIN 
+            CHINH_SACH CS ON NV.MaChinhSach = CS.MaChinhSach
+        GROUP BY 
+            NV.MaNhanVien, 
+            NV.TenNhanVien, 
+            NV.GioiTinh
+    )
+    SELECT 
+        TenNhanVien,
+        Hang
+    FROM (
+        SELECT 
+            *,
+            ROW_NUMBER() OVER (ORDER BY TongLuong DESC) AS Hang
+        FROM 
+            EmployeeSalary
+    ) AS RankedEmployees
+    WHERE 
+        Hang <= 5
+    ORDER BY 
+        TongLuong DESC;
+END
+go 
+
