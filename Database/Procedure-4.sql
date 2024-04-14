@@ -112,29 +112,34 @@ begin
 	where MaNhanVien = @MaNhanVien and MaCa = @MaCa and NgayLamViec = @NgayLamViec
 end
 Go
+
 Create proc SelectAllPhim
 As
 Begin
 	Select * From PHIM
 End
 Go
+
 Create proc SelectAllTheLoaiPhim
 As
 Begin
 	Select * From THE_LOAI_PHIM
 End
 Go
+
 Create proc FindById(@MaPhim nvarchar(6))
 As
 Begin
 	Select * From PHIM where MaPhim = @MaPhim
 End
 Go
+
 Create proc SelectTheLoaiPhim
 As
 Begin
 	Select * From THE_LOAI_PHIM
 End
+go
 Create proc ThemPhim
 
 	@TenPhim nvarchar(50),
@@ -149,6 +154,7 @@ Create proc ThemPhim
 		INSERT INTO PHIM (TenPhim,ThoiLuong,QuocGia,NamSanXuat,DoTuoiXem,MaTheLoai ,DaoDien)
 		Values (@TenPhim,@ThoiLuong,@QuocGia,@NamSanXuat, @DoTuoiXem, @MaTheLoai ,@DaoDien);
 	End
+go
 Create proc XoaPhim(@MaPhim varchar(6))
 As
 Begin
@@ -169,6 +175,7 @@ Create proc SuaPhim
 		Update PHIM Set TenPhim = @TenPhim, ThoiLuong = @ThoiLuong, QuocGia = @QuocGia, NamSanXuat = @NamSanXuat, DoTuoiXem = @DoTuoiXem, MaTheLoai = @MaTheLoai, DaoDien = @DaoDien
 		Where MaPhim = @MaPhim
 	End
+go
 Create proc LoadPhim
 As
 Begin

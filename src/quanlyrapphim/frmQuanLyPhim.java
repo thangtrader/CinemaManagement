@@ -1,9 +1,13 @@
 package quanlyrapphim;
 
+
+
+import GUI.frmCANHAN;
+
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,12 +18,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import GUI.frmCANHAN;
 import GUI.diaCHANGEPASSWORD;
 import GUI.dialogLOGIN;
 
-import javax.swing.JLabel;
-import java.awt.Font;
+
 
 public class frmQuanLyPhim extends JFrame {
 

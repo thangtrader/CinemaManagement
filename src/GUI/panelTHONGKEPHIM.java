@@ -12,7 +12,9 @@ import javax.swing.JButton;
 public class panelTHONGKEPHIM extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTable table;
+	public JTable table;
+	public JLabel lbDoanhThu;
+	public DefaultTableModel model;
 
 	/**
 	 * Create the panel.
@@ -50,10 +52,11 @@ public class panelTHONGKEPHIM extends JPanel {
 		comboBox.setBounds(135, 320, 38, 21);
 		add(comboBox);
 		
-		JLabel lbDoanhThu = new JLabel("tổng cột doanh thu");
+		lbDoanhThu = new JLabel("tổng cột doanh thu");
 		lbDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lbDoanhThu.setBounds(561, 320, 144, 22);
+		lbDoanhThu.setBounds(561, 320, 180, 22);
 		add(lbDoanhThu);
+		comboBox.addItem("");
 		for(int i =1;i<=12;i++) {
 			comboBox.addItem(i);
 		}
