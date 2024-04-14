@@ -176,3 +176,28 @@ Begin
 	From PHIM as p, THE_LOAI_PHIM as t
 	Where p.MaTheLoai = t.MaTheLoaiPhim
 End	
+Go
+Create proc SelectAllTKNV
+As
+Begin
+	Select DISTINCT n.MaNhanVien, n.TenNhanVien, n.GioiTinh, DATEDIFF(HOUR, clv.GioBatDau, clv.GioKetThuc) AS SoGioLam, ROUND((DATEDIFF(HOUR, clv.GioBatDau, clv.GioKetThuc) * cs.HeSoLuong*18000),2) AS TongTien
+	FROM NHAN_VIEN n
+    INNER JOIN LICH_LAM_VIEC llv ON n.MaNhanVien = llv.MaNhanVien
+    INNER JOIN CA_LAM_VIEC clv ON llv.MaCa = clv.MaCa
+    INNER JOIN CHINH_SACH cs ON n.MaChinhSach = cs.MaChinhSach
+End	
+Go
+/*Create proc SelectTKNhanVien
+AS
+BEGIN
+    SELECT DISTINCT NV.MaNhanVien, 
+           NV.TenNhanVien, 
+           NV.GioiTinh, 
+           DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc) AS SoGioLam, 
+            ROUND((DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc) * CS.HeSoLuong*18000),2) AS TongTien
+    FROM NHAN_VIEN NV
+    INNER JOIN LICH_LAM_VIEC LLV ON NV.MaNhanVien = LLV.MaNhanVien
+    INNER JOIN CA_LAM_VIEC CLV ON LLV.MaCa = CLV.MaCa
+    INNER JOIN CHINH_SACH CS ON NV.MaChinhSach = CS.MaChinhSach
+END*/
+

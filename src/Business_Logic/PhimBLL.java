@@ -1,9 +1,9 @@
 package Business_Logic;
 
-import java.awt.Toolkit;
+
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -14,8 +14,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import ENTITY.PHIM;
@@ -93,7 +91,7 @@ public class PhimBLL extends DBHelper {
     }
 
     public void LoadPhim() {
-    	guiPhim.model = (DefaultTableModel) guiPhim.table.getModel();
+    	guiPhim.model =  (DefaultTableModel) guiPhim.table.getModel();
         for (int i = guiPhim.model.getRowCount() - 1; i >= 0; i--) {
         	guiPhim.model.removeRow(i);
         }
