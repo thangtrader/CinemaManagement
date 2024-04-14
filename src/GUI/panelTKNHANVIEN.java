@@ -4,6 +4,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import Business_Logic.TKNhanVienBBL;
+import Process_Data.TKNhanVien;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
@@ -11,13 +15,17 @@ import java.awt.Color;
 public class panelTKNHANVIEN extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTable table;
+	public JTable table;
+    public DefaultTableModel model;
+    TKNhanVien tknvDAL;
+    TKNhanVienBBL tknvBLL;
+	public JLabel lbLuong,top1,top2,top3,top4,top5;
 
 	public panelTKNHANVIEN() {
 		setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(43, 10, 526, 323);
+		scrollPane.setBounds(20, 10, 526, 323);
 		add(scrollPane);
 		
 		table = new JTable();
@@ -33,51 +41,55 @@ public class panelTKNHANVIEN extends JPanel {
 		table.setFillsViewportHeight(true);
 		scrollPane.setViewportView(table);
 		
-		JLabel lblNewLabel = new JLabel("TOP");
+		JLabel lblNewLabel = new JLabel("TOP NHÂN VIÊN XUẤT SẮC");
 		lblNewLabel.setForeground(new Color(255, 0, 0));
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 20));
-		lblNewLabel.setBounds(648, 34, 49, 46);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
+		lblNewLabel.setBounds(570,34,320, 46);
 		add(lblNewLabel);
 		
-		JLabel top1 = new JLabel("Nguyễn Văn Toàn");
+		top1 = new JLabel("");
 		top1.setForeground(new Color(0, 0, 0));
 		top1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		top1.setBounds(622, 90, 132, 22);
 		add(top1);
 		
-		JLabel top2 = new JLabel("New label");
+		top2 = new JLabel("New label");
 		top2.setForeground(Color.BLACK);
 		top2.setFont(new Font("Tahoma", Font.BOLD, 12));
 		top2.setBounds(622, 120, 132, 22);
 		add(top2);
 		
-		JLabel top3 = new JLabel("New label");
+		top3 = new JLabel("New label");
 		top3.setForeground(Color.BLACK);
 		top3.setFont(new Font("Tahoma", Font.BOLD, 12));
 		top3.setBounds(622, 150, 132, 22);
 		add(top3);
 		
 		JLabel lblNewLabel_1 = new JLabel("Tổng lương:");
+		
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1.setBounds(367, 343, 80, 22);
 		add(lblNewLabel_1);
 		
-		JLabel lbLuong = new JLabel("tổng cột lương");
+		lbLuong = new JLabel("");
 		lbLuong.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lbLuong.setBounds(468, 343, 101, 22);
 		add(lbLuong);
 		
-		JLabel top2_1 = new JLabel("New label");
-		top2_1.setForeground(Color.BLACK);
-		top2_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		top2_1.setBounds(618, 180, 132, 22);
-		add(top2_1);
+		top4 = new JLabel("New label");
+		top4.setForeground(Color.BLACK);
+		top4.setFont(new Font("Tahoma", Font.BOLD, 12));
+		top4.setBounds(622, 180, 132, 22);
+		add(top4);
 		
-		JLabel top2_2 = new JLabel("New label");
-		top2_2.setForeground(Color.BLACK);
-		top2_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-		top2_2.setBounds(618, 210, 132, 22);
-		add(top2_2);
-
+		top5 = new JLabel("New label");
+		top5.setForeground(Color.BLACK);
+		top5.setFont(new Font("Tahoma", Font.BOLD, 12));
+		top5.setBounds(622, 210, 132, 22);
+		add(top5);
+		
+		tknvDAL = new Process_Data.TKNhanVien(this);
+		tknvBLL = new Business_Logic.TKNhanVienBBL(this);
+		
 	}
 }
