@@ -39,7 +39,6 @@ public class panelTKNHANVIEN extends JPanel {
 		table.setCellSelectionEnabled(true);
 		table.setColumnSelectionAllowed(true);
 		table.setFillsViewportHeight(true);
-		table.setRowHeight(25);
 		scrollPane.setViewportView(table);
 		
 		JLabel lblNewLabel = new JLabel("TOP NHÂN VIÊN XUẤT SẮC");

@@ -16,8 +16,8 @@ begin
         select 0 as code
     else select -1 as code
 end
-go
 --- them nhan vien
+go
 create proc themnhanvien
 
 @TenNhanVien nvarchar(30),@NgaySinh datetime,
@@ -34,8 +34,8 @@ create proc themnhanvien
 	insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--987654321
 Values (@TenNhanVien,@NgaySinh,@GioiTinh,@DiaChi,@SoDienThoai,@CCCD,@TenTaiKhoan,@MatKhau,@MaChinhSach,@MaChucVu, 1);
 end
-go
 ---cap nhat nhan vien
+go
 create proc CapNhatNhanVien
     @MaNhanVien varchar(6),
     @TenNhanVien nvarchar(30),
@@ -90,6 +90,7 @@ begin
 end
 go
 --- Them lich lam viec
+go
 create proc ThemLichLamViec
 	@MaNhanVien varchar(6),
 	@MaCa varchar(6),
@@ -138,9 +139,11 @@ As
 Begin
 	Select * From THE_LOAI_PHIM
 End
-
+<<<<<<< HEAD
 go
-
+=======
+Go
+>>>>>>> main
 Create proc ThemPhim
 
 	@TenPhim nvarchar(50),
@@ -155,9 +158,11 @@ Create proc ThemPhim
 		INSERT INTO PHIM (TenPhim,ThoiLuong,QuocGia,NamSanXuat,DoTuoiXem,MaTheLoai ,DaoDien)
 		Values (@TenPhim,@ThoiLuong,@QuocGia,@NamSanXuat, @DoTuoiXem, @MaTheLoai ,@DaoDien);
 	End
-
+<<<<<<< HEAD
 go
-
+=======
+Go
+>>>>>>> main
 Create proc XoaPhim(@MaPhim varchar(6))
 As
 Begin
@@ -178,8 +183,11 @@ Create proc SuaPhim
 		Update PHIM Set TenPhim = @TenPhim, ThoiLuong = @ThoiLuong, QuocGia = @QuocGia, NamSanXuat = @NamSanXuat, DoTuoiXem = @DoTuoiXem, MaTheLoai = @MaTheLoai, DaoDien = @DaoDien
 		Where MaPhim = @MaPhim
 	End
+<<<<<<< HEAD
 go
---
+=======
+Go
+>>>>>>> main
 Create proc LoadPhim
 As
 Begin
@@ -349,130 +357,4 @@ BEGIN
         TongLuong DESC;
 END
 go 
---------- Tong Thong ke Phim
-create proc selectThongKePhim 
-	as
-	begin
-		select p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim,sum(c.SoLuong) as soluong,sum(c.SoLuong) * 60000 as doanhthu
-		from Phim p,CHI_TIET_PHIEU_PHIM c,THE_LOAI_PHIM t
-		where p.MaTheLoai = t.MaTheLoaiPhim and p.maPhim = c.maPhim
-		group by p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim
-	end
-go
----- doanh thu tong $$$$$$$$$$$$$$$
-CREATE PROCEDURE tinhTongDoanhThu
-AS
-BEGIN
-    DECLARE @TongDoanhThu DECIMAL(18, 2);
-    -- Tạo bảng tạm để lưu kết quả từ procedure HienThiThongTinNhanVien
-    CREATE TABLE #TempTable (
-        MaPhim VARCHAR(6),
-        TenPhim NVARCHAR(50),
-        TenTheLoaiPhim nvarchar(20),
-        soLuongVe int,
-        doanhThu float
-    );
-
-    -- Thực thi procedure HienThiThongTinNhanVien và lưu kết quả vào bảng tạm
-    INSERT INTO #TempTable (MaPhim, TenPhim, TenTheLoaiPhim, soLuongVe, doanhThu)
-    EXEC selectThongKePhim;
-
-    -- Tính tổng số lương của tất cả các nhân viên
-    SELECT @TongDoanhThu = SUM(doanhThu) FROM #TempTable;
-
-    -- Hiển thị tổng số lương
-    SELECT @TongDoanhThu AS tongDoanhThu;
-
-    -- Xóa bảng tạm sau khi sử dụng
-    DROP TABLE #TempTable;
-END;
-go
----- thong ke Doanh thu theo thang 
-create proc selectThongKePhimTheoThangNam
-	@thang int,
-	@nam int
-	as
-	begin
-		select p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim,sum(c.SoLuong) as soluong,sum(c.SoLuong) * 60000 as doanhthu
-		from Phim p,CHI_TIET_PHIEU_PHIM c,THE_LOAI_PHIM t,PHIEU ph
-		where p.MaTheLoai = t.MaTheLoaiPhim 
-			and p.maPhim = c.maPhim
-			and c.MaPhieu = ph.MaPhieu 
-			and Month(ph.NgayLapPhieu) = @thang
-			and Year(ph.NgayLapPhieu) = @nam
-		group by p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim
-	end
-go
-------- Doanh thu theo thang $$$$$$$$$$$$$$$$$$$$
-CREATE PROCEDURE tinhTongDoanhThuTheoThangNam
-	@thang int,
-	@nam int
-AS
-BEGIN
-    DECLARE @TongDoanhThu DECIMAL(18, 2);
-    -- Tạo bảng tạm để lưu kết quả từ procedure HienThiThongTinNhanVien
-    CREATE TABLE #TempTable (
-        MaPhim VARCHAR(6),
-        TenPhim NVARCHAR(50),
-        TenTheLoaiPhim nvarchar(20),
-        soLuongVe int,
-        doanhThu float
-    );
-
-    -- Thực thi procedure HienThiThongTinNhanVien và lưu kết quả vào bảng tạm
-    INSERT INTO #TempTable (MaPhim, TenPhim, TenTheLoaiPhim, soLuongVe, doanhThu)
-    EXEC selectThongKePhimTheoThangNam @thang,@nam;
-
-    -- Tính tổng số lương của tất cả các nhân viên
-    SELECT @TongDoanhThu = SUM(doanhThu) FROM #TempTable;
-
-    -- Hiển thị tổng số lương
-    SELECT @TongDoanhThu AS tongDoanhThu;
-
-    -- Xóa bảng tạm sau khi sử dụng
-    DROP TABLE #TempTable;
-END;
-go
----- thong ke Doanh thu theo nam 
-create proc selectThongKePhimTheoNam
-	@nam int
-	as
-	begin
-		select p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim,sum(c.SoLuong) as soluong,sum(c.SoLuong) * 60000 as doanhthu
-		from Phim p,CHI_TIET_PHIEU_PHIM c,THE_LOAI_PHIM t,PHIEU ph
-		where p.MaTheLoai = t.MaTheLoaiPhim 
-			and p.maPhim = c.maPhim
-			and c.MaPhieu = ph.MaPhieu 
-			and Year(ph.NgayLapPhieu) = @nam
-		group by p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim
-	end
-go
-------- Doanh thu theo thang $$$$$$$$$$$$$$$$$$$$
-CREATE PROCEDURE tinhTongDoanhThuTheoNam
-	@nam int
-AS
-BEGIN
-    DECLARE @TongDoanhThu DECIMAL(18, 2);
-    -- Tạo bảng tạm để lưu kết quả từ procedure HienThiThongTinNhanVien
-    CREATE TABLE #TempTable (
-        MaPhim VARCHAR(6),
-        TenPhim NVARCHAR(50),
-        TenTheLoaiPhim nvarchar(20),
-        soLuongVe int,
-        doanhThu float
-    );
-
-    -- Thực thi procedure HienThiThongTinNhanVien và lưu kết quả vào bảng tạm
-    INSERT INTO #TempTable (MaPhim, TenPhim, TenTheLoaiPhim, soLuongVe, doanhThu)
-    EXEC selectThongKePhimTheoNam @nam;
-
-    -- Tính tổng số lương của tất cả các nhân viên
-    SELECT @TongDoanhThu = SUM(doanhThu) FROM #TempTable;
-
-    -- Hiển thị tổng số lương
-    SELECT @TongDoanhThu AS tongDoanhThu;
-
-    -- Xóa bảng tạm sau khi sử dụng
-    DROP TABLE #TempTable;
-END;
 

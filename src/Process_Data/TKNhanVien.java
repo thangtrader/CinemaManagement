@@ -7,10 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
-import java.text.NumberFormat;
 import java.time.Duration;
-import java.util.Currency;
-import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -58,9 +55,7 @@ public class TKNhanVien {
     }
     public void UpdateTongLuongLabel(JLabel label) {
         int tongLuong = TinhTongLuongNhanVien(); // Gọi phương thức để lấy tổng lương từ procedure
-        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        format.setCurrency(Currency.getInstance("VND"));
-        label.setText(String.valueOf(format.format(tongLuong))); // Cập nhật label với kết quả
+        label.setText(String.valueOf(tongLuong)); // Cập nhật label với kết quả
     }
     public int TinhTongLuongNhanVien() {
         int result = 0;
