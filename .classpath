@@ -6,47 +6,27 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-<<<<<<< HEAD
-	<classpathentry kind="lib" path="C:/Users/nguye/Downloads/jcalendar-1.4.jar">
-=======
-	<classpathentry kind="lib" path="C:/Users/PC/Downloads/jgoodies-looks-2.4.1.jar">
->>>>>>> 2ea3b641280839ed7085563cd85303e5ef0f3daa
+	<classpathentry kind="lib" path="C:/Users/nguye/Downloads/jcalendar-1.4/lib/jcalendar-1.4.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-<<<<<<< HEAD
-	<classpathentry kind="lib" path="C:/Users/nguye/Downloads/mssql-jdbc-12.2.0.jre8.jar">
-=======
-	<classpathentry kind="lib" path="C:/Users/PC/Downloads/junit-4.6.jar">
->>>>>>> 2ea3b641280839ed7085563cd85303e5ef0f3daa
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/nguye/Downloads/junit-4.6.jar">
-=======
-	<classpathentry kind="lib" path="C:/Users/PC/Downloads/jcalendar-1.4.jar">
->>>>>>> 2ea3b641280839ed7085563cd85303e5ef0f3daa
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/nguye/Downloads/jgoodies-common-1.2.0.jar">
-=======
-	<classpathentry kind="lib" path="C:/Users/PC/Downloads/jgoodies-common-1.2.0.jar">
->>>>>>> 2ea3b641280839ed7085563cd85303e5ef0f3daa
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/nguye/Downloads/jgoodies-looks-2.4.1.jar">
-=======
-	<classpathentry kind="lib" path="C:/Users/PC/Downloads/mssql-jdbc-12.6.0.jre8.jar">
->>>>>>> 2ea3b641280839ed7085563cd85303e5ef0f3daa
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/nguye/Downloads/mssql-jdbc-12.2.0.jre8.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

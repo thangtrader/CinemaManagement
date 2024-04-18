@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.NumberFormat;
+import java.util.Currency;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -20,60 +23,148 @@ public class ThongKePhimBLL extends DBHelper {
 	ThongKePhimDAL tkpDAL;
 	JLabel lbDoanhThu;
 
-	
+	public static ThongKePhimBLL getInstance() {
+		if (instance == null) {
+			instance = new ThongKePhimBLL();
+		}
+		return instance;
+	}
 
 	public ThongKePhimBLL(GUI.panelTHONGKEPHIM p) {
 		GUITKPhim = p;
 		lbDoanhThu = p.lbDoanhThu; // Lưu trữ tham chiếu đến label tổng lương
 		tkpDAL = ThongKePhimDAL.getInstance();
-		tkpDAL.UpdateTongDoanhThuLabel(lbDoanhThu.getText());
-		LoadNhanVien();
+		UpdateTongDoanhThuLabel();
+		LoadTKPhim();
 	}
 
 	public ThongKePhimBLL() {
 
 	}
 
-	public Vector<ENTITY.TKPhim> ListTKNhanVien() {
-		System.out.println("ok");
-		Vector<ENTITY.TKPhim> vector = new Vector<ENTITY.TKPhim>();
-		try {
-			String sql = "   SELECT DISTINCT NV.MaNhanVien, NV.TenNhanVien, NV.GioiTinh,\r\n" + "           CASE \r\n"
-					+ "               WHEN CLV.GioBatDau IS NOT NULL AND CLV.GioKetThuc IS NOT NULL THEN DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc)\r\n"
-					+ "               ELSE 0\r\n" + "           END AS SoGioLam,\r\n"
-					+ "           CS.HeSoLuong * CASE \r\n"
-					+ "                             WHEN CLV.GioBatDau IS NOT NULL AND CLV.GioKetThuc IS NOT NULL THEN DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc)\r\n"
-					+ "                             ELSE 0\r\n" + "                         END AS TongLuong\r\n"
-					+ "    FROM NHAN_VIEN NV\r\n"
-					+ "    LEFT JOIN LICH_LAM_VIEC LLV ON NV.MaNhanVien = LLV.MaNhanVien\r\n"
-					+ "    LEFT JOIN CA_LAM_VIEC CLV ON LLV.MaCa = CLV.MaCa\r\n"
-					+ "    LEFT JOIN CHINH_SACH CS ON NV.MaChinhSach = CS.MaChinhSach";
-			PreparedStatement pre = cnn.prepareStatement(sql);
-			ResultSet rs = pre.executeQuery();
-			while (rs.next()) {
-				ENTITY.TKPhim tkPhim = new ENTITY.TKPhim();
-				tkPhim.setMaPhim(rs.getString("maPhim"));
-				tkPhim.setTenPhim(rs.getString("tenPhim"));
-				tkPhim.setTheLoai(rs.getString("theLoai"));
-				tkPhim.setSoLuongVe(rs.getInt("soLuongVe"));
-				tkPhim.setDoanhThu(rs.getDouble("doanhThu")); // Sửa đổi thành setTongTien
-				vector.addElement(tkPhim);
+//	public Vector<ENTITY.TKPhim> ListTKPhim(String proc) {
+//		Vector<ENTITY.TKPhim> vector = new Vector<ENTITY.TKPhim>();
+//		try {
+//			String sql = "{CALL " + proc + "()}";
+//			PreparedStatement pre = cnn.prepareStatement(sql);
+//			ResultSet rs = pre.executeQuery();
+//			while (rs.next()) {
+//				ENTITY.TKPhim tkPhim = new ENTITY.TKPhim();
+//				tkPhim.setMaPhim(rs.getString("MaPhim"));
+//				tkPhim.setTenPhim(rs.getString("TenPhim"));
+//				tkPhim.setTheLoai(rs.getString("TenTheLoaiPhim"));
+//				tkPhim.setSoLuongVe(rs.getInt("soluong"));
+//				tkPhim.setDoanhThu(rs.getDouble("doanhthu")); // Sửa đổi thành setTongTien
+//				vector.addElement(tkPhim);
+//
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return vector;
+//	}
+//	public String listPhim(String sql) {
+//		int result = 0;
+//		if (GUITKPhim.calendar.getDate() == null) {
+//			result = tinhDoanhThu("selectThongKePhim");
+//		} else if (GUITKPhim.checkBoxDoanhThu.isSelected()) {
+//			result = tinhDoanhThu("selectThongKePhimTheoThangNam");
+//		} else {
+//			result = tinhDoanhThu("tinhTongDoanhThuTheoThang");
+//		}
+//
+//		return result;
+//		return sql;
+//	}
+//	public Vector<ENTITY.TKPhim> ListTKPhim() {
+//		Vector<ENTITY.TKPhim> vector = new Vector<ENTITY.TKPhim>();
+//		try {
+//			String sql = "select p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim,sum(c.SoLuong) as soluong,sum(c.SoLuong) * 60 as doanhthu\r\n"
+//					+ "from Phim p,CHI_TIET_PHIEU_PHIM c,THE_LOAI_PHIM t\r\n"
+//					+ "where p.MaTheLoai = t.MaTheLoaiPhim and p.maPhim = c.maPhim\r\n"
+//					+ "group by p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim\r\n" + "";
+//			PreparedStatement pre = cnn.prepareStatement(sql);
+//			ResultSet rs = pre.executeQuery();
+//			while (rs.next()) {
+//				ENTITY.TKPhim tkPhim = new ENTITY.TKPhim();
+//				tkPhim.setMaPhim(rs.getString("MaPhim"));
+//				tkPhim.setTenPhim(rs.getString("TenPhim"));
+//				tkPhim.setTheLoai(rs.getString("TenTheLoaiPhim"));
+//				tkPhim.setSoLuongVe(rs.getInt("soluong"));
+//				tkPhim.setDoanhThu(rs.getDouble("doanhthu")); // Sửa đổi thành setTongTien
+//				vector.addElement(tkPhim);
+//
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return vector;
+//	}
 
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return vector;
-	}
+//	public Vector<ENTITY.TKPhim> ListTKPhimTheoThangNam() {
+//		Vector<ENTITY.TKPhim> vector = new Vector<ENTITY.TKPhim>();
+//		try {
+//			String sql = "select p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim,sum(c.SoLuong) as N'Số lượng',sum(c.SoLuong) * 60000 as doanhthu\r\n"
+//					+ "		from Phim p,CHI_TIET_PHIEU_PHIM c,THE_LOAI_PHIM t,PHIEU ph\r\n"
+//					+ "		where p.MaTheLoai = t.MaTheLoaiPhim \r\n" + "			and p.maPhim = c.maPhim\r\n"
+//					+ "			and c.MaPhieu = ph.MaPhieu \r\n" + "			and Month(ph.NgayLapPhieu) = "
+//					+ GUITKPhim.dateString.substring(3, 5) + "\r\n" + "			and Year(ph.NgayLapPhieu) = "
+//					+ GUITKPhim.dateString.substring(6) + "\r\n"
+//					+ "		group by p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim" + "";
+//			PreparedStatement pre = cnn.prepareStatement(sql);
+//			ResultSet rs = pre.executeQuery();
+//			while (rs.next()) {
+//				ENTITY.TKPhim tkPhim = new ENTITY.TKPhim();
+//				tkPhim.setMaPhim(rs.getString("MaPhim"));
+//				tkPhim.setTenPhim(rs.getString("TenPhim"));
+//				tkPhim.setTheLoai(rs.getString("TenTheLoaiPhim"));
+//				tkPhim.setSoLuongVe(rs.getInt("soluong"));
+//				tkPhim.setDoanhThu(rs.getDouble("doanhthu")); // Sửa đổi thành setTongTien
+//				vector.addElement(tkPhim);
+//
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return vector;
+//	}
+//
+//	public Vector<ENTITY.TKPhim> ListTKPhimTheoNam() {
+//		Vector<ENTITY.TKPhim> vector = new Vector<ENTITY.TKPhim>();
+//		try {
+//			String sql = "select p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim,sum(c.SoLuong) as N'Số lượng',sum(c.SoLuong) * 60000 as doanhthu\r\n"
+//					+ "		from Phim p,CHI_TIET_PHIEU_PHIM c,THE_LOAI_PHIM t,PHIEU ph\r\n"
+//					+ "		where p.MaTheLoai = t.MaTheLoaiPhim \r\n" + "			and p.maPhim = c.maPhim\r\n"
+//					+ "			and c.MaPhieu = ph.MaPhieu \r\n" + "			and Year(ph.NgayLapPhieu) = "
+//					+ GUITKPhim.dateString.substring(6) + "\r\n"
+//					+ "		group by p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim" + "";
+//			PreparedStatement pre = cnn.prepareStatement(sql);
+//			ResultSet rs = pre.executeQuery();
+//			while (rs.next()) {
+//				ENTITY.TKPhim tkPhim = new ENTITY.TKPhim();
+//				tkPhim.setMaPhim(rs.getString("MaPhim"));
+//				tkPhim.setTenPhim(rs.getString("TenPhim"));
+//				tkPhim.setTheLoai(rs.getString("TenTheLoaiPhim"));
+//				tkPhim.setSoLuongVe(rs.getInt("soluong"));
+//				tkPhim.setDoanhThu(rs.getDouble("doanhthu")); // Sửa đổi thành setTongTien
+//				vector.addElement(tkPhim);
+//
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return vector;
+//	}
 
-	public int tinhDoanhThuPhim() {
+	public int tinhDoanhThu(String proc) {
 		int result = 0;
 		try {
 			// Chuẩn bị câu lệnh gọi stored procedure
-			String sql = "{CALL tinhTongDoanhThu()}";
+			String sql = "{CALL " + proc + "()}";
 			// Tạo đối tượng PreparedStatement
 			PreparedStatement statement = ((Statement) cnn).getConnection().prepareStatement(sql);
 			// Thực thi câu lệnh
+	
 			ResultSet rs = statement.executeQuery();
 			// Lấy kết quả
 			if (rs.next()) {
@@ -87,24 +178,55 @@ public class ThongKePhimBLL extends DBHelper {
 		}
 		return result;
 	}
+//
+	public int tinhDoanhThuPhim() {
+		int result = 0;
+//		System.out.println();
+		if(GUITKPhim.dateString == null){
+			result = tkpDAL.tinhDoanhThu("{CALL tinhTongDoanhThu()}");
+		}
+		else if (GUITKPhim.checkBoxDoanhThu.isSelected()) {
+			result = tkpDAL.tinhDoanhThu("{CALL tinhTongDoanhThuTheoNam("+GUITKPhim.dateString.substring(6)+")}");
+		} else {
+			result = tkpDAL.tinhDoanhThu("{CALL tinhTongDoanhThuTheoThangNam("+GUITKPhim.dateString.substring(3,5)+", "+GUITKPhim.dateString.substring(6)+")}");
+		}
+		return result;
 
-	public void LoadNhanVien() {
+	}
+
+	public void LoadTKPhim() {
 		// Khởi tạo đối tượng tknvDAL
 		tkpDAL = new ThongKePhimDAL();
 		GUITKPhim.model = (DefaultTableModel) GUITKPhim.table.getModel();
 		for (int i = GUITKPhim.model.getRowCount() - 1; i >= 0; i--) {
 			GUITKPhim.model.removeRow(i);
 		}
-		// Gọi phương thức ListTKNhanVien() thay vì ListNhanVien()
-		for (ENTITY.TKPhim tknv : tkpDAL.ListPhim()) {
-			GUITKPhim.model.addRow(new Object[] { tknv.getMaPhim(), tknv.getTenPhim(), tknv.getTheLoai(),
-					tknv.getSoLuongVe(), tknv.getDoanhThu() });
+		Vector<ENTITY.TKPhim> vector = new Vector<ENTITY.TKPhim>();
+		if(GUITKPhim.dateString == null){
+//			vector = tkpDAL.ListTKPhim("{CALL selectThongKePhim()}");
+			vector = tkpDAL.ListTKPhim("selectThongKePhim");
+		}
+		else if (GUITKPhim.checkBoxDoanhThu.isSelected()) {
+//			vector = tkpDAL.ListTKPhim("{CALL selectThongKePhimTheoNam("+GUITKPhim.dateString.substring(6)+")}");
+			vector = tkpDAL.ListTKPhim("selectThongKePhimTheoNam "+GUITKPhim.dateString.substring(6));
+		} else {
+//			vector = tkpDAL.ListTKPhim("{CALL selectThongKePhimTheoThangNam("+GUITKPhim.dateString.substring(3,5)+", "+GUITKPhim.dateString.substring(6) +")}");
+			vector = tkpDAL.ListTKPhim("selectThongKePhimTheoThangNam "+GUITKPhim.dateString.substring(3,5)+", "+GUITKPhim.dateString.substring(6) );
+		}
+		if(vector == null)
+			System.out.println("dmm");
+		for (ENTITY.TKPhim tkp : vector) {
+			GUITKPhim.model.addRow(new Object[] { tkp.getMaPhim(), tkp.getTenPhim(), tkp.getTheLoai(),
+					tkp.getSoLuongVe(), tkp.getDoanhThu() });
 		}
 	}
 
-	public void UpdateTongDoanhThuLabel(String label) {
-		int tongLuong = tinhDoanhThuPhim(); // Gọi phương thức để lấy tổng lương từ procedure
-		label = (String.valueOf(tongLuong)); // Cập nhật label với kết quả
+	public void UpdateTongDoanhThuLabel() {
+		int tongDoanhThu = tinhDoanhThuPhim(); // Gọi phương thức để lấy tổng lương từ procedure
+		NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+		format.setCurrency(Currency.getInstance("VND"));
+		String kq = format.format(tongDoanhThu);
+		GUITKPhim.lbDoanhThu.setText(kq); // Cập nhật label với kết quả
 	}
 
 }
