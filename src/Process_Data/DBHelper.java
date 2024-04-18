@@ -1,12 +1,12 @@
 package Process_Data;
+
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Types;
-import java.sql.CallableStatement;
 
 public class DBHelper {
     private static DBHelper _Instance;
@@ -23,7 +23,7 @@ public class DBHelper {
 
     public static DBHelper getInstance() {
         if (_Instance == null) {
-            String url = "jdbc:sqlserver://" + "MSI\\SQLEXPRESS" + ":1433;databaseName=" + "QuanLyRapChieuPhim" + ";user=" + "sa" + " ;password=" + "123456" + ";encrypt=true;trustServerCertificate=true";
+            String url = "jdbc:sqlserver://" + "NGUYENVANTOAN" + ":1433;databaseName=" + "QuanLyRapChieuPhim" + ";user=" + "sa" + " ;password=" + "123456" + ";encrypt=true;trustServerCertificate=true";
             _Instance = new DBHelper(url);
         }
         return _Instance;
@@ -38,7 +38,7 @@ public class DBHelper {
             String UserName = "sa";
             String PassWord = "123456";
             String DataBaseName = "QuanLyRapChieuPhim";
-            String ServerName = "MSI\\SQLEXPRESS";
+            String ServerName = "NGUYENVANTOAN";
 
             String IntegratedSecurity = "IntegratedSecurity=false";
             DriverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
@@ -47,11 +47,13 @@ public class DBHelper {
             // this.cnn=DriverManager.getConnection(DriverURL,UserName,PassWord);
             this.cnn = DriverManager.getConnection(DriverURL);
             this.stm = this.cnn.createStatement();
+            
 
         } catch (SQLException ex) {
         } catch (Exception e) {
         }
     }
+
 
     public Object executeScalar(String tenTaiKhoan, String matKhau) {
         Object data = null;
@@ -201,5 +203,17 @@ public class DBHelper {
             e.printStackTrace();
         }
     }
+
+	public ResultSet getResultSet(String SQL) {
+        try {
+            ResultSet rs;
+            rs = this.stm.executeQuery(SQL);
+            return rs;
+        } catch (Exception ex) {
+        }
+        return null;
+    }
+
+	
 
 }

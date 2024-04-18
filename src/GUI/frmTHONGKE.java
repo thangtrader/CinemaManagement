@@ -61,6 +61,8 @@ public class frmTHONGKE extends JPanel {
 				// TODO Auto-generated method stub
 				CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
 				cardLayout.show(mainPanel, "panelTHONGKEPHIM");
+				GUI.panelTHONGKEPHIM tkp = new panelTHONGKEPHIM();
+				tkp.tkpBLL.LoadTKPhim();
 			}
 		});
 		
