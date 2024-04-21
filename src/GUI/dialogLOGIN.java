@@ -31,7 +31,9 @@ public class dialogLOGIN extends JDialog {
 	private static final long serialVersionUID = 1L;
 	public JTextField textFieldUser;
 	public JTextField  textFieldPassword;
-	public quanlyrapphim.frmQuanLyPhim mainForm;
+	private quanlyrapphim.frmQuanLyPhim mainForm;
+	private frmCANHAN canhan;
+	private NhanVienBLL nvBLL;
 
 	/**
 	 * Launch the application.
@@ -78,26 +80,23 @@ public class dialogLOGIN extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				if (!textFieldPassword.getText().equals("") && !textFieldUser.getText().equals("")) {
 				    int result = NhanVienBLL.getInstance().KiemTraDangNhap(textFieldUser.getText(), textFieldPassword.getText());
-				    System.out.println(result);
 				    if (result == 0)
 				        JOptionPane.showMessageDialog(null, "Sai tài khoản hoặc mật khẩu! Vui lòng kiểm tra lại!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 				    if (result == -1)
 				        JOptionPane.showMessageDialog(null, "Tài khoản chưa tồn tại! Vui lòng kiểm tra lại!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 				    if (result == -2)
 				        JOptionPane.showMessageDialog(null, "Tài khoản này đã bị khóa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-//				    if (result == 3) {
-//				        FrmDashboardAD frmDashboardAD = new FrmDashboardAD(NhanVienBLL.getInstance().GetNhanVienByTenTaiKhoan(txtTenTaiKhoan.getText()));
-//				        frmDashboardAD.setVisible(true);
-//				    }
+
 				    if (result == 2) {
-				    	
-				    	mainForm= new frmQuanLyPhim();
+				    	mainForm = new frmQuanLyPhim(textFieldUser.getText());
 				    	mainForm.setVisible(true);
+				    	
 				    	
 				    }
 //				    if (result > 0) {
 //				        this.setVisible(false);
 //				    }
+
 				}
 	        }
 		});

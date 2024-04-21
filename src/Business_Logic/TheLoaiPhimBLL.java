@@ -14,31 +14,31 @@ public class TheLoaiPhimBLL {
         return instance;
     }
 
-    public THELOAIPHIM getTheLoaiByMaTL(String MaTheLoaiPhim) {
-    	THELOAIPHIM data = new THELOAIPHIM();
-        for (THELOAIPHIM i : TheLoaiPhimDAL.getInstance().ListTheLoai()) {
-            if (i.getMaTheLoaiPhim().equals(MaTheLoaiPhim)) {
-                data.setMaTheLoaiPhim(i.getMaTheLoaiPhim());
-                data.setTenTheLoaiPhim(i.getTenTheLoaiPhim());
-            }
-        }
-        return data;
-    }
-
-    public Vector<THELOAIPHIM> getAllTheLoaiPhim() {
-    	Vector<THELOAIPHIM> data = new Vector<ENTITY.THELOAIPHIM>();
-        for (THELOAIPHIM i : TheLoaiPhimDAL.getInstance().ListTheLoai()) {
-            data.add(i);
-        }
-        return data;
-    }
-
-    public String getTenTLByMaTL(String MaTheLoai) {
-        for (THELOAIPHIM i : TheLoaiPhimDAL.getInstance().ListTheLoai()) {
-            if (i.getMaTheLoaiPhim().equals(MaTheLoai)) {
-                return i.getTenTheLoaiPhim();
-            }
-        }
-        return null;
-    }
+//    public THELOAIPHIM getTheLoaiByMaTL(String MaTheLoaiPhim) {
+//    	THELOAIPHIM data = new THELOAIPHIM();
+//        for (THELOAIPHIM i : TheLoaiPhimDAL.getInstance().ListTheLoai()) {
+//            if (i.getMaTheLoaiPhim().equals(MaTheLoaiPhim)) {
+//                data.setMaTheLoaiPhim(i.getMaTheLoaiPhim());
+//                data.setTenTheLoaiPhim(i.getTenTheLoaiPhim());
+//            }
+//        }
+//        return data;
+//    }
+//
+//    public Vector<THELOAIPHIM> getAllTheLoaiPhim() {
+//    	Vector<THELOAIPHIM> data = new Vector<ENTITY.THELOAIPHIM>();
+//        for (THELOAIPHIM i : TheLoaiPhimDAL.getInstance().ListTheLoai()) {
+//            data.add(i);
+//        }
+//        return data;
+//    }
+//
+//    public String getTenTLByMaTL(String MaTheLoai) {
+//        for (THELOAIPHIM i : TheLoaiPhimDAL.getInstance().ListTheLoai()) {
+//            if (i.getMaTheLoaiPhim().equals(MaTheLoai)) {
+//                return i.getTenTheLoaiPhim();
+//            }
+//        }
+//        return null;
+//    }
 }

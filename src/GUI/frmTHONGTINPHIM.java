@@ -11,6 +11,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,7 +62,7 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
     public DefaultTableModel model;
     PhimBLL phimBLL;
     PhimDAL phimDAL;
-    GUI.frmThemThongTinPhim themPhim;
+    GUI.frmThemThongTinPhim themphim;
     
 	int current = 0;
 	private JButton btnThem;
@@ -297,7 +299,6 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
 		                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
 		            		namsx = dateFormat.format(namsanxuat);
 			                textFieldNamSanXuat.setText(namsx);
-			                System.out.println("form" + textFieldNamSanXuat.getText());
 			                phimBLL.ValidateDate(textFieldNamSanXuat.getText());
 
 		            }
@@ -362,15 +363,6 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
 		comboBoxTheLoai = new JComboBox();
 		comboBoxTheLoai.setBounds(516, 342, 142, 21);
 		add(comboBoxTheLoai);
-		
-		
-		btnThem.addActionListener(this);
-		btnXoa.addActionListener(this);
-		btnSua.addActionListener(this);
-        table.addMouseListener(this);
-        comboBoxTheLoai.addItemListener(this);
-        phimBLL = new Business_Logic.PhimBLL(this);
-        phimDAL = new Process_Data.PhimDAL(this);
         
         lbRegex = new JLabel("");
         lbRegex.setBounds(123, 365, 142, 13);
@@ -410,26 +402,16 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
         textFieldNamSanXuat.setColumns(10);
         textFieldNamSanXuat.setBounds(516, 281, 119, 24);
         add(textFieldNamSanXuat);
-//		String text = textFieldTenPhim.getText().trim(); // Lấy văn bản từ textField và loại bỏ khoảng trắng thừa
-//		if(text.isEmpty()){
-//		    lbRegex.setText("Vui lòng nhập tên phim!");
-//		}
-//		else {
-//			lbRegex.setText(null);
-//		}
-
+        
+        
+        phimBLL = new Business_Logic.PhimBLL(this);
+        phimDAL = new Process_Data.PhimDAL(this);
+		btnThem.addActionListener(this);
+		btnXoa.addActionListener(this);
+		btnSua.addActionListener(this);
+        table.addMouseListener(this);
 		
 	}          
-//	public void hienThiTable(){
-//        PhimBLL phimBLL = new PhimBLL();
-//        Vector<ENTITY.PHIM> vec = phimBLL.ListPhim();
-//        DefaultTableModel dftbl = (DefaultTableModel)table.getModel();
-//        dftbl.setRowCount(0);
-//        for(ENTITY.PHIM phim : vec){
-//            Object[] row = new Object[]{phim.getMaPhim(), phim.getTenPhim(), phim.getThoiLuong(), phim.getQuocGia(), phim.getDaoDien(), phim.getNanSanXuat(), phim.getDoTuoiXem(), phim.getMaTheLoai()};
-//            dftbl.addRow(row);
-//        }
-//    }
     public void TimKiemByTen(String maPhim){
     	PhimBLL phimBLL = new PhimBLL();
         Vector<ENTITY.PHIM> vec = phimBLL.TimKiemByMa(maPhim);
@@ -440,10 +422,9 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
             dftbl.addRow(row);
         }
     }
-
+    	
     public void getRowData() {
         int selectedRow = table.getSelectedRow();
-        System.out.println(selectedRow);
         if (selectedRow != -1 && selectedRow < table.getRowCount()) {
             String maphim = table.getValueAt(selectedRow, 0).toString();
             String tenphim = table.getValueAt(selectedRow, 1).toString();
@@ -454,73 +435,45 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
             String dotuoixem = table.getValueAt(selectedRow, 6).toString();
             String tentheloai = table.getValueAt(selectedRow, 7).toString();
             
-            textFieldMaPhim.setText(maphim);
-            textFieldTenPhim.setText(tenphim);
-            textFieldThoiLuong.setText(thoiluong);
-            textFieldQuocGia.setText(quocgia);
-            textFieldDaoDien.setText(daodien);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat dateFormat2 = new SimpleDateFormat("MMM d,y");
-            
-            Date ngaySanXuat = null;
-            try {
-                ngaySanXuat = dateFormat.parse(namsanxuat);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            textFieldNamSanXuat.setText(dateFormat2.format(ngaySanXuat));
-            calendar.setDate(ngaySanXuat);
-            calendar.setToolTipText(namsanxuat);
-            System.out.println(namsanxuat);
-            textFieldDoTuoi.setText(dotuoixem);
-            for(int i = 0; i<comboBoxTheLoai.getItemCount(); i++) {
-            	if(comboBoxTheLoai.getItemAt(i).toString().equalsIgnoreCase(tentheloai)) {
-                    comboBoxTheLoai.setSelectedIndex(i);
-            	}
-            }
+//            textFieldMaPhim.setText(maphim);
+//            textFieldTenPhim.setText(tenphim);
+//            textFieldThoiLuong.setText(thoiluong);
+//            textFieldQuocGia.setText(quocgia);
+//            textFieldDaoDien.setText(daodien);
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//            SimpleDateFormat dateFormat2 = new SimpleDateFormat("MMM d,y");
+//            
+//            Date ngaySanXuat = null;
+//            try {
+//                ngaySanXuat = dateFormat.parse(namsanxuat);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            textFieldNamSanXuat.setText(dateFormat2.format(ngaySanXuat));
+//            calendar.setDate(ngaySanXuat);
+//            calendar.setToolTipText(namsanxuat);
+//            textFieldDoTuoi.setText(dotuoixem);
+//            for(int i = 0; i<comboBoxTheLoai.getItemCount(); i++) {
+//            	if(comboBoxTheLoai.getItemAt(i).toString().equalsIgnoreCase(tentheloai)) {
+//                    comboBoxTheLoai.setSelectedIndex(i);
+//            	}
+//            }
         } else {
-            // Xử lý khi không có hàng nào được chọn
-            // Ví dụ: Hiển thị thông báo cho người dùng
-            System.out.println("Không có hàng nào được chọn.");
+        	JOptionPane.showMessageDialog(null, "Không có hàng nào được chọn", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    public void getRowDatafrm() {
-        int selectedRow = table.getSelectedRow();
-        System.out.println(selectedRow);
+    
+	public String getPhim() {
+		String maphim = null;
+		int selectedRow = table.getSelectedRow();
         if (selectedRow != -1 && selectedRow < table.getRowCount()) {
-            String maphim = table.getValueAt(selectedRow, 0).toString();
-            String tenphim = table.getValueAt(selectedRow, 1).toString();
-            String thoiluong = table.getValueAt(selectedRow, 2).toString();
-            String quocgia = table.getValueAt(selectedRow, 3).toString();
-            String daodien = table.getValueAt(selectedRow, 4).toString();
-            String namsanxuat = table.getValueAt(selectedRow, 5).toString();
-            String dotuoixem = table.getValueAt(selectedRow, 6).toString();
-            String matheloai = table.getValueAt(selectedRow, 7).toString();
-            
-//            themPhim.textField.setText(maphim);
-            themPhim.txtFieldTenPhim.setText(tenphim);
-            themPhim.txtFieldThoiLuong.setText(thoiluong);
-            themPhim.txtFieldQuocGia.setText(quocgia);
-            themPhim.txtFieldDaoDien.setText(daodien);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-            Date ngaySanXuat = null;
-            try {
-                ngaySanXuat = dateFormat.parse(namsanxuat);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            themPhim.calendar.setDate(ngaySanXuat);
-            themPhim.calendar.setToolTipText(namsanxuat);
-            System.out.println(namsanxuat);
-            themPhim.txtDoTuoi.setText(dotuoixem);
-//            comboBoxTheLoai.setToolTipText(matheloai);
+        	maphim = table.getValueAt(selectedRow, 0).toString(); 
         } else {
-            // Xử lý khi không có hàng nào được chọn
-            // Ví dụ: Hiển thị thông báo cho người dùng
-            System.out.println("Không có hàng nào được chọn.");
+        	JOptionPane.showMessageDialog(null, "Không có hàng nào được chọn", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
-    }
+        return maphim;
+	}
+    
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -528,7 +481,6 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
             if (table.getSelectedRow() >= 0) {
                 getRowData();
             }
-            phimBLL.ClearRegex();
         }
 	}
 	@Override
@@ -554,26 +506,15 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
 	@Override
 	public void actionPerformed(ActionEvent e) {
         	if (e.getSource() == btnThem) {
-//        		themPhim = new frmThemThongTinPhim();
-//        		themPhim.main(null);
-        		if(phimBLL.ValidatedForm() == false || phimBLL.ValidatedRegex() == false) {
-            		if(phimBLL.ValidatedForm() == false) {
-            			JOptionPane.showMessageDialog(null, "Cần nhập đủ các trường!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            		}
-            		else {
-            			JOptionPane.showMessageDialog(null, "Cần nhập đúng định các trường!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            		}
-        		}
-        		else {
-        			int k = phimBLL.addData();
-        			if(k==1)
-                    	JOptionPane.showMessageDialog(null, "Đã thêm thông tin phim thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    else
-                    	JOptionPane.showMessageDialog(null, "Thêm phim không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                    phimBLL.LoadPhim();
-            		phimBLL.ClearData();
-        		}
-            }
+        		themphim = new frmThemThongTinPhim();
+        		themphim.setVisible(true);
+        		themphim.addWindowListener(new WindowAdapter() {
+        		    @Override
+        		    public void windowClosed(WindowEvent e) {
+        		        phimBLL.LoadPhim();
+        		    }
+        		});
+        	}
             if (e.getSource() == btnXoa) {
                 int k = phimBLL.removeData();
                 if(k==1) {
@@ -583,27 +524,22 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
                 	JOptionPane.showMessageDialog(null, "Xóa phim không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 }
                 phimBLL.LoadPhim();
-                phimBLL.ClearData();
             }
             if (e.getSource() == btnSua) {
-            	if(phimBLL.ValidatedForm() == false || phimBLL.ValidatedRegex() == false) {
-            		if(phimBLL.ValidatedForm() == false) {
-            			JOptionPane.showMessageDialog(null, "Cần nhập đủ các trường!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            		}
-            		else {
-            			JOptionPane.showMessageDialog(null, "Cần nhập đúng định các trường!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            		}
-        		}
-            	else {
-            			int k = phimBLL.updateData();
-            			if(k==1)
-            				JOptionPane.showMessageDialog(null, "Đã sửa thông tin phim thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            			else
-            				JOptionPane.showMessageDialog(null, "Sửa phim không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            			phimBLL.LoadPhim();
-            			phimBLL.ClearData();
-//            		}
-        		}
+            	int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {
+
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn một hàng trước khi sửa.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    themphim = new frmThemThongTinPhim(getPhim());
+                    themphim.setVisible(true);
+                    themphim.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosed(WindowEvent e) {
+                            phimBLL.LoadPhim();
+                        }
+                    });
+                }
             }
 	}
 	@Override

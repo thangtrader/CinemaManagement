@@ -17,23 +17,33 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import Business_Logic.NhanVienBLL;
+import Process_Data.NhanVienDAL;
+
 public class frmCANHAN extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textFieldTen;
-	private JTextField textFieldNgaySinh;
-	private JTextField textFieldDiaChi;
-	private JTextField textFieldDienThoai;
-	private JTextField textFieldTenTaiKhoan;
-	private JTextField textFieldMatKhau;
-	private JButton btnDoiMatKhau;
-	private JButton btnLuu;
-	private JTextField textFieldGioiTinh;
-	private JTextField textFieldCCCD;
-	/**
-	 * Create the panel.
-	 */
-	public frmCANHAN() {
+	public JTextField textFieldTen;
+	public JTextField textFieldNgaySinh;
+	public JTextField textFieldDiaChi;
+	public JTextField textFieldDienThoai;
+	public JTextField textFieldTenTaiKhoan;
+	public JTextField textFieldMatKhau;
+	public JButton btnDoiMatKhau;
+	public JButton btnLuu;
+	public JTextField textFieldGioiTinh;
+	public JTextField textFieldCCCD;
+	
+	private NhanVienBLL nvBLL;
+	private NhanVienDAL nvDAL;
+
+	public frmCANHAN(String tentaikhoan) {
+		this.init();
+		System.out.println(tentaikhoan);
+		nvBLL.GetNhanVienByTenTaiKhoan(tentaikhoan);
+		
+	}
+	public void init() {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
 		
@@ -184,6 +194,9 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		lblSCccd.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblSCccd.setBounds(513, 37, 84, 21);
 		add(lblSCccd);
+		
+		
+        nvBLL = new Business_Logic.NhanVienBLL(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {

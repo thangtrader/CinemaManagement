@@ -21,24 +21,4 @@ public class TheLoaiPhimDAL {
 
     private TheLoaiPhimDAL() {}
 
-	public Vector<ENTITY.THELOAIPHIM> ListTheLoai() {
-        Vector<ENTITY.THELOAIPHIM> vector = new Vector<ENTITY.THELOAIPHIM>();
-        try {
-            ResultSet rs = cnn.getResultSet_StoredProcedures("SelectTheLoaiPhim");
-            while (rs.next()) {
-            	ENTITY.THELOAIPHIM theLoai = new ENTITY.THELOAIPHIM();
-            	theLoai.setMaTheLoaiPhim(rs.getString("MaTheLoaiPhim"));
-            	theLoai.setTenTheLoaiPhim(rs.getString("TenTheLoaiPhim"));
-                vector.addElement(theLoai);
-            }
-        } catch (SQLException e) {
-            if (e.getErrorCode() == 2627) {
-                System.out.println("Lỗi: Vi phạm ràng buộc khoá chính!");
-                return null;
-            } else {
-                e.printStackTrace();
-            }
-        }
-        return vector;
-    }
 }

@@ -10,7 +10,7 @@ public class NHANVIEN {
 	private String maNhanVien;
 	private String tenNhanVien;
 	private Date ngaySinh;
-	private boolean gioiTinh;
+	private String gioiTinh;
 	private String diaChi;
 	private String sdt;
 	private String cccd;
@@ -21,7 +21,7 @@ public class NHANVIEN {
 	private String maChucVu;
 	private String trangThai;
 
-	public NHANVIEN(String maNhanVien, String tenNhanVien, Date ngaySinh, boolean gioiTinh, String diaChi, String sdt,
+	public NHANVIEN(String maNhanVien, String tenNhanVien, Date ngaySinh, String gioiTinh, String diaChi, String sdt,
 			String cccd, String tenTaiKhoan, String matKhau, Icon anh, String maChinhSach, String maChucVu,
 			String trangThai) {
 		this.maNhanVien = maNhanVien;
@@ -74,12 +74,12 @@ public class NHANVIEN {
 	}
 
 
-	public boolean isGioiTinh() {
+	public String getGioiTinh() {
 		return gioiTinh;
 	}
 
 
-	public void setGioiTinh(boolean gioiTinh) {
+	public void setGioiTinh(String gioiTinh) {
 		this.gioiTinh = gioiTinh;
 	}
 

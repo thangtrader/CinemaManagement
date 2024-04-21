@@ -19,37 +19,12 @@ import javax.swing.table.DefaultTableModel;
 import ENTITY.PHIM;
 import Process_Data.DBHelper;
 import Process_Data.PhimDAL;
-import Process_Data.TheLoaiPhimDAL;
 
 public class PhimBLL extends DBHelper {
     GUI.frmTHONGTINPHIM guiPhim;
-    GUI.frmThemThongTinPhim addPhim;
-    Process_Data.PhimDAL phimDAL; 
+    GUI.frmThemThongTinPhim themphim;
+    Process_Data.PhimDAL phimDAL;
     
-    public Vector<ENTITY.PhimViewDTO> ListPhim() {
-        Vector<ENTITY.PhimViewDTO> vector = new Vector<ENTITY.PhimViewDTO>();
-        try {
-        	String sql = "	SELECT p.MaPhim, p.TenPhim, p.ThoiLuong, p.QuocGia, p.NamSanXuat, p.DoTuoiXem, t.TenTheLoaiPhim, p.DaoDien FROM PHIM as p INNER JOIN THE_LOAI_PHIM as t ON p.MaTheLoai = t.MaTheLoaiPhim";
-        	PreparedStatement pre = cnn.prepareStatement(sql);
-        	ResultSet rs = pre.executeQuery();
-            while (rs.next()) {
-            	ENTITY.PhimViewDTO phimview = new ENTITY.PhimViewDTO();
-            	phimview.setMaPhim(rs.getString("MaPhim"));
-            	phimview.setTenPhim(rs.getString("TenPhim"));
-            	phimview.setThoiLuong(rs.getInt("ThoiLuong"));
-            	phimview.setQuocGia(rs.getString("QuocGia"));
-            	phimview.setDaoDien(rs.getString("DaoDien"));
-            	phimview.setNamSanXuat(rs.getDate("NamSanXuat"));
-            	phimview.setDoTuoiXem(rs.getInt("DoTuoiXem"));
-            	phimview.setTenTheLoai(rs.getString("TenTheLoaiPhim"));
-            	
-                vector.addElement(phimview);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return vector;
-    }
     public Vector<ENTITY.PHIM> TimKiemByMa(String maPhim){
         Vector<ENTITY.PHIM> vec = new Vector<ENTITY.PHIM>();
         try {
@@ -78,8 +53,13 @@ public class PhimBLL extends DBHelper {
     public PhimBLL(GUI.frmTHONGTINPHIM phim) {
     	guiPhim = phim;
     	phimDAL = new PhimDAL();
-    	LoadTheLoai();
+//    	LoadTheLoai();
     	LoadPhim();
+    }
+    public PhimBLL(GUI.frmThemThongTinPhim addphim) {
+    	themphim = addphim;
+    	phimDAL = new PhimDAL();
+    	LoadTheLoai();
     }
     public PhimBLL() {
 
@@ -87,7 +67,7 @@ public class PhimBLL extends DBHelper {
 //
     public void LoadTheLoai() {
         DefaultComboBoxModel<ENTITY.THELOAIPHIM> model = new DefaultComboBoxModel<ENTITY.THELOAIPHIM>(phimDAL.ListTheLoai());
-        guiPhim.comboBoxTheLoai.setModel(model);
+        themphim.cbboxTheLoai.setModel(model);
     }
 
     public void LoadPhim() {
@@ -99,8 +79,70 @@ public class PhimBLL extends DBHelper {
         	guiPhim.model.addRow(new Object[]{phimview.getMaPhim(), phimview.getTenPhim(), phimview.getThoiLuong(), phimview.getQuocGia(), phimview.getDaoDien(), phimview.getNamSanXuat(), phimview.getDoTuoiXem(), phimview.getTenTheLoai()});
         }
     }
+
+    public boolean ValidatedRegex() {
+    	if(!themphim.lbRegexTen.getText().isEmpty() || !themphim.lbRegexThoiLuong.getText().isEmpty() || !themphim.lbRegexQuocGia.getText().isEmpty() || !themphim.lbRegexDaoDien.getText().isEmpty() || !themphim.lbRegexNamSX.getText().isEmpty() ||!themphim.lbRegexTuoi.getText().isEmpty()) {
+    		return false;
+    	}
+    	else {
+    		return true;
+    	}  		
+    }
+    public int addData() {
+    	String tenphim = themphim.txtFieldTenPhim.getText().trim();
+    	String thoiluong = themphim.txtFieldThoiLuong.getText().trim();
+    	String quocgia = themphim.txtFieldQuocGia.getText().trim();
+    	String daodien = themphim.txtFieldDaoDien.getText().trim();
+    	Date namsanxuat = themphim.calendar.getDate();
+    	String dotuoixem = themphim.txtFieldDoTuoi.getText().trim();
+    	String maloaiphim = ((ENTITY.THELOAIPHIM) themphim.cbboxTheLoai.getSelectedItem()).getMaTheLoaiPhim();
+    	Object[] param = new Object[] {tenphim, thoiluong, quocgia, namsanxuat, dotuoixem, maloaiphim, daodien};
+    	return phimDAL.addData(param);
+    }
+    public int updateData() {
+    	String maphim = themphim.txtFieldMaPhim.getText().trim();
+    	String tenphim = themphim.txtFieldTenPhim.getText().trim();
+    	String thoiluong = themphim.txtFieldThoiLuong.getText().trim();
+    	String quocgia = themphim.txtFieldQuocGia.getText().trim();
+    	String daodien = themphim.txtFieldDaoDien.getText().trim();
+    	Date namsanxuat = themphim.calendar.getDate();
+    	String dotuoixem = themphim.txtFieldDoTuoi.getText().trim();
+    	String maloaiphim = ((ENTITY.THELOAIPHIM) themphim.cbboxTheLoai.getSelectedItem()).getMaTheLoaiPhim();
+    	Object[] param = new Object[] {maphim,tenphim, thoiluong, quocgia, namsanxuat, dotuoixem, maloaiphim, daodien};
+    	return phimDAL.updateData(param);	
+    }
+    public int removeData() {
+        int selectedRow = guiPhim.table.getSelectedRow();
+    	String maphim = guiPhim.table.getValueAt(selectedRow, 0).toString(); 
+    	Object[] param = new Object[] {maphim};
+    	return phimDAL.removeData(param);
+    }
+    public void selectData(String maphim) {
+    	ENTITY.PhimViewDTO phimviewDTO = new ENTITY.PhimViewDTO();
+    	Object[] param = new Object[] {maphim};
+    	phimviewDTO = phimDAL.GetPhimByMa(param);
+    	themphim.txtFieldMaPhim.setText(phimviewDTO.getMaPhim());
+    	themphim.txtFieldTenPhim.setText(phimviewDTO.getTenPhim());
+    	themphim.txtFieldThoiLuong.setText(Integer.toString(phimviewDTO.getThoiLuong()));
+    	themphim.txtFieldQuocGia.setText(phimviewDTO.getQuocGia());
+    	themphim.txtFieldDaoDien.setText(phimviewDTO.getDaoDien());
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
+        Date ngaySinh = phimviewDTO.getNamSanXuat();		
+        String ngaySinhString = dateFormat.format(ngaySinh);
+        themphim.txtFieldNamSanXuat.setText(ngaySinhString);
+          	
+        themphim.txtFieldDoTuoi.setText(Integer.toString(phimviewDTO.getDoTuoiXem()));
+
+    	
+        for(int i = 0; i< themphim.cbboxTheLoai.getItemCount(); i++) {
+        	if(themphim.cbboxTheLoai.getItemAt(i).toString().equalsIgnoreCase(phimviewDTO.getTenTheLoai())) {
+        		themphim.cbboxTheLoai.setSelectedIndex(i);
+        	}
+        }
+    }
     public boolean ValidatedForm() {
-    	if(guiPhim.textFieldTenPhim.getText().isEmpty() || guiPhim.textFieldThoiLuong.getText().isEmpty() || guiPhim.textFieldQuocGia.getText().isEmpty() || guiPhim.textFieldDaoDien.getText().isEmpty() || guiPhim.textFieldNamSanXuat.getText().isEmpty() ||guiPhim.textFieldDoTuoi.getText().isEmpty()) {
+    	if(themphim.txtFieldTenPhim.getText().isEmpty() || themphim.txtFieldThoiLuong.getText().isEmpty() || themphim.txtFieldQuocGia.getText().isEmpty() || themphim.txtFieldDaoDien.getText().isEmpty() || themphim.txtFieldNamSanXuat.getText().isEmpty() ||themphim.txtFieldDoTuoi.getText().isEmpty()) {
     		return false;
     	}
     	else {
@@ -181,75 +223,10 @@ public class PhimBLL extends DBHelper {
 			Pattern patt = Pattern.compile(PATTERN);
 			Matcher match = patt.matcher(txt);
 			if(!match.matches() || (validateDate(txt) != true)) {
-				guiPhim.lbRegexNamSX.setText("Vui lòng nhập đúng định dạng");
+				themphim.lbRegexNamSX.setText("Vui lòng nhập đúng định dạng");
 			}
 			else {
-				guiPhim.lbRegexNamSX.setText("");
+				themphim.lbRegexNamSX.setText("");
 			}
-    	}  	
-    public int addData() {
-    	String tenphim = guiPhim.textFieldTenPhim.getText().trim();
-    	String thoiluong = guiPhim.textFieldThoiLuong.getText().trim();
-    	String quocgia = guiPhim.textFieldQuocGia.getText().trim();
-    	String daodien = guiPhim.textFieldDaoDien.getText().trim();
-    	Date namsanxuat = guiPhim.calendar.getDate();
-    	String dotuoixem = guiPhim.textFieldDoTuoi.getText().trim();
-    	String maloaiphim = ((ENTITY.THELOAIPHIM) guiPhim.comboBoxTheLoai.getSelectedItem()).getMaTheLoaiPhim();
-    	Object[] param = new Object[] {tenphim, thoiluong, quocgia, namsanxuat, dotuoixem, maloaiphim, daodien};
-    	return phimDAL.addData(param);
-    }
-    public int removeData() {
-    	String maphim = guiPhim.textFieldMaPhim.getText().trim();
-    	Object[] param = new Object[] {maphim};
-    	return phimDAL.removeData(param);
-    }
-    public int updateData() {
-    	String maphim = guiPhim.textFieldMaPhim.getText().trim();
-    	String tenphim = guiPhim.textFieldTenPhim.getText().trim();
-    	String thoiluong = guiPhim.textFieldThoiLuong.getText().trim();
-    	String quocgia = guiPhim.textFieldQuocGia.getText().trim();
-    	String daodien = guiPhim.textFieldDaoDien.getText().trim();
-    	Date namsanxuat = guiPhim.calendar.getDate();
-    	String dotuoixem = guiPhim.textFieldDoTuoi.getText().trim();
-    	String maloaiphim = ((ENTITY.THELOAIPHIM) guiPhim.comboBoxTheLoai.getSelectedItem()).getMaTheLoaiPhim();
-    	Object[] param = new Object[] {maphim,tenphim, thoiluong, quocgia, namsanxuat, dotuoixem, maloaiphim, daodien};
-    	return phimDAL.updateData(param);	
-    }
-    public void ClearData() {
-    	guiPhim.textFieldMaPhim.setText("");
-    	guiPhim.textFieldTenPhim.setText("");
-    	guiPhim.textFieldThoiLuong.setText("");
-    	guiPhim.textFieldQuocGia.setText("");
-    	guiPhim.textFieldDaoDien.setText("");
-    	guiPhim.textFieldNamSanXuat.setText("");
-    	guiPhim.textFieldDoTuoi.setText("");
-    }
-    public boolean ValidatedRegex() {
-    	if(!guiPhim.lbRegexTen.getText().isEmpty() || !guiPhim.lbRegexThoiLuong.getText().isEmpty() || !guiPhim.lbRegexQuocGia.getText().isEmpty() || !guiPhim.lbRegexDaoDien.getText().isEmpty() || !guiPhim.lbRegexNamSX.getText().isEmpty() ||!guiPhim.lbRegexTuoi.getText().isEmpty()) {
-    		return false;
-    	}
-    	else {
-    		return true;
-    	}  		
-    }
-    public void ClearRegex() {
-
-    	guiPhim.lbRegexTen.setText("");
-    	guiPhim.lbRegexThoiLuong.setText("");
-    	guiPhim.lbRegexQuocGia.setText("");
-    	guiPhim.lbRegexDaoDien.setText("");
-    	guiPhim.lbRegexNamSX.setText("");
-    	guiPhim.lbRegexTuoi.setText("");
-    }
-    public int addDataFomr() {
-    	String tenphim = addPhim.txtFieldTenPhim.getText().trim();
-    	String thoiluong = addPhim.txtFieldThoiLuong.getText().trim();
-    	String quocgia = addPhim.txtFieldQuocGia.getText().trim();
-    	String daodien = addPhim.txtFieldDaoDien.getText().trim();
-    	Date namsanxuat = addPhim.calendar.getDate();
-    	String dotuoixem = addPhim.txtDoTuoi.getText().trim();
-    	String maloaiphim = ((ENTITY.THELOAIPHIM) addPhim.cbboxTheLoai.getSelectedItem()).getMaTheLoaiPhim();
-    	Object[] param = new Object[] {tenphim, thoiluong, quocgia, namsanxuat, dotuoixem, maloaiphim, daodien};
-    	return phimDAL.addData(param);
-    }
+    	}  
 }

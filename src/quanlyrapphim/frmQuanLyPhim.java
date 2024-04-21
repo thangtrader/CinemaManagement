@@ -20,6 +20,8 @@ import GUI.dialogLOGIN;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Dialog.ModalExclusionType;
+import java.awt.Window.Type;
 
 public class frmQuanLyPhim extends JFrame {
 
@@ -28,14 +30,11 @@ public class frmQuanLyPhim extends JFrame {
 	private JPanel mainPanel;
 	private JPanel panelTHONGTINPHIM;
 	private JPanel panelLICHCHIEUPHIM;
-	private JPanel panelCANHAN;
+	public JPanel panelCANHAN;
 	private JPanel panelTHONGKE;
 	public JPanel panelNHANVIEN;
-	private JPanel panel6;
 
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -52,7 +51,7 @@ public class frmQuanLyPhim extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public frmQuanLyPhim() {
+	public frmQuanLyPhim(String tentaikhoan) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -65,21 +64,16 @@ public class frmQuanLyPhim extends JFrame {
         
         mainPanel = new JPanel(new CardLayout());
         mainPanel.setBounds(121, 60, 800, 441);
-//        mainPanel.setBorder(null);
 
         panelTHONGTINPHIM = new GUI.frmTHONGTINPHIM();
 
         panelLICHCHIEUPHIM = new GUI.frmLICHCHIEUPHIM();
         
-        panelCANHAN = new GUI.frmCANHAN();
-//        
+        panelCANHAN = new GUI.frmCANHAN(tentaikhoan);
+       
         panelTHONGKE = new GUI.frmTHONGKE();
         
         panelNHANVIEN = new GUI.frmNHANVIEN();
-//
-//        panel5 = new GUI.home();
-//
-//        panel6 = new GUI.doiMatKhau();
         
         mainPanel.add(panelTHONGTINPHIM, "panelTHONGTINPHIM");
         mainPanel.add(panelLICHCHIEUPHIM, "panelLICHCHIEUPHIM");

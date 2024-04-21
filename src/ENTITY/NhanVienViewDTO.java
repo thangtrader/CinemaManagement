@@ -146,5 +146,7 @@ public class NhanVienViewDTO {
 		this.trangThai = trangThai;
 	}
 	
-	
+	public String toString() {
+		return this.trangThai;
+	}
 }

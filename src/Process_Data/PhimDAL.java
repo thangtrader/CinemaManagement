@@ -6,6 +6,7 @@ import java.util.Vector;
 
 public class PhimDAL {
     GUI.frmTHONGTINPHIM guiPhim;
+    GUI.frmThemThongTinPhim themphim;
     DBHelper cnn;
     Object[] obj = null;
     
@@ -18,11 +19,16 @@ public class PhimDAL {
         cnn = new DBHelper();
     }
     
+    public PhimDAL(GUI.frmThemThongTinPhim addphim) {
+    	themphim = addphim;
+        cnn = new DBHelper();
+    }
+    
     
 	public Vector<ENTITY.PhimViewDTO> ListPhim() {
         Vector<ENTITY.PhimViewDTO> vector = new Vector<ENTITY.PhimViewDTO>();
         try {
-            ResultSet rs = cnn.getResultSet_StoredProcedures("LoadPhim");
+            ResultSet rs = cnn.getResultSet_StoredProcedures("SelectPhim");
             while (rs.next()) {
             	ENTITY.PhimViewDTO phimview = new ENTITY.PhimViewDTO();
             	phimview.setMaPhim(rs.getString("MaPhim"));
@@ -42,6 +48,26 @@ public class PhimDAL {
             return null;
         }
         return vector;
+    }
+	public ENTITY.PhimViewDTO GetPhimByMa(Object[] param) {
+        ENTITY.PhimViewDTO phimview = new ENTITY.PhimViewDTO();
+        try {
+            ResultSet rs = cnn.getResultSet_StoredProcedures("GetPhimByMa", param);
+            while (rs.next()) {
+            	phimview.setMaPhim(rs.getString("MaPhim"));
+            	phimview.setTenPhim(rs.getString("TenPhim"));
+            	phimview.setThoiLuong(rs.getInt("ThoiLuong"));
+            	phimview.setQuocGia(rs.getString("QuocGia"));
+            	phimview.setDaoDien(rs.getString("DaoDien"));
+            	phimview.setNamSanXuat(rs.getDate("NamSanXuat"));
+            	phimview.setDoTuoiXem(rs.getInt("DoTuoiXem"));
+            	phimview.setTenTheLoai(rs.getString("TenTheLoaiPhim"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return phimview;
     }
 	public Vector<ENTITY.THELOAIPHIM> ListTheLoai() {
         Vector<ENTITY.THELOAIPHIM> vector = new Vector<ENTITY.THELOAIPHIM>();

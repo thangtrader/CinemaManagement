@@ -16,24 +16,7 @@ begin
         select 0 as code
     else select -1 as code
 end
---- them nhan vien
 go
-create proc themnhanvien
-
-@TenNhanVien nvarchar(30),@NgaySinh datetime,
-	@GioiTinh bit,
-	@DiaChi nvarchar(50),
-	@SoDienThoai varchar(15),
-	@CCCD varchar(20),
-	@TenTaiKhoan varchar(30),
-	@MatKhau varchar(32),
-	@MaChinhSach varchar(6) ,
-	@MaChucVu varchar(6) 
-	as 
-	begin 
-	insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--987654321
-Values (@TenNhanVien,@NgaySinh,@GioiTinh,@DiaChi,@SoDienThoai,@CCCD,@TenTaiKhoan,@MatKhau,@MaChinhSach,@MaChucVu, 1);
-end
 ---cap nhat nhan vien
 go
 create proc CapNhatNhanVien
@@ -52,7 +35,7 @@ create proc CapNhatNhanVien
 	as 
 	begin 
 	update  NHAN_VIEN set TenNhanVien=@TenNhanVien,GioiTinh=@GioiTinh,NgaySinh=@NgaySinh,DiaChi=@DiaChi,SoDienThoai=@SoDienThoai,CCCD=@CCCD,TenTaiKhoan=@TenTaiKhoan,MatKhau=@MatKhau,Anh=@Anh,MaChinhSach=@MaChinhSach,MaChucVu=@MaChucVu
-where MaNhanVien=@MaNhanVien
+	where MaNhanVien=@MaNhanVien
 end
 go
 -- Them phong chieu
@@ -112,30 +95,32 @@ begin
 	where MaNhanVien = @MaNhanVien and MaCa = @MaCa and NgayLamViec = @NgayLamViec
 end
 Go
-Create proc SelectAllPhim
-As
-Begin
-	Select * From PHIM
-End
-Go
-Create proc SelectAllTheLoaiPhim
-As
-Begin
-	Select * From THE_LOAI_PHIM
-End
-Go
-Create proc FindById(@MaPhim nvarchar(6))
-As
-Begin
-	Select * From PHIM where MaPhim = @MaPhim
-End
-Go
+--Hiển thị tất cả bảng The Loai Phim
 Create proc SelectTheLoaiPhim
 As
 Begin
 	Select * From THE_LOAI_PHIM
 End
 Go
+--Hiện thị bảng Phim nhưng lấy TenTheLoai thay MaTheLoai
+Create proc SelectPhim
+As
+Begin
+	SELECT p.MaPhim, p.TenPhim, p.ThoiLuong, p.QuocGia, p.DaoDien, p.NamSanXuat, p.DoTuoiXem, t.TenTheLoaiPhim
+	FROM PHIM as p INNER JOIN THE_LOAI_PHIM as t ON p.MaTheLoai = t.MaTheLoaiPhim;
+End
+Go
+Create proc GetPhimByMa
+	@MaPhim varchar(6)
+As
+Begin
+	SELECT p.MaPhim, p.TenPhim, p.ThoiLuong, p.QuocGia, p.DaoDien, p.NamSanXuat, p.DoTuoiXem, t.TenTheLoaiPhim
+	FROM PHIM as p INNER JOIN THE_LOAI_PHIM as t ON p.MaTheLoai = t.MaTheLoaiPhim
+	Where @MaPhim = MaPhim
+End
+Exec GetPhimByMa P00001	
+Go
+--Thêm Phim
 Create proc ThemPhim
 
 	@TenPhim nvarchar(50),
@@ -151,12 +136,14 @@ Create proc ThemPhim
 		Values (@TenPhim,@ThoiLuong,@QuocGia,@NamSanXuat, @DoTuoiXem, @MaTheLoai ,@DaoDien);
 	End
 Go
+--Xóa Phim theo mã
 Create proc XoaPhim(@MaPhim varchar(6))
 As
 Begin
 	Delete PHIM Where MaPhim = @MaPhim
 End
 Go
+--Sửa Phim theo mã
 Create proc SuaPhim
 	@MaPhim varchar(6),
 	@TenPhim nvarchar(50),
@@ -172,14 +159,6 @@ Create proc SuaPhim
 		Where MaPhim = @MaPhim
 	End
 Go
-Create proc LoadPhim
-As
-Begin
-	SELECT p.MaPhim, p.TenPhim, p.ThoiLuong, p.QuocGia, p.DaoDien, p.NamSanXuat, p.DoTuoiXem, t.TenTheLoaiPhim
-	FROM PHIM as p INNER JOIN THE_LOAI_PHIM as t ON p.MaTheLoai = t.MaTheLoaiPhim;
-End	
-Go
-
 Create proc SelectAllTKNV
 As
 Begin
@@ -190,28 +169,15 @@ Begin
     INNER JOIN CHINH_SACH cs ON n.MaChinhSach = cs.MaChinhSach
 End	
 Go
-/*Create proc SelectTKNhanVien
-AS
-BEGIN
-    SELECT DISTINCT NV.MaNhanVien, 
-           NV.TenNhanVien, 
-           NV.GioiTinh, 
-           DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc) AS SoGioLam, 
-            ROUND((DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc) * CS.HeSoLuong*18000),2) AS TongTien
-    FROM NHAN_VIEN NV
-    INNER JOIN LICH_LAM_VIEC LLV ON NV.MaNhanVien = LLV.MaNhanVien
-    INNER JOIN CA_LAM_VIEC CLV ON LLV.MaCa = CLV.MaCa
-    INNER JOIN CHINH_SACH CS ON NV.MaChinhSach = CS.MaChinhSach
-END*/
-
-
-Create proc LoadNhanVien
+--Hiện thi bảng nhân viên
+Create proc SelectNhanVien
 As
 Begin
 	Select n.MaNhanVien, n.TenNhanVien, n.NgaySinh, n.GioiTinh, n.SoDienThoai, c.TenChinhSach, cv.TenChucVu
 	From NHAN_VIEN as n INNER JOIN CHINH_SACH as c On n.MaChinhSach = c.MaChinhSach INNER JOIN  CHUC_VU as cv On n.MaChucVu = cv.MaChucVu
 End
 Go
+--Thêm  nhân viên
 Create proc ThemNhanVien
 
 	@TenNhanVien nvarchar(30),
@@ -231,22 +197,55 @@ Create proc ThemNhanVien
 		Values (@TenNhanVien,@NgaySinh,@GioiTinh,@DiaChi,@SoDienThoai,@CCCD,@TenTaiKhoan,@MatKhau,@MaChinhSach,@MaChucVu,@TrangThai);
 	End
 Go
+--Cập nhật bảng nhân viên theo mã
+Create proc SuaNhanVien
+	@MaNhanVien varchar(6),
+	@TenNhanVien nvarchar(30),
+	@NgaySinh date,
+	@GioiTinh nvarchar(3),
+	@DiaChi nvarchar(50),
+	@SoDienThoai varchar(15),
+	@CCCD varchar(20),
+	@TenTaiKhoan varchar(30),
+	@MatKhau varchar(32),
+	@MaChinhSach varchar(6),
+	@MaChucVu varchar(6),
+	@TrangThai varchar(1)
+	As
+	Begin
+		Update NHAN_VIEN Set TenNhanVien = @TenNhanVien, NgaySinh = @NgaySinh, GioiTinh = @GioiTinh, DiaChi = @DiaChi, SoDienThoai = @SoDienThoai, CCCD = @CCCD, TenTaiKhoan = @TenTaiKhoan, MatKhau = @MatKhau, MaChinhSach = @MaChinhSach, MaChucVu = @MaChucVu, TrangThai = @TrangThai
+		Where MaNhanVien = @MaNhanVien
+		
+	End
+Go
+--Xóa nhân viên theo mã
+Create proc XoaNhanVien(@MaNhanVien varchar(6))
+As
+Begin
+	Delete NHAN_VIEN Where MaNhanVien = @MaNhanVien
+End
+--Lấy bảng nhân viên theo mã nhân viên
+Create proc GetNhanVien
+	@MaNhanVien varchar(6)
+As
+Begin
+	Select n.MaNhanVien, n.TenNhanVien, n.NgaySinh, n.GioiTinh, n.DiaChi, n.SoDienThoai, n.CCCD, n.TenTaiKhoan, n.MatKhau, c.TenChinhSach, cv.TenChucVu, n.TrangThai
+	From NHAN_VIEN as n INNER JOIN CHINH_SACH as c On n.MaChinhSach = c.MaChinhSach INNER JOIN  CHUC_VU as cv On n.MaChucVu = cv.MaChucVu
+	Where @MaNhanVien = MaNhanVien
+End
+Go
+--Hiện thị bảng chính sách
 Create proc SelectChinhSach
 As
 Begin
 	Select MaChinhSach, TenChinhSach From CHINH_SACH
 End
 Go
+--Hiện thị bảng chức vụ
 Create proc SelectChucVu
 As
 Begin
 	Select * From CHUC_VU
-End
-Go
-Create proc XoaNhanVien(@MaNhanVien varchar(6))
-As
-Begin
-	Delete NHAN_VIEN Where MaNhanVien = @MaNhanVien
 End
 Go
 create PROCEDURE HienThiThongTinNhanVien
@@ -341,4 +340,13 @@ BEGIN
         TongLuong DESC;
 END
 go 
-
+Create proc GetNhanVienByTenTaiKhoan
+	@TenTaiKhoan varchar(30)
+	As
+	Begin
+		Select TenNhanVien, NgaySinh, DiaChi, GioiTinh, CCCD, SoDienThoai, TenTaiKhoan, MatKhau From NHAN_VIEN
+		Where @TenTaiKhoan = TenTaiKhoan
+	End
+Go
+	Drop proc GetNhanVienByTenTaiKhoan
+	Exec GetNhanVienByTenTaiKhoan thangadmin

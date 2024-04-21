@@ -27,6 +27,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
+import javax.swing.border.LineBorder;
 
 public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener {
 
@@ -36,11 +37,11 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
     public DefaultTableModel model;
     NhanVienBLL nvBLL;
     NhanVienDAL nvDAL;
-	private JButton btnThem;
-	private JButton btnXemChiTiet;
+	public JButton btnThem;
+	public JButton btnXemChiTiet;
 	private JButton btnTimKiem;
 	private JButton btnXoa;
-
+	GUI.dialogThemNhanVien themnv;
 	/**
 	 * Create the panel.
 	 */
@@ -68,13 +69,21 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 		add(scrollPane);
 		
 		table = new JTable();
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
 				"M\u00E3 nh\u00E2n vi\u00EAn", "T\u00EAn nh\u00E2n vi\u00EAn", "Ng\u00E0y sinh", "Gi\u1EDBi t\u00EDnh", "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", "T\u00EAn ch\u00EDnh s\u00E1ch", "T\u00EAn ch\u1EE9c v\u1EE5"
 			}
-		));
+			) {
+			boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+		});
 		table.getColumnModel().getColumn(0).setPreferredWidth(84);
 		table.getColumnModel().getColumn(1).setPreferredWidth(93);
 		table.getColumnModel().getColumn(2).setPreferredWidth(81);
@@ -112,15 +121,16 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 		btnTimKiem.setBackground(Color.CYAN);
 		btnTimKiem.setBounds(697, 22, 27, 21);
 		add(btnTimKiem);
+		
         nvBLL = new Business_Logic.NhanVienBLL(this);
         nvDAL = new Process_Data.NhanVienDAL(this);
         btnThem.addActionListener(this);
         btnXoa.addActionListener(this);
+        btnXemChiTiet.addActionListener(this);
         table.addMouseListener(this);
 	}
-	public void getRowData() {
+	public void getRow() {
         int selectedRow = table.getSelectedRow();
-        System.out.println(selectedRow);
         if (selectedRow != -1 && selectedRow < table.getRowCount()) {
             String manv = table.getValueAt(selectedRow, 0).toString();
             String tennv = table.getValueAt(selectedRow, 1).toString();
@@ -134,13 +144,27 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
             System.out.println("Không có hàng nào được chọn.");
         }
     }
+	public String getMaNhanVien() {
+		String manv = null;
+		int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1 && selectedRow < table.getRowCount()) {
+            manv = table.getValueAt(selectedRow, 0).toString(); 
+        } else {
+            System.out.println("Không có hàng nào được chọn.");
+        }
+        return manv;
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == table) {
-            if (table.getSelectedRow() >= 0) {
-                getRowData();
+        if (e.getClickCount() == 1) {
+            if (e.getSource() == table && table.getSelectedRow() >= 0) {
+            	getRow();
             }
+        }
+        if (e.getClickCount() == 2) {
+    		themnv = new dialogThemNhanVien(getMaNhanVien());
+    		themnv.setVisible(true);
         }
 	}
 
@@ -171,13 +195,12 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
     	if (e.getSource() == btnThem) {
-    		GUI.dialogThemNhanVien themnv = new dialogThemNhanVien();
+    		themnv = new dialogThemNhanVien();
     		themnv.setVisible(true);
     		themnv.addWindowListener(new WindowAdapter() {
     		    @Override
     		    public void windowClosed(WindowEvent e) {
-    		        System.out.println("123");
-    		        nvBLL.LoadNhanVien(); // Thực hiện tải nhân viên sau khi dialog đã đóng
+    		        nvBLL.LoadNhanVien();
     		    }
     		});
     	}
@@ -190,6 +213,22 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
             	JOptionPane.showMessageDialog(null, "Xóa phim không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
             nvBLL.LoadNhanVien();
+        }
+        if (e.getSource() == btnXemChiTiet) {
+        	if (table.getSelectedRowCount() == 1) {
+                themnv = new dialogThemNhanVien(getMaNhanVien());
+        		themnv.addWindowListener(new WindowAdapter() {
+        		    @Override
+        		    public void windowClosed(WindowEvent e) {
+        		        nvBLL.LoadNhanVien();
+        		    }
+        		});
+                themnv.setVisible(true);
+            } else if (table.getSelectedRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn nhân viên muốn xem chi tiết", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            } else if (table.getSelectedRowCount() > 1) {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn một nhân viên muốn xem chi tiết", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
 	}
 }
