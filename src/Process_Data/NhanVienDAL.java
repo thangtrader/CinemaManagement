@@ -1,20 +1,13 @@
 package Process_Data;
 
-import java.sql.Date;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 public class NhanVienDAL {
 	private static NhanVienDAL instance;
 	DBHelper cnn;
-	GUI.frmNHANVIEN nhanvien;
-	GUI.dialogThemNhanVien themnv;
 
     public static NhanVienDAL getInstance() {
         if (instance == null) {
@@ -25,15 +18,7 @@ public class NhanVienDAL {
     public NhanVienDAL() {
         cnn = new DBHelper();
     }
-    
-    public NhanVienDAL(GUI.frmNHANVIEN nv) {
-    	nhanvien = nv;
-        cnn = new DBHelper();
-    }
-    public NhanVienDAL(GUI.dialogThemNhanVien nv) {
-    	themnv = nv;
-        cnn = new DBHelper();
-    }
+
     public ENTITY.NhanVienViewDTO GetNhanVienByMa(Object[] param) {
         ENTITY.NhanVienViewDTO nvviewDTO = new ENTITY.NhanVienViewDTO();
         try {
@@ -138,11 +123,16 @@ public class NhanVienDAL {
 		int k = cnn.Execute_StoredProcedures("XoaNhanVien", param);
 		return k;
 	}
+//	public int updateMK(Object[] param) {
+//		int k = cnn.Execute_StoredProcedures("SuaMatKhau", param);
+//		return k;
+//	}
     public ENTITY.NHANVIEN GetNhanVienByTenTaiKhoan(Object[] param) {
         ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
         try {
             ResultSet rs = cnn.getResultSet_StoredProcedures("GetNhanVienByTenTaiKhoan", param);
             while(rs.next()) {
+            	nvDTO.setMaNhanVien(rs.getString("MaNhanVien"));
             	nvDTO.setTenNhanVien(rs.getString("TenNhanVien"));
             	nvDTO.setNgaySinh(rs.getDate("NgaySinh"));
             	nvDTO.setGioiTinh(rs.getString("GioiTinh"));

@@ -33,14 +33,15 @@ public class frmQuanLyPhim extends JFrame {
 	public JPanel panelCANHAN;
 	private JPanel panelTHONGKE;
 	public JPanel panelNHANVIEN;
+	private String tentaikhoan;
 
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frmQuanLyRapPhim frame = new frmQuanLyRapPhim();
-					frame.setVisible(true);
+					frmQuanLyPhim qlp = new frmQuanLyPhim(null);
+					qlp.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -87,7 +88,7 @@ public class frmQuanLyPhim extends JFrame {
         getContentPane().add(mainPanel);
         
         ImageIcon icon = new ImageIcon("image\\pngwing.com (1).png");
-        JButton btnNewButton = new JButton(new ImageIcon(frmQuanLyRapPhim.class.getResource("/image/pngwing.com (1).png")));
+        JButton btnNewButton = new JButton(new ImageIcon(frmQuanLyPhim.class.getResource("/image/pngwing.com (1).png")));
         btnNewButton.setForeground(new Color(0, 0, 0));
         btnNewButton.setText("VIP CINEMA");
         btnNewButton.setBounds(0, 0, 921, 62);

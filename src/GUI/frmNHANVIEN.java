@@ -3,26 +3,19 @@ package GUI;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import Business_Logic.NhanVienBLL;
 import Process_Data.NhanVienDAL;
-import quanlyrapphim.frmQuanLyRapPhim;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -41,7 +34,8 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 	public JButton btnXemChiTiet;
 	private JButton btnTimKiem;
 	private JButton btnXoa;
-	GUI.dialogThemNhanVien themnv;
+	GUI.frmThemNhanVien themnv;
+	private JComboBox comboBoxSapXep;
 	/**
 	 * Create the panel.
 	 */
@@ -49,7 +43,7 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 		
 		setLayout(null);
 		
-		JComboBox comboBoxSapXep = new JComboBox();
+		comboBoxSapXep = new JComboBox();
 		comboBoxSapXep.setBounds(472, 22, 101, 21);
 		add(comboBoxSapXep);
 		
@@ -122,28 +116,23 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 		btnTimKiem.setBounds(697, 22, 27, 21);
 		add(btnTimKiem);
 		
-        nvBLL = new Business_Logic.NhanVienBLL(this);
-        nvDAL = new Process_Data.NhanVienDAL(this);
+        nvBLL = new Business_Logic.NhanVienBLL();
+        nvDAL = new Process_Data.NhanVienDAL();
         btnThem.addActionListener(this);
         btnXoa.addActionListener(this);
         btnXemChiTiet.addActionListener(this);
-        table.addMouseListener(this);
+        LoadNhanVien();
 	}
-	public void getRow() {
+	
+	
+    public int removeData() {
+    	ENTITY.NhanVienViewDTO nvviewDTO = new ENTITY.NhanVienViewDTO();
         int selectedRow = table.getSelectedRow();
-        if (selectedRow != -1 && selectedRow < table.getRowCount()) {
-            String manv = table.getValueAt(selectedRow, 0).toString();
-            String tennv = table.getValueAt(selectedRow, 1).toString();
-            String ngaysinh = table.getValueAt(selectedRow, 2).toString();
-            String gioitinh = table.getValueAt(selectedRow, 3).toString();
-            String sdt = table.getValueAt(selectedRow, 4).toString();
-            String tencs = table.getValueAt(selectedRow, 5).toString();
-            String tencv = table.getValueAt(selectedRow, 6).toString();
-            
-        } else {
-            System.out.println("Không có hàng nào được chọn.");
-        }
+    	String manv = table.getValueAt(selectedRow, 0).toString(); 
+    	nvviewDTO.setMaNhanVien(manv);
+    	return nvBLL.removeData(nvviewDTO);
     }
+	
 	public String getMaNhanVien() {
 		String manv = null;
 		int selectedRow = table.getSelectedRow();
@@ -157,13 +146,8 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 1) {
-            if (e.getSource() == table && table.getSelectedRow() >= 0) {
-            	getRow();
-            }
-        }
         if (e.getClickCount() == 2) {
-    		themnv = new dialogThemNhanVien(getMaNhanVien());
+    		themnv = new frmThemNhanVien(getMaNhanVien());
     		themnv.setVisible(true);
         }
 	}
@@ -191,36 +175,45 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void LoadNhanVien() {
+	    model = (DefaultTableModel) table.getModel();
+	    model.setRowCount(0);
 
+	    for (ENTITY.NhanVienViewDTO nvview : nvBLL.LoadNhanVien()) { 
+	        model.addRow(new Object[]{nvview.getMaNhanVien(), nvview.getTenNhanVien(), nvview.getNgaySinh(), nvview.getGioiTinh(), nvview.getSdt(), nvview.getTenChinhSach(), nvview.getTenChucVu()});
+	    }
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
     	if (e.getSource() == btnThem) {
-    		themnv = new dialogThemNhanVien();
+    		themnv = new frmThemNhanVien();
     		themnv.setVisible(true);
     		themnv.addWindowListener(new WindowAdapter() {
     		    @Override
     		    public void windowClosed(WindowEvent e) {
-    		        nvBLL.LoadNhanVien();
+    		        LoadNhanVien();
     		    }
     		});
     	}
         if (e.getSource() == btnXoa) {
-            int k = nvBLL.removeData();
+            int k = this.removeData();
             if(k==1) {
             	JOptionPane.showMessageDialog(null, "Đã xóa thông tin phim thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
             else {
             	JOptionPane.showMessageDialog(null, "Xóa phim không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
-            nvBLL.LoadNhanVien();
+            	LoadNhanVien();
         }
         if (e.getSource() == btnXemChiTiet) {
         	if (table.getSelectedRowCount() == 1) {
-                themnv = new dialogThemNhanVien(getMaNhanVien());
+                themnv = new frmThemNhanVien(getMaNhanVien());
         		themnv.addWindowListener(new WindowAdapter() {
         		    @Override
         		    public void windowClosed(WindowEvent e) {
-        		        nvBLL.LoadNhanVien();
+        		        LoadNhanVien();
         		    }
         		});
                 themnv.setVisible(true);

@@ -7,38 +7,36 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Business_Logic.NhanVienBLL;
+import Process_Data.NhanVienDAL;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.BoxLayout;
 import java.awt.Color;
 
-public class diaCHANGEPASSWORD extends JDialog {
+public class diaCHANGEPASSWORD extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textFieldMatKhauCu;
-	private JTextField textFieldMatKhauMoi;
-	private JTextField textFieldMatKhauMoiAgain;
+	public JTextField textFieldMatKhauCu;
+	public JTextField textFieldMatKhauMoi;
+	public JTextField textFieldMatKhauMoiAgain;
+	private JButton btnSave;
+	private JButton btnCancel;
+	private NhanVienBLL nvBLL;
+	private NhanVienDAL nvDAL;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			diaCHANGEPASSWORD dialog = new diaCHANGEPASSWORD();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
-	public diaCHANGEPASSWORD() {
+	
+	public void init() {
 		setBounds(250, 200, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,7 +60,6 @@ public class diaCHANGEPASSWORD extends JDialog {
 		contentPanel.add(lbMatKhauMoiAgain);
 		
 		textFieldMatKhauCu = new JTextField();
-		textFieldMatKhauCu.setToolTipText("");
 		textFieldMatKhauCu.setBounds(228, 80, 150, 28);
 		contentPanel.add(textFieldMatKhauCu);
 		textFieldMatKhauCu.setColumns(10);
@@ -89,7 +86,7 @@ public class diaCHANGEPASSWORD extends JDialog {
 			contentPanel.add(buttonPane);
 			buttonPane.setLayout(null);
 			{
-				JButton btnSave = new JButton("LƯU");
+				btnSave = new JButton("LƯU");
 				btnSave.setBounds(228, 5, 62, 25);
 				btnSave.setForeground(new Color(255, 255, 255));
 				btnSave.setBackground(new Color(62, 177, 52));
@@ -99,7 +96,7 @@ public class diaCHANGEPASSWORD extends JDialog {
 				getRootPane().setDefaultButton(btnSave);
 			}
 			{
-				JButton btnCancel = new JButton("CANCEL");
+				btnCancel = new JButton("CANCEL");
 				btnCancel.setForeground(new Color(255, 255, 255));
 				btnCancel.setBounds(300, 5, 77, 25);
 				btnCancel.setFont(new Font("Tahoma", Font.BOLD, 10));
@@ -107,6 +104,27 @@ public class diaCHANGEPASSWORD extends JDialog {
 				btnCancel.setActionCommand("CANCEL");
 				buttonPane.add(btnCancel);
 			}
+	        nvBLL = new Business_Logic.NhanVienBLL();
+	        nvDAL = new Process_Data.NhanVienDAL();
+	        btnSave.addActionListener(this);
+		}
+	}
+	
+	public diaCHANGEPASSWORD(String tentaikhoan) {
+		this.init();
+		this.DisplayTest(tentaikhoan);
+	}
+	
+    public void DisplayTest(String tentaikhoan) {
+    	ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
+    	nvDTO =  nvBLL.GetNhanVienByTenTaiKhoan(tentaikhoan);
+    	textFieldMatKhauCu.setText(nvDTO.getMatKhau());
+    }
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnSave) {
+//			nvBLL.updateMK();
 		}
 	}
 }

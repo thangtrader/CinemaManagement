@@ -5,21 +5,11 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -30,57 +20,29 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.table.DefaultTableModel;
-
-import com.toedter.calendar.JDateChooser;
-
 import Business_Logic.PhimBLL;
-import Process_Data.PhimDAL;
-
 import javax.swing.JTable;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.UIManager;
 import javax.swing.JSeparator;
-import javax.swing.JComboBox;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 
-public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListener, ActionListener {
-	public JTextField textFieldTimKiem;
+public class frmTHONGTINPHIM extends JPanel implements ActionListener {
+	
+
 	private static final long serialVersionUID = 1L;
-	public JTable table;
-	private JTable table_1;
-	public JTextField textFieldMaPhim;
-	public JTextField textFieldTenPhim;
-	public JTextField textFieldThoiLuong;
-	public JTextField textFieldQuocGia;
-	public JTextField textFieldDoTuoi;
-	public JTextField textFieldDaoDien;
-	public JComboBox comboBoxTheLoai;
-    public DefaultTableModel model;
-    PhimBLL phimBLL;
-    PhimDAL phimDAL;
+	private JTable table;
+	private DefaultTableModel model;
+	private PhimBLL phimBLL;
     GUI.frmThemThongTinPhim themphim;
-    
-	int current = 0;
 	private JButton btnThem;
 	private JButton btnXoa;
 	private JButton btnSua;
-//	private JCalendar calendar;
-	public JDateChooser calendar;
 	private JLabel lbRegex;
-	public JLabel lbRegexTen;
-	public JLabel lbRegexNamSX;
-	public JLabel lbRegexThoiLuong;
-	public JLabel lbRegexQuocGia;
-	public JLabel lbRegexDaoDien;
-	public JLabel lbRegexTuoi;
-	public JTextField textFieldNamSanXuat;
-	/**
-	 * Create the panel.
-	 */
+	private JLabel lbRegexTen;
+	private JLabel lbRegexThoiLuong;
+	private JLabel lbRegexQuocGia;
+	private JLabel lbRegexTuoi;
+	private JTextField textFieldTimKiem;
+
 	public frmTHONGTINPHIM() {
 		setBackground(new Color(241, 241, 241));
 		setLayout(null);
@@ -96,7 +58,6 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
 			@Override
 			public void keyReleased(KeyEvent e) {
 				TimKiemByTen(textFieldTimKiem.getText());
-				System.out.println(textFieldTimKiem.getText());
 			}
 		});
 		textFieldTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -111,7 +72,7 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
 		btnThem.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnThem.setBackground(new Color(240, 240, 240));
 		btnThem.setFont(new Font("Roboto", Font.BOLD, 14));
-		btnThem.setBounds(99, 388, 108, 39);
+		btnThem.setBounds(94, 403, 108, 39);
 		this.add(btnThem);
 		
 		btnXoa = new JButton("Xóa phim");
@@ -120,7 +81,7 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
 
 		btnXoa.setBackground(new Color(240, 240, 240));
 		btnXoa.setFont(new Font("Roboto", Font.BOLD, 14));
-		btnXoa.setBounds(334, 388, 108, 39);
+		btnXoa.setBounds(329, 403, 108, 39);
 		this.add(btnXoa);
 		
 		btnSua = new JButton("Chỉnh sửa");
@@ -128,7 +89,7 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
 		btnSua.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnSua.setBackground(new Color(240, 240, 240));
 		btnSua.setFont(new Font("Roboto", Font.BOLD, 14));
-		btnSua.setBounds(550, 388, 108, 39);
+		btnSua.setBounds(555, 403, 108, 39);
 		this.add(btnSua);
 		
 		JPanel panel = new JPanel();
@@ -176,7 +137,7 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
 		table.getColumnModel().getColumn(5).setPreferredWidth(72);
 		table.getColumnModel().getColumn(6).setPreferredWidth(67);
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 84, 796, 147);
+		scrollPane.setBounds(10, 84, 796, 294);
 		this.add(scrollPane);
 		
 		
@@ -185,184 +146,11 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
 		separator.setBounds(20, 237, 769, 2);
 		add(separator);
 		
-		JLabel lblNewLabel_6_1 = new JLabel("Mã phim");
-		lblNewLabel_6_1.setForeground(new Color(0, 0, 0));
-		lblNewLabel_6_1.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		lblNewLabel_6_1.setBounds(23, 247, 91, 24);
-		add(lblNewLabel_6_1);
-		
-		JLabel lblNewLabel_6_1_1 = new JLabel("Quốc gia");
-		lblNewLabel_6_1_1.setForeground(new Color(0, 0, 0));
-		lblNewLabel_6_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		lblNewLabel_6_1_1.setBounds(23, 339, 91, 24);
-		add(lblNewLabel_6_1_1);
-		
-		JLabel lblNewLabel_6_1_2 = new JLabel("Tên phim");
-		lblNewLabel_6_1_2.setForeground(new Color(0, 0, 0));
-		lblNewLabel_6_1_2.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		lblNewLabel_6_1_2.setBounds(23, 275, 91, 24);
-		add(lblNewLabel_6_1_2);
-		
-		JLabel lblNewLabel_6_1_3 = new JLabel("Thời lượng");
-		lblNewLabel_6_1_3.setForeground(new Color(0, 0, 0));
-		lblNewLabel_6_1_3.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		lblNewLabel_6_1_3.setBounds(23, 309, 91, 24);
-		add(lblNewLabel_6_1_3);
-		
-		textFieldMaPhim = new JTextField();
-		textFieldMaPhim.setEditable(false);
-		textFieldMaPhim.setBounds(99, 249, 142, 24);
-		add(textFieldMaPhim);
-		textFieldMaPhim.setColumns(10);
-		
-		textFieldTenPhim = new JTextField();
-		textFieldTenPhim.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				String PATTERN = "^(?!\\s+$)[\\p{L}\\d\\s]{1,50}$";
-				Pattern patt = Pattern.compile(PATTERN);
-				Matcher match = patt.matcher(textFieldTenPhim.getText());
-				if(!match.matches()) {
-					lbRegexTen.setText("Vui lòng không nhập đúng định dạng");
-				}
-				else {
-					lbRegexTen.setText("");
-				}
-			}
-		});
-		textFieldTenPhim.setColumns(10);
-		textFieldTenPhim.setBounds(99, 281, 142, 24);
-		add(textFieldTenPhim);
-		
-		textFieldThoiLuong = new JTextField();
-		textFieldThoiLuong.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				String PATTERN = "^[6-9][0-9]|[1-2][0-9]{2}|300$";
-				Pattern patt = Pattern.compile(PATTERN);
-				Matcher match = patt.matcher(textFieldThoiLuong.getText());
-				if(!match.matches()) {
-					lbRegexThoiLuong.setText("Vui lòng không nhập đúng định dạng");
-				}
-				else {
-					lbRegexThoiLuong.setText("");
-				}
-			}
-		});
-		textFieldThoiLuong.setColumns(10);
-		textFieldThoiLuong.setBounds(99, 309, 142, 24);
-		add(textFieldThoiLuong);
-		
-		textFieldQuocGia = new JTextField();
-		textFieldQuocGia.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				String PATTERN = "^(?!\\s+$)[\\p{L}\\s]{1,20}$";
-				Pattern patt = Pattern.compile(PATTERN);
-				Matcher match = patt.matcher(textFieldQuocGia.getText());
-				if(!match.matches()) {
-					lbRegexQuocGia.setText("Vui lòng không nhập đúng định dạng");
-				}
-				else {
-					lbRegexQuocGia.setText("");
-				}
-			}
-		});
-		textFieldQuocGia.setColumns(10);
-		textFieldQuocGia.setBounds(99, 341, 142, 24);
-		add(textFieldQuocGia);
-		
-		JLabel lblNewLabel_6_1_4 = new JLabel("Năm sản xuất");
-		lblNewLabel_6_1_4.setForeground(Color.BLACK);
-		lblNewLabel_6_1_4.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		lblNewLabel_6_1_4.setBounds(413, 278, 91, 27);
-		add(lblNewLabel_6_1_4);
-		
-		JLabel lblNewLabel_6_1_2_1 = new JLabel("Độ tuổi");
-		lblNewLabel_6_1_2_1.setForeground(Color.BLACK);
-		lblNewLabel_6_1_2_1.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		lblNewLabel_6_1_2_1.setBounds(413, 309, 91, 24);
-		add(lblNewLabel_6_1_2_1);
-		
-		JLabel lblNewLabel_6_1_3_1 = new JLabel("Thể loại");
-		lblNewLabel_6_1_3_1.setForeground(Color.BLACK);
-		lblNewLabel_6_1_3_1.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		lblNewLabel_6_1_3_1.setBounds(413, 338, 91, 26);
-		add(lblNewLabel_6_1_3_1);
-		
-		calendar = new JDateChooser();
-		calendar.addPropertyChangeListener(new PropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent evt) {
-				String namsx;
-				 if ("date".equals(evt.getPropertyName())) {
-		                Date namsanxuat = ((Date) evt.getNewValue());
-		                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
-		            		namsx = dateFormat.format(namsanxuat);
-			                textFieldNamSanXuat.setText(namsx);
-			                phimBLL.ValidateDate(textFieldNamSanXuat.getText());
-
-		            }
-			}
-		});
-		calendar.setToolTipText("");
-		calendar.getCalendarButton().setToolTipText("");
-//		calendar.setColumns(10);
-		calendar.setBounds(635, 281, 23, 24);
-		add(calendar);
-		
-		textFieldDoTuoi = new JTextField();
-		textFieldDoTuoi.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				String PATTERN = "^(1[5-9]|[2-9][0-9]|100)$";
-				Pattern patt = Pattern.compile(PATTERN);
-				Matcher match = patt.matcher(textFieldDoTuoi.getText());
-				if(!match.matches()) {
-					lbRegexTuoi.setText("Vui lòng không nhập đúng định dạng");
-				}
-				else {
-					lbRegexTuoi.setText("");
-				}
-			}
-		});
-		textFieldDoTuoi.setColumns(10);
-		textFieldDoTuoi.setBounds(516, 311, 142, 24);
-		add(textFieldDoTuoi);
-		
-		textFieldDaoDien = new JTextField();
-		textFieldDaoDien.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				String PATTERN = "^(?!\\s+$)[\\p{L}\\d\\s]{1,30}$";
-				Pattern patt = Pattern.compile(PATTERN);
-				Matcher match = patt.matcher(textFieldDaoDien.getText());
-				if(!match.matches()) {
-					lbRegexDaoDien.setText("Vui lòng không nhập đúng định dạng");
-				}
-				else {
-					lbRegexDaoDien.setText("");
-				}
-			}
-		});
-		textFieldDaoDien.setColumns(10);
-		textFieldDaoDien.setBounds(516, 249, 142, 24);
-		add(textFieldDaoDien);
-		
-		JLabel lblNewLabel_6_1_3_1_1 = new JLabel("Đạo diễn");
-		lblNewLabel_6_1_3_1_1.setForeground(Color.BLACK);
-		lblNewLabel_6_1_3_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		lblNewLabel_6_1_3_1_1.setBounds(413, 249, 91, 24);
-		add(lblNewLabel_6_1_3_1_1);
-		
 		JLabel lblNewLabel_6_1_2_2 = new JLabel("Tìm kiếm:");
 		lblNewLabel_6_1_2_2.setForeground(Color.BLACK);
 		lblNewLabel_6_1_2_2.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		lblNewLabel_6_1_2_2.setBounds(388, 43, 72, 30);
 		add(lblNewLabel_6_1_2_2);
-		
-		comboBoxTheLoai = new JComboBox();
-		comboBoxTheLoai.setBounds(516, 342, 142, 21);
-		add(comboBoxTheLoai);
         
         lbRegex = new JLabel("");
         lbRegex.setBounds(123, 365, 142, 13);
@@ -372,10 +160,6 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
         lbRegexTen.setBounds(251, 286, 152, 19);
         add(lbRegexTen);
         
-        lbRegexNamSX = new JLabel("");
-        lbRegexNamSX.setBounds(672, 286, 134, 13);
-        add(lbRegexNamSX);
-        
         lbRegexThoiLuong = new JLabel("");
         lbRegexThoiLuong.setBounds(251, 320, 134, 13);
         add(lbRegexThoiLuong);
@@ -384,34 +168,37 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
         lbRegexQuocGia.setBounds(261, 352, 142, 13);
         add(lbRegexQuocGia);
         
-        lbRegexDaoDien = new JLabel("");
-        lbRegexDaoDien.setBounds(672, 254, 134, 13);
-        add(lbRegexDaoDien);
-        
         lbRegexTuoi = new JLabel("");
         lbRegexTuoi.setBounds(672, 316, 117, 13);
         add(lbRegexTuoi);
         
-        textFieldNamSanXuat = new JTextField();
-        textFieldNamSanXuat.addKeyListener(new KeyAdapter() {
-        	@Override
-        	public void keyReleased(KeyEvent e) {
-        		phimBLL.ValidateDate(textFieldNamSanXuat.getText());
-        	}
-        });
-        textFieldNamSanXuat.setColumns(10);
-        textFieldNamSanXuat.setBounds(516, 281, 119, 24);
-        add(textFieldNamSanXuat);
         
-        
-        phimBLL = new Business_Logic.PhimBLL(this);
-        phimDAL = new Process_Data.PhimDAL(this);
+        phimBLL = new Business_Logic.PhimBLL();
 		btnThem.addActionListener(this);
 		btnXoa.addActionListener(this);
 		btnSua.addActionListener(this);
-        table.addMouseListener(this);
-		
-	}          
+
+        LoadPhim();
+	}
+	
+	public void LoadPhim() {
+		model =  (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+	    
+		for (ENTITY.PhimViewDTO phimview : phimBLL.LoadPhim()) {
+			model.addRow(new Object[]{phimview.getMaPhim(), phimview.getTenPhim(), phimview.getThoiLuong(), phimview.getQuocGia(), phimview.getDaoDien(), phimview.getNamSanXuat(), phimview.getDoTuoiXem(), phimview.getTenTheLoai()});
+		}
+	}
+	
+    public int removeData() {
+    	ENTITY.PhimViewDTO phimviewDTO = new ENTITY.PhimViewDTO();
+        int selectedRow = table.getSelectedRow();
+    	String maphim = table.getValueAt(selectedRow, 0).toString(); 
+    	phimviewDTO.setMaPhim(maphim);
+    	return phimBLL.removeData(phimviewDTO);
+    }
+	
+    
     public void TimKiemByTen(String maPhim){
     	PhimBLL phimBLL = new PhimBLL();
         Vector<ENTITY.PHIM> vec = phimBLL.TimKiemByMa(maPhim);
@@ -420,46 +207,6 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
         for(ENTITY.PHIM phim : vec){
             Object[] row = new Object[]{phim.getMaPhim(), phim.getTenPhim(), phim.getThoiLuong(), phim.getQuocGia(), phim.getDaoDien(), phim.getNanSanXuat(), phim.getDoTuoiXem(), phim.getMaTheLoai()};
             dftbl.addRow(row);
-        }
-    }
-    	
-    public void getRowData() {
-        int selectedRow = table.getSelectedRow();
-        if (selectedRow != -1 && selectedRow < table.getRowCount()) {
-            String maphim = table.getValueAt(selectedRow, 0).toString();
-            String tenphim = table.getValueAt(selectedRow, 1).toString();
-            String thoiluong = table.getValueAt(selectedRow, 2).toString();
-            String quocgia = table.getValueAt(selectedRow, 3).toString();
-            String daodien = table.getValueAt(selectedRow, 4).toString();
-            String namsanxuat = table.getValueAt(selectedRow, 5).toString();
-            String dotuoixem = table.getValueAt(selectedRow, 6).toString();
-            String tentheloai = table.getValueAt(selectedRow, 7).toString();
-            
-//            textFieldMaPhim.setText(maphim);
-//            textFieldTenPhim.setText(tenphim);
-//            textFieldThoiLuong.setText(thoiluong);
-//            textFieldQuocGia.setText(quocgia);
-//            textFieldDaoDien.setText(daodien);
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//            SimpleDateFormat dateFormat2 = new SimpleDateFormat("MMM d,y");
-//            
-//            Date ngaySanXuat = null;
-//            try {
-//                ngaySanXuat = dateFormat.parse(namsanxuat);
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//            textFieldNamSanXuat.setText(dateFormat2.format(ngaySanXuat));
-//            calendar.setDate(ngaySanXuat);
-//            calendar.setToolTipText(namsanxuat);
-//            textFieldDoTuoi.setText(dotuoixem);
-//            for(int i = 0; i<comboBoxTheLoai.getItemCount(); i++) {
-//            	if(comboBoxTheLoai.getItemAt(i).toString().equalsIgnoreCase(tentheloai)) {
-//                    comboBoxTheLoai.setSelectedIndex(i);
-//            	}
-//            }
-        } else {
-        	JOptionPane.showMessageDialog(null, "Không có hàng nào được chọn", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -474,36 +221,6 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
         return maphim;
 	}
     
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-        if (e.getSource() == table) {
-            if (table.getSelectedRow() >= 0) {
-                getRowData();
-            }
-        }
-	}
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
 	public void actionPerformed(ActionEvent e) {
         	if (e.getSource() == btnThem) {
         		themphim = new frmThemThongTinPhim();
@@ -511,19 +228,19 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
         		themphim.addWindowListener(new WindowAdapter() {
         		    @Override
         		    public void windowClosed(WindowEvent e) {
-        		        phimBLL.LoadPhim();
+        		        LoadPhim();
         		    }
         		});
         	}
             if (e.getSource() == btnXoa) {
-                int k = phimBLL.removeData();
+                int k = removeData();
                 if(k==1) {
                 	JOptionPane.showMessageDialog(null, "Đã xóa thông tin phim thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 }
                 else {
                 	JOptionPane.showMessageDialog(null, "Xóa phim không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 }
-                phimBLL.LoadPhim();
+                LoadPhim();
             }
             if (e.getSource() == btnSua) {
             	int selectedRow = table.getSelectedRow();
@@ -536,15 +253,10 @@ public class frmTHONGTINPHIM extends JPanel implements ItemListener, MouseListen
                     themphim.addWindowListener(new WindowAdapter() {
                         @Override
                         public void windowClosed(WindowEvent e) {
-                            phimBLL.LoadPhim();
+                            LoadPhim();
                         }
                     });
                 }
             }
-	}
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import Business_Logic.NhanVienBLL;
 import quanlyrapphim.frmQuanLyPhim;
-import quanlyrapphim.frmQuanLyRapPhim;
+
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,7 +26,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class dialogLOGIN extends JDialog {
+public class dialogLOGIN extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	public JTextField textFieldUser;
@@ -34,6 +34,7 @@ public class dialogLOGIN extends JDialog {
 	private quanlyrapphim.frmQuanLyPhim mainForm;
 	private frmCANHAN canhan;
 	private NhanVienBLL nvBLL;
+	private JButton btnLogin;
 
 	/**
 	 * Launch the application.
@@ -41,7 +42,6 @@ public class dialogLOGIN extends JDialog {
 	public static void main(String[] args) {
 		try {
 			dialogLOGIN dialog = new dialogLOGIN();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,7 +54,7 @@ public class dialogLOGIN extends JDialog {
 	public dialogLOGIN() {
 		setTitle("Đăng nhập");
 		setAutoRequestFocus(false);
-		setBounds(250, 220, 368, 251);
+		setBounds(250, 220, 388, 285);
 		getContentPane().setLayout(null);
 		
 		textFieldUser = new JTextField();
@@ -71,35 +71,11 @@ public class dialogLOGIN extends JDialog {
 		textFieldPassword.setBounds(117, 118, 158, 30);
 		getContentPane().add(textFieldPassword);
 		
-		JButton btnLogin = new JButton("LOGIN");
+		btnLogin = new JButton("LOGIN");
 		btnLogin.setBackground(new Color(159, 184, 185));
 		btnLogin.setBorder(null);
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLogin.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				if (!textFieldPassword.getText().equals("") && !textFieldUser.getText().equals("")) {
-				    int result = NhanVienBLL.getInstance().KiemTraDangNhap(textFieldUser.getText(), textFieldPassword.getText());
-				    if (result == 0)
-				        JOptionPane.showMessageDialog(null, "Sai tài khoản hoặc mật khẩu! Vui lòng kiểm tra lại!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-				    if (result == -1)
-				        JOptionPane.showMessageDialog(null, "Tài khoản chưa tồn tại! Vui lòng kiểm tra lại!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-				    if (result == -2)
-				        JOptionPane.showMessageDialog(null, "Tài khoản này đã bị khóa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-
-				    if (result == 2) {
-				    	mainForm = new frmQuanLyPhim(textFieldUser.getText());
-				    	mainForm.setVisible(true);
-				    	
-				    	
-				    }
-//				    if (result > 0) {
-//				        this.setVisible(false);
-//				    }
-
-				}
-	        }
-		});
+		
 //		btnLogin.setActionCommand("OK");
 		btnLogin.setBounds(153, 158, 70, 31);
 		getContentPane().add(btnLogin);
@@ -130,5 +106,37 @@ public class dialogLOGIN extends JDialog {
 		lblNewLabel.setFont(new Font("Snap ITC", Font.PLAIN, 22));
 		lblNewLabel.setBounds(145, 26, 91, 25);
 		getContentPane().add(lblNewLabel);
+		
+		
+		btnLogin.addActionListener(this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnLogin) {
+			if (!textFieldPassword.getText().equals("") && !textFieldUser.getText().equals("")) {
+			    int result = NhanVienBLL.getInstance().KiemTraDangNhap(textFieldUser.getText(), textFieldPassword.getText());
+			    if (result == 0)
+			        JOptionPane.showMessageDialog(null, "Sai tài khoản hoặc mật khẩu! Vui lòng kiểm tra lại!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+			    if (result == -1)
+			        JOptionPane.showMessageDialog(null, "Tài khoản chưa tồn tại! Vui lòng kiểm tra lại!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+			    if (result == -2)
+			        JOptionPane.showMessageDialog(null, "Tài khoản này đã bị khóa!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+
+			    if (result == 2) {
+			    	mainForm = new frmQuanLyPhim(textFieldUser.getText());
+			    	mainForm.setVisible(true);
+					this.dispose();
+			    	
+			    }
+//			    if (result > 0) {
+//			        this.setVisible(false);
+//			    }
+
+			}
+		}
+		
 	}
 }
+
+

@@ -2,13 +2,10 @@ package GUI;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import com.toedter.calendar.JDateChooser;
-
 import Business_Logic.NhanVienBLL;
 import Process_Data.NhanVienDAL;
 import quanlyrapphim.frmQuanLyPhim;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -17,20 +14,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.DefaultComboBoxModel;
 
-public class dialogThemNhanVien extends JDialog implements ActionListener {
+public class frmThemNhanVien extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	public JTextField txtMaNV;
@@ -168,7 +166,7 @@ public class dialogThemNhanVien extends JDialog implements ActionListener {
 		                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
 		                ngaysinh = dateFormat.format(ns);
 			            txtNgaySinh.setText(ngaysinh);
-			            nvBLL.ValidateDate(txtNgaySinh.getText());
+			            ValidateDate(txtNgaySinh.getText());
 
 		         }
 			}
@@ -266,7 +264,7 @@ public class dialogThemNhanVien extends JDialog implements ActionListener {
 		txtNgaySinh.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				nvBLL.ValidateDate(txtNgaySinh.getText());
+				ValidateDate(txtNgaySinh.getText());
 			}
 		});
 		txtNgaySinh.setBounds(151, 133, 122, 19);
@@ -343,21 +341,157 @@ public class dialogThemNhanVien extends JDialog implements ActionListener {
 		rbtn1.setBounds(429, 287, 66, 21);
 		contentPane.add(rbtn1);
 		
-        nvBLL = new Business_Logic.NhanVienBLL(this);
-        nvDAL = new Process_Data.NhanVienDAL(this);
+        nvBLL = new Business_Logic.NhanVienBLL();
+        nvDAL = new Process_Data.NhanVienDAL();
         btnThem.addActionListener(this);
         btnDong.addActionListener(this);
         btnChinhSua.addActionListener(this);
         
 	}
+	public int addData() {
+    	ENTITY.NhanVienViewDTO nvviewDTO = new ENTITY.NhanVienViewDTO();
+    	String tennv = txtTenNV.getText().trim();
+    	Date ngaysinh = calendar.getDate();
+    	String gioitinh;
+    	if(rbtnNam.isSelected() == true) {
+    		gioitinh = rbtnNam.getText();
+    	}
+    	else {
+    		gioitinh = rbtnNu.getText();
+    	}
+    	String diachi = txtDiaChi.getText().trim();
+    	String sdt = txtSDT.getText().trim();
+    	String cccd = txtCCCD.getText().trim();
+    	String tk = txtTK.getText().trim();
+    	String mk = txtMK.getText().trim();
+    	String machinhsach = ((ENTITY.CHINHSACH) cbboxChinhSach.getSelectedItem()).getMaChinhSach();
+    	String machucvu = ((ENTITY.CHUCVU) cbboxChucVu.getSelectedItem()).getMaChucVu();
+    	String trangthai;
+    	if(rbtn1.isSelected() == true) {
+    		trangthai = rbtn1.getText();
+    	}
+    	else {
+    		trangthai = rbtn0.getText();
+    	}
+    	nvviewDTO.setTenNhanVien(tennv);
+    	nvviewDTO.setNgaySinh(ngaysinh);
+    	nvviewDTO.setGioiTinh(gioitinh);
+    	nvviewDTO.setDiaChi(diachi);
+    	nvviewDTO.setSdt(sdt);
+    	nvviewDTO.setCccd(cccd);
+    	nvviewDTO.setTenTaiKhoan(tk);
+    	nvviewDTO.setMatKhau(mk);
+    	nvviewDTO.setTenChinhSach(machinhsach);
+    	nvviewDTO.setTenChucVu(machucvu);
+    	nvviewDTO.setTrangThai(trangthai);
+    	return nvBLL.addData(nvviewDTO);
+	}
+	
+	public int updateData() {
+    	ENTITY.NhanVienViewDTO nvviewDTO = new ENTITY.NhanVienViewDTO();
+    	String manv = txtMaNV.getText();
+    	String tennv = txtTenNV.getText().trim();
+    	String ngaysinh = txtNgaySinh.getText();
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
+      
+    	Date ngaySanXuat = null;
+    	try {
+          ngaySanXuat = dateFormat.parse(ngaysinh);
+    	} catch (ParseException e) {
+          e.printStackTrace();
+    	}
+    	calendar.setDate(ngaySanXuat);
+    	calendar.setToolTipText(ngaysinh);
+    	String gioitinh;
+    	if(rbtnNam.isSelected() == true) {
+    		gioitinh = rbtnNam.getText();
+    	}
+    	else {
+    		gioitinh = rbtnNu.getText();
+    	}
+    	String diachi = txtDiaChi.getText().trim();
+    	String sdt = txtSDT.getText().trim();
+    	String cccd = txtCCCD.getText().trim();
+    	String tk = txtTK.getText().trim();
+    	String mk = txtMK.getText().trim();
+    	String machinhsach = ((ENTITY.CHINHSACH) cbboxChinhSach.getSelectedItem()).getMaChinhSach();
+    	String machucvu = ((ENTITY.CHUCVU) cbboxChucVu.getSelectedItem()).getMaChucVu();
+    	String trangthai;
+    	if(rbtn1.isSelected() == true) {
+    		trangthai = rbtn1.getText();
+    	}
+    	else {
+    		trangthai = rbtn0.getText();
+    	}
+    	nvviewDTO.setMaNhanVien(manv);
+    	nvviewDTO.setTenNhanVien(tennv);
+    	nvviewDTO.setNgaySinh(ngaySanXuat);
+    	nvviewDTO.setGioiTinh(gioitinh);
+    	nvviewDTO.setDiaChi(diachi);
+    	nvviewDTO.setSdt(sdt);
+    	nvviewDTO.setCccd(cccd);
+    	nvviewDTO.setTenTaiKhoan(tk);
+    	nvviewDTO.setMatKhau(mk);
+    	nvviewDTO.setTenChinhSach(machinhsach);
+    	nvviewDTO.setTenChucVu(machucvu);
+    	nvviewDTO.setTrangThai(trangthai);
+    	return nvBLL.updateData(nvviewDTO);
+	}
+	public void SelectData(String manhanvien) {
+		maNhanVienn = manhanvien;
+		ENTITY.NhanVienViewDTO nvviewDTO = new ENTITY.NhanVienViewDTO();
+		nvviewDTO = nvBLL.selectData(maNhanVienn);
+    	txtMaNV.setText(nvviewDTO.getMaNhanVien());
+    	txtTenNV.setText(nvviewDTO.getTenNhanVien());
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
+        Date ngaySinh = nvviewDTO.getNgaySinh();		
+        String ngaySinhString = dateFormat.format(ngaySinh);
+        txtNgaySinh.setText(ngaySinhString);
+        
+    	if (nvviewDTO.getGioiTinh().equalsIgnoreCase("Nam")) {
+    	    rbtnNam.setSelected(true);
+    	    rbtnNu.setSelected(false);
+    	} else {
+    	    rbtnNu.setSelected(true);
+    	    rbtnNam.setSelected(false);
+    	}
+    	
+    	txtDiaChi.setText(nvviewDTO.getDiaChi());
+    	txtSDT.setText(nvviewDTO.getSdt());
+    	txtCCCD.setText(nvviewDTO.getCccd());
+    	txtTK.setText(nvviewDTO.getTenTaiKhoan());
+    	txtMK.setText(nvviewDTO.getMatKhau());
+    	
+        for(int i = 0; i< cbboxChinhSach.getItemCount(); i++) {
+        	if(cbboxChinhSach.getItemAt(i).toString().equalsIgnoreCase(nvviewDTO.getTenChinhSach())) {
+        		cbboxChinhSach.setSelectedIndex(i);
+        	}
+        }
+        
+        for(int i = 0; i< cbboxChucVu.getItemCount(); i++) {
+        	if(cbboxChucVu.getItemAt(i).toString().equalsIgnoreCase(nvviewDTO.getTenChucVu())) {
+        		cbboxChucVu.setSelectedIndex(i);
+        	}
+        }
+    	if (nvviewDTO.getTrangThai().equalsIgnoreCase("1")) {
+    	    rbtn1.setSelected(true);
+    	} else {
+    	    rbtn0.setSelected(true);
+    	}
+	}
 
-	public dialogThemNhanVien() {
+	public frmThemNhanVien() {
 		this.init();
+		LoadChinhSach();
+		LoadChucVu();
 		btnChinhSua.setVisible(false);
 	}
-	public dialogThemNhanVien(String maNV) {
+	public frmThemNhanVien(String maNV) {
 		this.init();
-        nvBLL.selectData(maNV);
+		LoadChinhSach();
+		LoadChucVu();
+		this.SelectData(maNV);
         btnThem.setVisible(false);
 		txtTenNV.setEditable(false);
 		calendar.setEnabled(false);
@@ -374,12 +508,121 @@ public class dialogThemNhanVien extends JDialog implements ActionListener {
 		cbboxChinhSach.enable(false);
 		cbboxChucVu.enable(false);
 	}
+	
+    public void LoadChinhSach() {
+        DefaultComboBoxModel<ENTITY.CHINHSACH> model = new DefaultComboBoxModel<ENTITY.CHINHSACH>(nvBLL.LoadChinhSach());
+        cbboxChinhSach.setModel(model);
+    }
+	public void LoadChucVu() {
+	    DefaultComboBoxModel<ENTITY.CHUCVU> model = new DefaultComboBoxModel<ENTITY.CHUCVU>(nvBLL.LoadChucVu());
+	    cbboxChucVu.setModel(model);
+	}
+
+	
+	
+	
+    public boolean ValidatedForm() {
+    	if(txtTenNV.getText().isEmpty() || txtNgaySinh.getText().isEmpty() || txtDiaChi.getText().isEmpty() || txtSDT.getText().isEmpty() ||txtCCCD.getText().isEmpty() || txtTK.getText().isEmpty() ||txtMK.getText().isEmpty()) {
+    		return false;
+    	}
+    	else {
+    		return true;
+    	}  		
+    }
+    public boolean ValidatedRegex() {
+    	if(!lbRegexTen.getText().isEmpty() || !lbRegexNgaySinh.getText().isEmpty() || !lbRegexDiaChi.getText().isEmpty() || !lbRegexSDT.getText().isEmpty() || !lbRegexCCCD.getText().isEmpty()) {
+    		return false;
+    	}
+    	else {
+    		return true;
+    	}  		
+    }
+    public static boolean validateDate(String input) {
+        // Tìm vị trí của dấu cách đầu tiên và dấu phẩy
+        int firstSpaceIndex = input.indexOf(" ");
+        int commaIndex = input.indexOf(",");
+
+        // Kiểm tra xem vị trí của các dấu có hợp lệ không
+        if (firstSpaceIndex == -1 || commaIndex == -1) {
+            return false; // Định dạng không chính xác
+        }
+
+        // Cắt các giá trị "MMM", "d" và "y" ra khỏi chuỗi
+        String month = input.substring(0, firstSpaceIndex);
+        String day = input.substring(firstSpaceIndex + 1, commaIndex);
+        String year = input.substring(commaIndex + 1);
+
+        // Kiểm tra xem các giá trị "MMM", "d" và "y" có hợp lệ không
+        if (!isValidMonth(month) || !isValidDay(day) || !isValidYear(year)) {
+            return false; // Giá trị không hợp lệ
+        }
+
+        // Kiểm tra năm nhuận
+        int dayInt = Integer.parseInt(day);
+        int yearInt = Integer.parseInt(year);
+
+        if (month.equals("Feb")) {
+            if (isLeapYear(yearInt)) {
+                return dayInt <= 29;
+            } else {
+                return dayInt <= 28;
+            }
+        } else if (month.equals("Apr") || month.equals("Jun") || month.equals("Sep") || month.equals("Nov")) {
+            return dayInt <= 30;
+        }
+
+        return true; // Các tháng khác có tối đa 31 ngày
+    }
+
+    private static boolean isValidMonth(String month) {
+        // Kiểm tra tháng có trong danh sách 12 tháng
+        return month.equals("Jan") || month.equals("Feb") || month.equals("Mar") || month.equals("Apr") ||
+                month.equals("May") || month.equals("Jun") || month.equals("Jul") || month.equals("Aug") ||
+                month.equals("Sep") || month.equals("Oct") || month.equals("Nov") || month.equals("Dec");
+    }
+
+    private static boolean isValidDay(String day) {
+        try {
+            int dayInt = Integer.parseInt(day);
+            return dayInt >= 1 && dayInt <= 31;
+        } catch (NumberFormatException e) {
+            return false; // Không thể chuyển đổi sang số nguyên
+        }
+    }
+
+    private static boolean isValidYear(String year) {
+        try {
+            int yearInt = Integer.parseInt(year);
+            return yearInt >= 0; // Kiểm tra năm không âm
+        } catch (NumberFormatException e) {
+            return false; // Không thể chuyển đổi sang số nguyên
+        }
+    }
+
+    private static boolean isLeapYear(int year) {
+        // Kiểm tra năm nhuận
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    }
+    public void ValidateDate(String txt) {
+    		String PATTERN = "\\b((Jan|Mar|May|Jul|Aug|Oct|Dec)\\s+(0?[1-9]|[12]\\d|3[01])"
+    	               + "|(Feb)\\s+(0?[1-9]|[12]\\d)"
+    	               + "|(Apr|Jun|Sep|Nov)\\s+(0?[1-9]|[12]\\d|30)"
+    	               + "),((19|20)\\d\\d)\\b";
+			Pattern patt = Pattern.compile(PATTERN);
+			Matcher match = patt.matcher(txt);
+			if(!match.matches() || (validateDate(txt) != true)) {
+				lbRegexNgaySinh.setText("Vui lòng nhập đúng định dạng");
+			}
+			else {
+				lbRegexNgaySinh.setText("");
+			}
+    	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnThem){
-    		if(nvBLL.ValidatedForm() == false || nvBLL.ValidatedRegex() == false) {
-        		if(nvBLL.ValidatedForm() == false) {
+    		if(this.ValidatedForm() == false || this.ValidatedRegex() == false) {
+        		if(this.ValidatedForm() == false) {
         			JOptionPane.showMessageDialog(null, "Cần nhập đủ các trường!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         		}
         		else {
@@ -387,7 +630,7 @@ public class dialogThemNhanVien extends JDialog implements ActionListener {
         		}
     		}
     		else {
-    			int k = nvBLL.addData();
+    			int k = this.addData();
     			if(k==1) {
     				JOptionPane.showMessageDialog(null, "Đã thêm thông tin nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     			}
@@ -419,7 +662,7 @@ public class dialogThemNhanVien extends JDialog implements ActionListener {
 		        btnThem.setVisible(false);
 		    } else {
 		        // Đang ở chế độ chỉnh sửa, thực hiện cập nhật dữ liệu
-		        int k = nvBLL.updateData();
+		        int k = this.updateData();
 		        if (k == 1) {
 		            JOptionPane.showMessageDialog(null, "Đã chỉnh sửa thông tin nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 		        } else {

@@ -13,18 +13,7 @@ public class PhimDAL {
     public PhimDAL() {
         cnn = new DBHelper();
     }
-    
-    public PhimDAL(GUI.frmTHONGTINPHIM phim) {
-    	guiPhim = phim;
-        cnn = new DBHelper();
-    }
-    
-    public PhimDAL(GUI.frmThemThongTinPhim addphim) {
-    	themphim = addphim;
-        cnn = new DBHelper();
-    }
-    
-    
+       
 	public Vector<ENTITY.PhimViewDTO> ListPhim() {
         Vector<ENTITY.PhimViewDTO> vector = new Vector<ENTITY.PhimViewDTO>();
         try {

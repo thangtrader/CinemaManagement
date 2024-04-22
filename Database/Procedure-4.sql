@@ -224,6 +224,7 @@ As
 Begin
 	Delete NHAN_VIEN Where MaNhanVien = @MaNhanVien
 End
+Go
 --Lấy bảng nhân viên theo mã nhân viên
 Create proc GetNhanVien
 	@MaNhanVien varchar(6)
@@ -344,9 +345,19 @@ Create proc GetNhanVienByTenTaiKhoan
 	@TenTaiKhoan varchar(30)
 	As
 	Begin
-		Select TenNhanVien, NgaySinh, DiaChi, GioiTinh, CCCD, SoDienThoai, TenTaiKhoan, MatKhau From NHAN_VIEN
+		Select MaNhanVien, TenNhanVien, NgaySinh, DiaChi, GioiTinh, CCCD, SoDienThoai, TenTaiKhoan, MatKhau From NHAN_VIEN
 		Where @TenTaiKhoan = TenTaiKhoan
 	End
 Go
-	Drop proc GetNhanVienByTenTaiKhoan
-	Exec GetNhanVienByTenTaiKhoan thangadmin
+Create proc SuaMatKhau
+	@TenTaiKhoan varchar(30),
+	@MatKhau varchar(32)
+As
+Begin
+	Update NHAN_VIEN Set MatKhau = @MatKhau
+	Where @TenTaiKhoan = TenTaiKhoan
+End
+Drop proc SuaMatKhau
+Exec SuaMatKhau 'NV0001', '123456'
+
+

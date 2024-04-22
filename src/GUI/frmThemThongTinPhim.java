@@ -1,11 +1,10 @@
 package GUI;
 
-import java.awt.EventQueue;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -23,6 +22,7 @@ import Process_Data.PhimDAL;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.KeyAdapter;
@@ -31,26 +31,25 @@ import java.awt.event.KeyEvent;
 public class frmThemThongTinPhim extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-	public JTextField txtFieldMaPhim;
-	public JTextField txtFieldTenPhim;
-	public JTextField txtFieldThoiLuong;
-	public JTextField txtFieldQuocGia;
-	public JTextField txtFieldDaoDien;
-	public JTextField txtFieldNamSanXuat;
-	public JTextField txtFieldDoTuoi;
-	public JDateChooser calendar;
-	public JComboBox cbboxTheLoai;
-    PhimBLL phimBLL;
-    PhimDAL phimDAL;
+	private JTextField txtFieldMaPhim;
+	private JTextField txtFieldTenPhim;
+	private JTextField txtFieldThoiLuong;
+	private JTextField txtFieldQuocGia;
+	private JTextField txtFieldDaoDien;
+	private JTextField txtFieldNamSanXuat;
+	private JTextField txtFieldDoTuoi;
+	private JDateChooser calendar;
+	private JComboBox cbboxTheLoai;
+	private PhimBLL phimBLL;
+	private PhimDAL phimDAL;
 	private JButton btnThem;
 	private JButton btnDong;
-	public JLabel lbRegexTuoi;
-	public JLabel lbRegexNamSX;
-	public JLabel lbRegexDaoDien;
-	public JLabel lbRegexQuocGia;
-	public JLabel lbRegexThoiLuong;
-	public JLabel lbRegexTen;
-	String maPhim;
+	private JLabel lbRegexTuoi;
+	private JLabel lbRegexNamSX;
+	private JLabel lbRegexDaoDien;
+	private JLabel lbRegexQuocGia;
+	private JLabel lbRegexThoiLuong;
+	private JLabel lbRegexTen;
 	private JButton btnChinhSua;
 	
 	public frmThemThongTinPhim() {
@@ -59,7 +58,7 @@ public class frmThemThongTinPhim extends JFrame implements ActionListener {
 	}
 	public frmThemThongTinPhim(String maPhim) {
 		this.init();
-		phimBLL.selectData(maPhim);
+		this.SelectData(maPhim);
 		btnThem.setVisible(false);
 	}
 	
@@ -190,7 +189,7 @@ public class frmThemThongTinPhim extends JFrame implements ActionListener {
 		txtFieldNamSanXuat.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				phimBLL.ValidateDate(txtFieldNamSanXuat.getText());
+				ValidateDate(txtFieldNamSanXuat.getText());
 			}
 		});
 		txtFieldNamSanXuat.setBounds(392, 125, 87, 19);
@@ -206,7 +205,7 @@ public class frmThemThongTinPhim extends JFrame implements ActionListener {
 		                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
 		                namsx = dateFormat.format(namsanxuat);
 			            txtFieldNamSanXuat.setText(namsx);
-			            phimBLL.ValidateDate(txtFieldNamSanXuat.getText());
+			            ValidateDate(txtFieldNamSanXuat.getText());
 
 				 }
 			}
@@ -275,16 +274,201 @@ public class frmThemThongTinPhim extends JFrame implements ActionListener {
 		btnChinhSua.setBounds(268, 297, 85, 36);
 		contentPane.add(btnChinhSua);
 		
-        phimBLL = new Business_Logic.PhimBLL(this);
-        phimDAL = new Process_Data.PhimDAL(this);
+        phimBLL = new Business_Logic.PhimBLL();
+        phimDAL = new Process_Data.PhimDAL();
 		btnThem.addActionListener(this);
 		btnDong.addActionListener(this);
 		btnChinhSua.addActionListener(this);
+		LoadTheLoai();
 	}
+	
+	public void LoadTheLoai() {
+	  DefaultComboBoxModel<ENTITY.THELOAIPHIM> model = new DefaultComboBoxModel<ENTITY.THELOAIPHIM>(phimBLL.LoadTheLoai());
+	  cbboxTheLoai.setModel(model);
+	}
+	
+    public int addData() {
+    	ENTITY.PhimViewDTO phimviewDTO = new ENTITY.PhimViewDTO();
+    	String tenphim = txtFieldTenPhim.getText().trim();
+    	String thoiluong = txtFieldThoiLuong.getText().trim();
+    	String quocgia = txtFieldQuocGia.getText().trim();
+    	String daodien = txtFieldDaoDien.getText().trim();
+    	Date namsanxuat = calendar.getDate();
+    	String dotuoixem = txtFieldDoTuoi.getText().trim();
+    	String maloaiphim = ((ENTITY.THELOAIPHIM) cbboxTheLoai.getSelectedItem()).getMaTheLoaiPhim();
+    	
+    	phimviewDTO.setTenPhim(tenphim);
+    	phimviewDTO.setThoiLuong(Integer.parseInt(thoiluong));
+    	phimviewDTO.setQuocGia(quocgia);
+    	phimviewDTO.setNamSanXuat(namsanxuat);
+    	phimviewDTO.setDoTuoiXem(Integer.parseInt(dotuoixem));
+    	phimviewDTO.setTenTheLoai(maloaiphim);
+    	phimviewDTO.setDaoDien(daodien);
+    	
+    	return phimBLL.addData(phimviewDTO);
+    }
+	
+    public int updateData() {
+    	ENTITY.PhimViewDTO phimviewDTO = new ENTITY.PhimViewDTO();
+    	String maphim = txtFieldMaPhim.getText().trim();
+    	String tenphim = txtFieldTenPhim.getText().trim();
+    	String thoiluong = txtFieldThoiLuong.getText().trim();
+    	String quocgia = txtFieldQuocGia.getText().trim();
+    	String daodien = txtFieldDaoDien.getText().trim();
+    	String namsanxuat = txtFieldNamSanXuat.getText();
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
+        
+    	Date namSanXuat = null;
+    	try {
+    		namSanXuat = dateFormat.parse(namsanxuat);
+    	} catch (ParseException e) {
+          e.printStackTrace();
+    	}
+    	calendar.setDate(namSanXuat);
+    	calendar.setToolTipText(namsanxuat);
+    	String dotuoixem = txtFieldDoTuoi.getText().trim();
+    	String maloaiphim = ((ENTITY.THELOAIPHIM) cbboxTheLoai.getSelectedItem()).getMaTheLoaiPhim();
+    	
+    	phimviewDTO.setMaPhim(maphim);
+    	phimviewDTO.setTenPhim(tenphim);
+    	phimviewDTO.setThoiLuong(Integer.parseInt(thoiluong));
+    	phimviewDTO.setQuocGia(quocgia);
+    	phimviewDTO.setNamSanXuat(namSanXuat);
+    	phimviewDTO.setDoTuoiXem(Integer.parseInt(dotuoixem));
+    	phimviewDTO.setTenTheLoai(maloaiphim);
+    	phimviewDTO.setDaoDien(daodien);
+    	
+    	return phimBLL.updateData(phimviewDTO);	
+    }
+	
+    public void SelectData(String maphim) {
+    	ENTITY.PhimViewDTO phimviewDTO = new ENTITY.PhimViewDTO();
+    	Object[] param = new Object[] {maphim};
+    	phimviewDTO = phimDAL.GetPhimByMa(param);
+    	txtFieldMaPhim.setText(phimviewDTO.getMaPhim());
+    	txtFieldTenPhim.setText(phimviewDTO.getTenPhim());
+    	txtFieldThoiLuong.setText(Integer.toString(phimviewDTO.getThoiLuong()));
+    	txtFieldQuocGia.setText(phimviewDTO.getQuocGia());
+    	txtFieldDaoDien.setText(phimviewDTO.getDaoDien());
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
+        Date ngaySinh = phimviewDTO.getNamSanXuat();		
+        String ngaySinhString = dateFormat.format(ngaySinh);
+        txtFieldNamSanXuat.setText(ngaySinhString);
+          	
+        txtFieldDoTuoi.setText(Integer.toString(phimviewDTO.getDoTuoiXem()));
+
+    	
+        for(int i = 0; i< cbboxTheLoai.getItemCount(); i++) {
+        	if(cbboxTheLoai.getItemAt(i).toString().equalsIgnoreCase(phimviewDTO.getTenTheLoai())) {
+        		cbboxTheLoai.setSelectedIndex(i);
+        	}
+        }
+    }
+    
+    public boolean ValidatedRegex() {
+    	if(!lbRegexTen.getText().isEmpty() || !lbRegexThoiLuong.getText().isEmpty() || !lbRegexQuocGia.getText().isEmpty() || !lbRegexDaoDien.getText().isEmpty() || !lbRegexNamSX.getText().isEmpty() ||!lbRegexTuoi.getText().isEmpty()) {
+    		return false;
+    	}
+    	else {
+    		return true;
+    	}  		
+    }
+    
+    public boolean ValidatedForm() {
+    	if(txtFieldTenPhim.getText().isEmpty() || txtFieldThoiLuong.getText().isEmpty() || txtFieldQuocGia.getText().isEmpty() || txtFieldDaoDien.getText().isEmpty() || txtFieldNamSanXuat.getText().isEmpty() || txtFieldDoTuoi.getText().isEmpty()) {
+    		return false;
+    	}
+    	else {
+    		return true;
+    	}  		
+    }
+    
+    public static boolean validateDate(String input) {
+        // Tìm vị trí của dấu cách đầu tiên và dấu phẩy
+        int firstSpaceIndex = input.indexOf(" ");
+        int commaIndex = input.indexOf(",");
+
+        // Kiểm tra xem vị trí của các dấu có hợp lệ không
+        if (firstSpaceIndex == -1 || commaIndex == -1) {
+            return false; // Định dạng không chính xác
+        }
+
+        // Cắt các giá trị "MMM", "d" và "y" ra khỏi chuỗi
+        String month = input.substring(0, firstSpaceIndex);
+        String day = input.substring(firstSpaceIndex + 1, commaIndex);
+        String year = input.substring(commaIndex + 1);
+
+        // Kiểm tra xem các giá trị "MMM", "d" và "y" có hợp lệ không
+        if (!isValidMonth(month) || !isValidDay(day) || !isValidYear(year)) {
+            return false; // Giá trị không hợp lệ
+        }
+
+        // Kiểm tra năm nhuận
+        int dayInt = Integer.parseInt(day);
+        int yearInt = Integer.parseInt(year);
+
+        if (month.equals("Feb")) {
+            if (isLeapYear(yearInt)) {
+                return dayInt <= 29;
+            } else {
+                return dayInt <= 28;
+            }
+        } else if (month.equals("Apr") || month.equals("Jun") || month.equals("Sep") || month.equals("Nov")) {
+            return dayInt <= 30;
+        }
+
+        return true; // Các tháng khác có tối đa 31 ngày
+    }
+
+    private static boolean isValidMonth(String month) {
+        // Kiểm tra tháng có trong danh sách 12 tháng
+        return month.equals("Jan") || month.equals("Feb") || month.equals("Mar") || month.equals("Apr") ||
+                month.equals("May") || month.equals("Jun") || month.equals("Jul") || month.equals("Aug") ||
+                month.equals("Sep") || month.equals("Oct") || month.equals("Nov") || month.equals("Dec");
+    }
+
+    private static boolean isValidDay(String day) {
+        try {
+            int dayInt = Integer.parseInt(day);
+            return dayInt >= 1 && dayInt <= 31;
+        } catch (NumberFormatException e) {
+            return false; // Không thể chuyển đổi sang số nguyên
+        }
+    }
+
+    private static boolean isValidYear(String year) {
+        try {
+            int yearInt = Integer.parseInt(year);
+            return yearInt >= 0; // Kiểm tra năm không âm
+        } catch (NumberFormatException e) {
+            return false; // Không thể chuyển đổi sang số nguyên
+        }
+    }
+
+    private static boolean isLeapYear(int year) {
+        // Kiểm tra năm nhuận
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    }
+    public void ValidateDate(String txt) {
+    		String PATTERN = "\\b((Jan|Mar|May|Jul|Aug|Oct|Dec)\\s+(0?[1-9]|[12]\\d|3[01])"
+    	               + "|(Feb)\\s+(0?[1-9]|[12]\\d)"
+    	               + "|(Apr|Jun|Sep|Nov)\\s+(0?[1-9]|[12]\\d|30)"
+    	               + "),((19|20)\\d\\d)\\b";
+			Pattern patt = Pattern.compile(PATTERN);
+			Matcher match = patt.matcher(txt);
+			if(!match.matches() || (validateDate(txt) != true)) {
+				lbRegexNamSX.setText("Vui lòng nhập đúng định dạng");
+			}
+			else {
+				lbRegexNamSX.setText("");
+			}
+    }
+	  
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnThem){
-    		if(phimBLL.ValidatedForm() == false || phimBLL.ValidatedRegex() == false) {
-        		if(phimBLL.ValidatedForm() == false) {
+    		if(this.ValidatedForm() == false || this.ValidatedRegex() == false) {
+        		if(this.ValidatedForm() == false) {
         			JOptionPane.showMessageDialog(null, "Cần nhập đủ các trường!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         		}
         		else {
@@ -292,7 +476,7 @@ public class frmThemThongTinPhim extends JFrame implements ActionListener {
         		}
     		}
     		else {
-    			int k = phimBLL.addData();
+    			int k = addData();
     			if(k==1) {
     				JOptionPane.showMessageDialog(null, "Đã thêm thông tin nhân viên thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
     			}
@@ -303,8 +487,8 @@ public class frmThemThongTinPhim extends JFrame implements ActionListener {
     		}
 		}
 		if(e.getSource() == btnChinhSua){
-        	if(phimBLL.ValidatedForm() == false || phimBLL.ValidatedRegex() == false) {
-        		if(phimBLL.ValidatedForm() == false) {
+        	if(this.ValidatedForm() == false || this.ValidatedRegex() == false) {
+        		if(this.ValidatedForm() == false) {
         			JOptionPane.showMessageDialog(null, "Cần nhập đủ các trường!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         		}
         		else {
@@ -312,7 +496,7 @@ public class frmThemThongTinPhim extends JFrame implements ActionListener {
         		}
     		}
         	else {
-        			int k = phimBLL.updateData();
+        			int k = updateData();
         			if(k==1) {
         				JOptionPane.showMessageDialog(null, "Đã sửa thông tin phim thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         			}

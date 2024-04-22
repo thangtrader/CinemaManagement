@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -36,13 +38,10 @@ public class frmCANHAN extends JPanel implements ActionListener {
 	
 	private NhanVienBLL nvBLL;
 	private NhanVienDAL nvDAL;
+	public JTextField textFieldMaNhanVien;
+	private String tenTaiKhoan;
+	private JButton btnChinhSua;
 
-	public frmCANHAN(String tentaikhoan) {
-		this.init();
-		System.out.println(tentaikhoan);
-		nvBLL.GetNhanVienByTenTaiKhoan(tentaikhoan);
-		
-	}
 	public void init() {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
@@ -50,7 +49,7 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		JLabel lbAvatar = new JLabel("");
 		lbAvatar.setBackground(new Color(245, 245, 245));
 		lbAvatar.setHorizontalAlignment(SwingConstants.CENTER);
-		lbAvatar.setBounds(311, 68, 129, 143);
+		lbAvatar.setBounds(318, 37, 129, 143);
 		add(lbAvatar);
 		
 		// ví dụ cái avatar cho dễ thấy // tự đổi địa chỉ ảnh
@@ -64,7 +63,7 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		lbChucVu.setForeground(new Color(0, 0, 0));
 		lbChucVu.setHorizontalAlignment(SwingConstants.CENTER);
 		lbChucVu.setBackground(new Color(64, 128, 128));
-		lbChucVu.setBounds(327, 233, 76, 27);
+		lbChucVu.setBounds(341, 248, 76, 27);
 		add(lbChucVu);
 		
 		Font font = new Font("Tahoma", Font.PLAIN, 14);
@@ -141,7 +140,7 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		
 		textFieldMatKhau = new JTextField();
 		textFieldMatKhau.setColumns(15);
-		textFieldMatKhau.setBounds(627, 337, 122, 25);
+		textFieldMatKhau.setBounds(627, 335, 122, 25);
 		textFieldMatKhau.setFont(new Font("Roboto", Font.PLAIN, 12));
 		textFieldMatKhau.setBorder(null);
 		
@@ -156,7 +155,7 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		btnDoiMatKhau.setBackground(new Color(207, 208, 218));
 		btnDoiMatKhau.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDoiMatKhau.setForeground(new Color(0, 128, 192));
-		btnDoiMatKhau.setBounds(250, 388, 115, 27);
+		btnDoiMatKhau.setBounds(208, 399, 115, 27);
 		btnDoiMatKhau.setBorder(null);
 		btnDoiMatKhau.addActionListener(this);
 		add(btnDoiMatKhau);
@@ -165,7 +164,7 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLuu.setForeground(new Color(255, 255, 255));
 		btnLuu.setBackground(new Color(64, 128, 128));
-		btnLuu.setBounds(403, 388, 60, 27);
+		btnLuu.setBounds(376, 399, 60, 27);
 		btnLuu.setBorder(null);
 		add(btnLuu);
 		
@@ -195,18 +194,61 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		lblSCccd.setBounds(513, 37, 84, 21);
 		add(lblSCccd);
 		
-		
-        nvBLL = new Business_Logic.NhanVienBLL(this);
+        btnChinhSua = new JButton("Chỉnh sửa");
+        btnChinhSua.setBounds(484, 399, 85, 25);
+        add(btnChinhSua);
+        
+        JLabel lblNewLabel = new JLabel("Mã");
+        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        lblNewLabel.setBounds(304, 225, 45, 21);
+        add(lblNewLabel);
+        
+        textFieldMaNhanVien = new JTextField();
+        textFieldMaNhanVien.setBounds(340, 227, 96, 19);
+        add(textFieldMaNhanVien);
+        textFieldMaNhanVien.setColumns(10);
+        
+        
+        nvBLL = new Business_Logic.NhanVienBLL();
+        nvDAL = new Process_Data.NhanVienDAL();
 	}
+	
+	public frmCANHAN(String tentaikhoan) {
+		tenTaiKhoan = tentaikhoan;
+		this.init();
+		this.DisplayData(tentaikhoan);	
+	}
+	
+	
+    public void DisplayData(String tentaikhoan) {
+    	ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
+    	nvDTO =  nvBLL.GetNhanVienByTenTaiKhoan(tentaikhoan);
+    	textFieldMaNhanVien.setText(nvDTO.getMaNhanVien());
+    	textFieldTen.setText(nvDTO.getTenNhanVien());
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
+        Date ngaySinh = nvDTO.getNgaySinh();		
+        String ngaySinhString = dateFormat.format(ngaySinh);
+        textFieldNgaySinh.setText(ngaySinhString);
+        
+    	
+        textFieldDiaChi.setText(nvDTO.getDiaChi());
+        textFieldGioiTinh.setText(nvDTO.getGioiTinh());
+        textFieldCCCD.setText(nvDTO.getCccd());
+        textFieldDienThoai.setText(nvDTO.getSdt());
+        textFieldTenTaiKhoan.setText(nvDTO.getTenTaiKhoan());
+        textFieldMatKhau.setText(nvDTO.getMatKhau());
+    }
+	//thangadmin
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == btnDoiMatKhau) {
-			diaCHANGEPASSWORD fm = new diaCHANGEPASSWORD();
-			fm.show();
+			System.out.println(tenTaiKhoan);
+			diaCHANGEPASSWORD fm = new diaCHANGEPASSWORD(tenTaiKhoan);
+			fm.setVisible(true);
 		}else if(e.getSource() == btnLuu) {
 			
 		}
 	}
-	
 }
