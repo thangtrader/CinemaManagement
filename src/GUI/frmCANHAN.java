@@ -2,54 +2,57 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
 import Business_Logic.NhanVienBLL;
 import Process_Data.NhanVienDAL;
 
 public class frmCANHAN extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	public JTextField textFieldTen;
-	public JTextField textFieldNgaySinh;
-	public JTextField textFieldDiaChi;
-	public JTextField textFieldDienThoai;
-	public JTextField textFieldTenTaiKhoan;
+	private JTextField textFieldTen;
+	private JTextField textFieldDiaChi;
+	private JTextField textFieldDienThoai;
+	private JTextField textFieldTenTaiKhoan;
 	public JTextField textFieldMatKhau;
-	public JButton btnDoiMatKhau;
-	public JButton btnLuu;
-	public JTextField textFieldGioiTinh;
-	public JTextField textFieldCCCD;
+	private JButton btnDoiMatKhau;
+	private JButton btnLuu;
+	private JTextField textFieldGioiTinh;
+	private JTextField textFieldCCCD;
 	
 	private NhanVienBLL nvBLL;
 	private NhanVienDAL nvDAL;
-	public JTextField textFieldMaNhanVien;
+	private JTextField textFieldMaNhanVien;
 	private String tenTaiKhoan;
 	private JButton btnChinhSua;
+	private JLabel lbAvatar;
+	private JTextField textFieldNgaySinh;
 
 	public void init() {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
 		
-		JLabel lbAvatar = new JLabel("");
+		lbAvatar = new JLabel("");
 		lbAvatar.setBackground(new Color(245, 245, 245));
 		lbAvatar.setHorizontalAlignment(SwingConstants.CENTER);
-		lbAvatar.setBounds(318, 37, 129, 143);
+		lbAvatar.setBounds(321, 23, 129, 143);
 		add(lbAvatar);
 		
 		// ví dụ cái avatar cho dễ thấy // tự đổi địa chỉ ảnh
@@ -113,12 +116,6 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		textFieldTen.setFont(textFieldFont);
 		textFieldTen.setBorder(null);
 		
-		textFieldNgaySinh = new JTextField();
-		textFieldNgaySinh.setColumns(15);
-		textFieldNgaySinh.setBounds(91, 137, 129, 25);
-		textFieldNgaySinh.setFont(textFieldFont);
-		textFieldNgaySinh.setBorder(null);
-		
 		textFieldDiaChi = new JTextField();
 		textFieldDiaChi.setColumns(15);
 		textFieldDiaChi.setBounds(91, 238, 129, 25);
@@ -145,7 +142,6 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		textFieldMatKhau.setBorder(null);
 		
 		add(textFieldTen);
-		add(textFieldNgaySinh);
 		add(textFieldDiaChi);
 		add(textFieldDienThoai);
 		add(textFieldTenTaiKhoan);
@@ -208,6 +204,42 @@ public class frmCANHAN extends JPanel implements ActionListener {
         add(textFieldMaNhanVien);
         textFieldMaNhanVien.setColumns(10);
         
+        JButton btnThemAnh = new JButton("Upload");
+        btnThemAnh.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
+                JFileChooser fileChooser = new JFileChooser();
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    String imagePath = selectedFile.getAbsolutePath();
+
+                    try {
+                        byte[] imageBytes = nvBLL.readImageBytes(imagePath);
+                      
+                        
+                        Image image = nvBLL.ChuyenMangByteSangAnh(imageBytes);
+
+                        displayImage(image);
+                        
+                        nvDTO.setAnh(imageBytes);
+                        nvDTO.setMaNhanVien(textFieldMaNhanVien.getText());
+                        nvBLL.updateAnh(nvDTO);
+
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+        	}
+        });
+        btnThemAnh.setBounds(352, 176, 85, 21);
+        add(btnThemAnh);
+        
+        textFieldNgaySinh = new JTextField();
+        textFieldNgaySinh.setBounds(93, 139, 127, 19);
+        add(textFieldNgaySinh);
+        textFieldNgaySinh.setColumns(10);
+        
         
         nvBLL = new Business_Logic.NhanVienBLL();
         nvDAL = new Process_Data.NhanVienDAL();
@@ -216,7 +248,18 @@ public class frmCANHAN extends JPanel implements ActionListener {
 	public frmCANHAN(String tentaikhoan) {
 		tenTaiKhoan = tentaikhoan;
 		this.init();
-		this.DisplayData(tentaikhoan);	
+		this.DisplayDataTest(tentaikhoan);
+//        String imagePath = "C:\\Users\\acer\\Pictures\\anh.png";
+//
+//        try {
+//            byte[] imageBytes = nvBLL.readImageBytes(imagePath);
+//
+//            Image image = nvBLL.ChuyenMangByteSangAnh(imageBytes);
+//
+//            displayImage(image);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 	}
 	
 	
@@ -229,23 +272,61 @@ public class frmCANHAN extends JPanel implements ActionListener {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
         Date ngaySinh = nvDTO.getNgaySinh();		
         String ngaySinhString = dateFormat.format(ngaySinh);
-        textFieldNgaySinh.setText(ngaySinhString);
         
-    	
+    	textFieldNgaySinh.setText(ngaySinhString);
         textFieldDiaChi.setText(nvDTO.getDiaChi());
         textFieldGioiTinh.setText(nvDTO.getGioiTinh());
         textFieldCCCD.setText(nvDTO.getCccd());
         textFieldDienThoai.setText(nvDTO.getSdt());
         textFieldTenTaiKhoan.setText(nvDTO.getTenTaiKhoan());
         textFieldMatKhau.setText(nvDTO.getMatKhau());
+        
+    }
+    
+    
+    public void DisplayDataTest(String tentaikhoan) {
+    	ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
+    	nvDTO =  nvBLL.GetNhanVienByTest(tentaikhoan);
+    	textFieldMaNhanVien.setText(nvDTO.getMaNhanVien());
+    	textFieldTen.setText(nvDTO.getTenNhanVien());
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
+        Date ngaySinh = nvDTO.getNgaySinh();		
+        String ngaySinhString = dateFormat.format(ngaySinh);
+        
+    	textFieldNgaySinh.setText(ngaySinhString);
+        textFieldDiaChi.setText(nvDTO.getDiaChi());
+        textFieldGioiTinh.setText(nvDTO.getGioiTinh());
+        textFieldCCCD.setText(nvDTO.getCccd());
+        textFieldDienThoai.setText(nvDTO.getSdt());
+        textFieldTenTaiKhoan.setText(nvDTO.getTenTaiKhoan());
+        textFieldMatKhau.setText(nvDTO.getMatKhau());
+        byte[] imageData = nvDTO.getAnh();
+        if (imageData != null && imageData.length > 0) {
+            ImageIcon imageIcon = new ImageIcon(imageData);
+            lbAvatar.setIcon(imageIcon);
+        } else {
+
+        }
+        
+    }
+    
+    private void displayImage(Image image) {
+        ImageIcon icon = new ImageIcon(image);
+        lbAvatar.setIcon(icon);
     }
 	//thangadmin
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == btnDoiMatKhau) {
-			System.out.println(tenTaiKhoan);
 			diaCHANGEPASSWORD fm = new diaCHANGEPASSWORD(tenTaiKhoan);
+			fm.addWindowListener(new WindowAdapter() {
+    		    @Override
+    		    public void windowClosed(WindowEvent e) {
+    		        textFieldMatKhau.setText(fm.textFieldMatKhauMoiAgain.getText());
+    		    }
+    		});
 			fm.setVisible(true);
 		}else if(e.getSource() == btnLuu) {
 			

@@ -10,28 +10,33 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Vector;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import Business_Logic.NhanVienBLL;
+import Business_Logic.PhimBLL;
 import Process_Data.NhanVienDAL;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldTimKiem;
-	public JTable table;
-    public DefaultTableModel model;
+	private JTable table;
+	private DefaultTableModel model;
     NhanVienBLL nvBLL;
     NhanVienDAL nvDAL;
-	public JButton btnThem;
-	public JButton btnXemChiTiet;
+    private JButton btnThem;
+    private JButton btnXemChiTiet;
 	private JButton btnTimKiem;
 	private JButton btnXoa;
 	GUI.frmThemNhanVien themnv;
@@ -44,10 +49,32 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 		setLayout(null);
 		
 		comboBoxSapXep = new JComboBox();
+		comboBoxSapXep.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textFieldTimKiem.setText(null);
+				LoadNhanVien();
+			}
+		});
+		comboBoxSapXep.setModel(new DefaultComboBoxModel(new String[] {"Tên nhân viên", "Giới tính", "Tên chính sách", "Tên chức vụ"}));
 		comboBoxSapXep.setBounds(472, 22, 101, 21);
 		add(comboBoxSapXep);
 		
 		textFieldTimKiem = new JTextField();
+		textFieldTimKiem.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+                String selectedOption = (String) comboBoxSapXep.getSelectedItem();
+                if (selectedOption.equals("Tên nhân viên")) {
+                	TimKiemByTenNhanVien(textFieldTimKiem.getText());
+                }else if(selectedOption.equals("Giới tính")) {
+                	TimKiemByGioiTinh(textFieldTimKiem.getText());
+                }else if(selectedOption.equals("Tên chính sách")) {
+                	TimKiemByTenChinhSach(textFieldTimKiem.getText());
+                }else if(selectedOption.equals("Tên chức vụ")) {
+                	TimKiemByTenChucVu(textFieldTimKiem.getText());
+                }
+			}
+		});
 		textFieldTimKiem.setBackground(new Color(240, 240, 240));
 		textFieldTimKiem.setBounds(596, 23, 101, 19);
 		add(textFieldTimKiem);
@@ -143,6 +170,43 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
         }
         return manv;
 	}
+	
+    public void TimKiemByTenNhanVien(String tennv){
+        Vector<ENTITY.NhanVienViewDTO> vec = nvBLL.TimKiemByTenNhanVien(tennv);
+        DefaultTableModel dftbl = (DefaultTableModel)table.getModel();
+        dftbl.setRowCount(0);
+        for(ENTITY.NhanVienViewDTO nv : vec){
+            Object[] row = new Object[]{nv.getMaNhanVien(), nv.getTenNhanVien(), nv.getNgaySinh(), nv.getGioiTinh(), nv.getSdt(), nv.getTenChinhSach(), nv.getTenChucVu()};
+            dftbl.addRow(row);
+        }
+    }
+    public void TimKiemByGioiTinh(String gioiTinh){
+        Vector<ENTITY.NhanVienViewDTO> vec = nvBLL.TimKiemByGioiTinh(gioiTinh);
+        DefaultTableModel dftbl = (DefaultTableModel)table.getModel();
+        dftbl.setRowCount(0);
+        for(ENTITY.NhanVienViewDTO nv : vec){
+            Object[] row = new Object[]{nv.getMaNhanVien(), nv.getTenNhanVien(), nv.getNgaySinh(), nv.getGioiTinh(), nv.getSdt(), nv.getTenChinhSach(), nv.getTenChucVu()};
+            dftbl.addRow(row);
+        }
+    }
+    public void TimKiemByTenChinhSach(String tenChinhSach){
+        Vector<ENTITY.NhanVienViewDTO> vec = nvBLL.TimKiemByTenChinhSach(tenChinhSach);
+        DefaultTableModel dftbl = (DefaultTableModel)table.getModel();
+        dftbl.setRowCount(0);
+        for(ENTITY.NhanVienViewDTO nv : vec){
+            Object[] row = new Object[]{nv.getMaNhanVien(), nv.getTenNhanVien(), nv.getNgaySinh(), nv.getGioiTinh(), nv.getSdt(), nv.getTenChinhSach(), nv.getTenChucVu()};
+            dftbl.addRow(row);
+        }
+    }
+    public void TimKiemByTenChucVu(String tenChucVu){
+        Vector<ENTITY.NhanVienViewDTO> vec = nvBLL.TimKiemByTenChucVu(tenChucVu);
+        DefaultTableModel dftbl = (DefaultTableModel)table.getModel();
+        dftbl.setRowCount(0);
+        for(ENTITY.NhanVienViewDTO nv : vec){
+            Object[] row = new Object[]{nv.getMaNhanVien(), nv.getTenNhanVien(), nv.getNgaySinh(), nv.getGioiTinh(), nv.getSdt(), nv.getTenChinhSach(), nv.getTenChucVu()};
+            dftbl.addRow(row);
+        }
+    }
 
 	@Override
 	public void mouseClicked(MouseEvent e) {

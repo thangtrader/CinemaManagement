@@ -1,6 +1,7 @@
 package ENTITY;
 
 
+import java.awt.Image;
 import java.sql.Date;
 
 import javax.swing.Icon;
@@ -16,13 +17,13 @@ public class NHANVIEN {
 	private String cccd;
 	private String tenTaiKhoan;
 	private String matKhau;
-	private Icon anh;
+	private byte[] anh;
 	private String maChinhSach;
 	private String maChucVu;
 	private String trangThai;
 
 	public NHANVIEN(String maNhanVien, String tenNhanVien, Date ngaySinh, String gioiTinh, String diaChi, String sdt,
-			String cccd, String tenTaiKhoan, String matKhau, Icon anh, String maChinhSach, String maChucVu,
+			String cccd, String tenTaiKhoan, String matKhau, byte[] anh, String maChinhSach, String maChucVu,
 			String trangThai) {
 		this.maNhanVien = maNhanVien;
 		this.tenNhanVien = tenNhanVien;
@@ -134,12 +135,12 @@ public class NHANVIEN {
 	}
 
 
-	public Icon getAnh() {
+	public byte[] getAnh() {
 		return anh;
 	}
 
 
-	public void setAnh(Icon anh) {
+	public void setAnh(byte[] anh) {
 		this.anh = anh;
 	}
 

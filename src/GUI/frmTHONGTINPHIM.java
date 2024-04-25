@@ -24,6 +24,8 @@ import Business_Logic.PhimBLL;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class frmTHONGTINPHIM extends JPanel implements ActionListener {
 	
@@ -34,7 +36,6 @@ public class frmTHONGTINPHIM extends JPanel implements ActionListener {
 	private PhimBLL phimBLL;
     GUI.frmThemThongTinPhim themphim;
 	private JButton btnThem;
-	private JButton btnXoa;
 	private JButton btnSua;
 	private JLabel lbRegex;
 	private JLabel lbRegexTen;
@@ -42,6 +43,7 @@ public class frmTHONGTINPHIM extends JPanel implements ActionListener {
 	private JLabel lbRegexQuocGia;
 	private JLabel lbRegexTuoi;
 	private JTextField textFieldTimKiem;
+	private JComboBox cbBoxTimKiem;
 
 	public frmTHONGTINPHIM() {
 		setBackground(new Color(241, 241, 241));
@@ -57,7 +59,20 @@ public class frmTHONGTINPHIM extends JPanel implements ActionListener {
 		textFieldTimKiem.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				TimKiemByTen(textFieldTimKiem.getText());
+                String selectedOption = (String) cbBoxTimKiem.getSelectedItem();
+                if (selectedOption.equals("Tên phim")) {
+                	TimKiemByTenPhim(textFieldTimKiem.getText());
+                } else if (selectedOption.equals("Quốc gia")) {
+                	TimKiemByQuocGia(textFieldTimKiem.getText());
+                } else if (selectedOption.equals("Đạo diễn")) {
+                	TimKiemByDaoDien(textFieldTimKiem.getText());
+                } else if (selectedOption.equals("Năm sản xuất")) {
+                	TimKiemByNamSanXuat(textFieldTimKiem.getText());
+                }
+                else if (selectedOption.equals("Thể loại")) {
+                	TimKiemByTheLoai(textFieldTimKiem.getText());
+                }
+				
 			}
 		});
 		textFieldTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -72,24 +87,15 @@ public class frmTHONGTINPHIM extends JPanel implements ActionListener {
 		btnThem.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnThem.setBackground(new Color(240, 240, 240));
 		btnThem.setFont(new Font("Roboto", Font.BOLD, 14));
-		btnThem.setBounds(94, 403, 108, 39);
+		btnThem.setBounds(231, 388, 108, 39);
 		this.add(btnThem);
-		
-		btnXoa = new JButton("Xóa phim");
-		btnXoa.setForeground(new Color(85, 173, 183));
-		btnXoa.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-
-		btnXoa.setBackground(new Color(240, 240, 240));
-		btnXoa.setFont(new Font("Roboto", Font.BOLD, 14));
-		btnXoa.setBounds(329, 403, 108, 39);
-		this.add(btnXoa);
 		
 		btnSua = new JButton("Chỉnh sửa");
 		btnSua.setForeground(new Color(85, 173, 183));
 		btnSua.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		btnSua.setBackground(new Color(240, 240, 240));
 		btnSua.setFont(new Font("Roboto", Font.BOLD, 14));
-		btnSua.setBounds(555, 403, 108, 39);
+		btnSua.setBounds(435, 388, 108, 39);
 		this.add(btnSua);
 		
 		JPanel panel = new JPanel();
@@ -175,8 +181,18 @@ public class frmTHONGTINPHIM extends JPanel implements ActionListener {
         
         phimBLL = new Business_Logic.PhimBLL();
 		btnThem.addActionListener(this);
-		btnXoa.addActionListener(this);
 		btnSua.addActionListener(this);
+		
+		cbBoxTimKiem = new JComboBox();
+		cbBoxTimKiem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textFieldTimKiem.setText(null);
+				LoadPhim();
+			}
+		});
+		cbBoxTimKiem.setModel(new DefaultComboBoxModel(new String[] {"Tên phim", "Quốc gia", "Đạo diễn", "Năm sản xuất", "Thể loại"}));
+		cbBoxTimKiem.setBounds(641, 49, 123, 21);
+		add(cbBoxTimKiem);
 
         LoadPhim();
 	}
@@ -190,22 +206,56 @@ public class frmTHONGTINPHIM extends JPanel implements ActionListener {
 		}
 	}
 	
-    public int removeData() {
-    	ENTITY.PhimViewDTO phimviewDTO = new ENTITY.PhimViewDTO();
-        int selectedRow = table.getSelectedRow();
-    	String maphim = table.getValueAt(selectedRow, 0).toString(); 
-    	phimviewDTO.setMaPhim(maphim);
-    	return phimBLL.removeData(phimviewDTO);
-    }
-	
-    
-    public void TimKiemByTen(String maPhim){
+	  
+    public void TimKiemByTenPhim(String tenPhim){
     	PhimBLL phimBLL = new PhimBLL();
-        Vector<ENTITY.PHIM> vec = phimBLL.TimKiemByMa(maPhim);
+        Vector<ENTITY.PhimViewDTO> vec = phimBLL.TimKiemByTenPhim(tenPhim);
         DefaultTableModel dftbl = (DefaultTableModel)table.getModel();
         dftbl.setRowCount(0);
-        for(ENTITY.PHIM phim : vec){
-            Object[] row = new Object[]{phim.getMaPhim(), phim.getTenPhim(), phim.getThoiLuong(), phim.getQuocGia(), phim.getDaoDien(), phim.getNanSanXuat(), phim.getDoTuoiXem(), phim.getMaTheLoai()};
+        for(ENTITY.PhimViewDTO phim : vec){
+            Object[] row = new Object[]{phim.getMaPhim(), phim.getTenPhim(), phim.getThoiLuong(), phim.getQuocGia(), phim.getDaoDien(), phim.getNamSanXuat(), phim.getDoTuoiXem(), phim.getTenTheLoai()};
+            dftbl.addRow(row);
+        }
+    }
+    
+    public void TimKiemByQuocGia(String quocGia){
+    	PhimBLL phimBLL = new PhimBLL();
+        Vector<ENTITY.PhimViewDTO> vec = phimBLL.TimKiemByQuocGia(quocGia);
+        DefaultTableModel dftbl = (DefaultTableModel)table.getModel();
+        dftbl.setRowCount(0);
+        for(ENTITY.PhimViewDTO phim : vec){
+            Object[] row = new Object[]{phim.getMaPhim(), phim.getTenPhim(), phim.getThoiLuong(), phim.getQuocGia(), phim.getDaoDien(), phim.getNamSanXuat(), phim.getDoTuoiXem(), phim.getTenTheLoai()};
+            dftbl.addRow(row);
+        }
+    }
+    public void TimKiemByDaoDien(String daoDien){
+    	PhimBLL phimBLL = new PhimBLL();
+        Vector<ENTITY.PhimViewDTO> vec = phimBLL.TimKiemByDaoDien(daoDien);
+        DefaultTableModel dftbl = (DefaultTableModel)table.getModel();
+        dftbl.setRowCount(0);
+        for(ENTITY.PhimViewDTO phim : vec){
+            Object[] row = new Object[]{phim.getMaPhim(), phim.getTenPhim(), phim.getThoiLuong(), phim.getQuocGia(), phim.getDaoDien(), phim.getNamSanXuat(), phim.getDoTuoiXem(), phim.getTenTheLoai()};
+            dftbl.addRow(row);
+        }
+    }
+    public void TimKiemByNamSanXuat(String namsx){
+    	PhimBLL phimBLL = new PhimBLL();
+        Vector<ENTITY.PhimViewDTO> vec = phimBLL.TimKiemByNamSanXuat(namsx);
+        DefaultTableModel dftbl = (DefaultTableModel)table.getModel();
+        dftbl.setRowCount(0);
+        for(ENTITY.PhimViewDTO phim : vec){
+            Object[] row = new Object[]{phim.getMaPhim(), phim.getTenPhim(), phim.getThoiLuong(), phim.getQuocGia(), phim.getDaoDien(), phim.getNamSanXuat(), phim.getDoTuoiXem(), phim.getTenTheLoai()};
+            dftbl.addRow(row);
+        }
+    }
+    
+    public void TimKiemByTheLoai(String theLoai){
+    	PhimBLL phimBLL = new PhimBLL();
+        Vector<ENTITY.PhimViewDTO> vec = phimBLL.TimKiemByTheLoai(theLoai);
+        DefaultTableModel dftbl = (DefaultTableModel)table.getModel();
+        dftbl.setRowCount(0);
+        for(ENTITY.PhimViewDTO phim : vec){
+            Object[] row = new Object[]{phim.getMaPhim(), phim.getTenPhim(), phim.getThoiLuong(), phim.getQuocGia(), phim.getDaoDien(), phim.getNamSanXuat(), phim.getDoTuoiXem(), phim.getTenTheLoai()};
             dftbl.addRow(row);
         }
     }
@@ -232,16 +282,6 @@ public class frmTHONGTINPHIM extends JPanel implements ActionListener {
         		    }
         		});
         	}
-            if (e.getSource() == btnXoa) {
-                int k = removeData();
-                if(k==1) {
-                	JOptionPane.showMessageDialog(null, "Đã xóa thông tin phim thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else {
-                	JOptionPane.showMessageDialog(null, "Xóa phim không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                }
-                LoadPhim();
-            }
             if (e.getSource() == btnSua) {
             	int selectedRow = table.getSelectedRow();
                 if (selectedRow == -1) {

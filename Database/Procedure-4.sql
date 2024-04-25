@@ -136,13 +136,6 @@ Create proc ThemPhim
 		Values (@TenPhim,@ThoiLuong,@QuocGia,@NamSanXuat, @DoTuoiXem, @MaTheLoai ,@DaoDien);
 	End
 Go
---Xóa Phim theo mã
-Create proc XoaPhim(@MaPhim varchar(6))
-As
-Begin
-	Delete PHIM Where MaPhim = @MaPhim
-End
-Go
 --Sửa Phim theo mã
 Create proc SuaPhim
 	@MaPhim varchar(6),
@@ -358,6 +351,22 @@ Begin
 	Where @TenTaiKhoan = TenTaiKhoan
 End
 Drop proc SuaMatKhau
-Exec SuaMatKhau 'NV0001', '123456'
-
-
+Exec SuaMatKhau 'thangadmin', '123456'
+Go
+Create proc SuaAnh
+	@MaNhanVien varchar(6),
+	@Anh image
+	As 
+	Begin 
+		Update NHAN_VIEN Set Anh = @Anh
+		Where MaNhanVien = @MaNhanVien
+	End
+Go
+Create proc GetNhanVienByTest
+	@TenTaiKhoan varchar(30)
+	As
+	Begin
+		Select MaNhanVien, TenNhanVien, NgaySinh, DiaChi, GioiTinh, CCCD, SoDienThoai, TenTaiKhoan, MatKhau, Anh From NHAN_VIEN
+		Where @TenTaiKhoan = TenTaiKhoan
+	End
+Go

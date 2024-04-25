@@ -31,37 +31,35 @@ import javax.swing.DefaultComboBoxModel;
 public class frmThemNhanVien extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-	public JTextField txtMaNV;
-	public JTextField txtTenNV;
-	public JTextField txtDiaChi;
-	public JTextField txtSDT;
-	public JTextField txtCCCD;
-	public JTextField txtTK;
-	public JTextField txtMK;
-	public JComboBox cbboxChinhSach;
-	public JComboBox cbboxChucVu;
-	public JButton btnThem;
-	public JButton btnDong;
-	NhanVienBLL nvBLL;
-	NhanVienDAL nvDAL;
+	private JTextField txtMaNV;
+	private JTextField txtTenNV;
+	private JTextField txtDiaChi;
+	private JTextField txtSDT;
+	private JTextField txtCCCD;
+	private JTextField txtTK;
+	private JTextField txtMK;
+	private JComboBox cbboxChinhSach;
+	private JComboBox cbboxChucVu;
+	private JButton btnThem;
+	private JButton btnDong;
+	private NhanVienBLL nvBLL;
 	GUI.frmNHANVIEN nv;
-	frmQuanLyPhim qlp;
-	public JDateChooser calendar;
-	public JTextField txtNgaySinh;
-	public JRadioButton rbtnNam;
-	public JRadioButton rbtnNu;
+	private JDateChooser calendar;
+	private JTextField txtNgaySinh;
+	private JRadioButton rbtnNam;
+	private JRadioButton rbtnNu;
 
 	String maNhanVienn;
 	ENTITY.NHANVIEN nhanVien = new ENTITY.NHANVIEN();
 	private JButton btnChinhSua;
 	private boolean isEditMode = false;
-	public JLabel lbRegexTen;
-	public JLabel lbRegexNgaySinh;
-	public JLabel lbRegexDiaChi;
-	public JLabel lbRegexSDT;
-	public JLabel lbRegexCCCD;
-	public JRadioButton rbtn0;
-	public JRadioButton rbtn1;
+	private JLabel lbRegexTen;
+	private JLabel lbRegexNgaySinh;
+	private JLabel lbRegexDiaChi;
+	private JLabel lbRegexSDT;
+	private JLabel lbRegexCCCD;
+	private JRadioButton rbtn0;
+	private JRadioButton rbtn1;
 
 	public void init() {
 		setBounds(100, 100, 625, 447);
@@ -342,7 +340,6 @@ public class frmThemNhanVien extends JFrame implements ActionListener {
 		contentPane.add(rbtn1);
 		
         nvBLL = new Business_Logic.NhanVienBLL();
-        nvDAL = new Process_Data.NhanVienDAL();
         btnThem.addActionListener(this);
         btnDong.addActionListener(this);
         btnChinhSua.addActionListener(this);

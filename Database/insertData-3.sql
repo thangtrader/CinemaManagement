@@ -90,8 +90,7 @@ insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) 
 insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0006','KGC00002','2022-07-04','2');
 insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0006','KGC00004','2022-07-02','1');
 insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00002','PC0006','KGC00003','2022-07-03','0');
------ Đã xong
------ Đã xong
+
 ------14.Ca làm việc ----- CLV001
 insert into CA_LAM_VIEC(TenCa,GioBatDau,GioKetThuc) values(N'Ca 1','08:00:00.0000000','12:00:00.0000000');
 insert into CA_LAM_VIEC(TenCa,GioBatDau,GioKetThuc) values(N'Ca 2','12:00:00.0000000','16:00:00.0000000');

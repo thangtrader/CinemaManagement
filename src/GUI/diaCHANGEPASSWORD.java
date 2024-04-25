@@ -34,7 +34,10 @@ public class diaCHANGEPASSWORD extends JDialog implements ActionListener {
 	private JButton btnCancel;
 	private NhanVienBLL nvBLL;
 	private NhanVienDAL nvDAL;
-
+	GUI.frmCANHAN canhan;
+	private String tenTaiKhoan;
+	
+	ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
 	
 	public void init() {
 		setBounds(250, 200, 450, 300);
@@ -111,20 +114,67 @@ public class diaCHANGEPASSWORD extends JDialog implements ActionListener {
 	}
 	
 	public diaCHANGEPASSWORD(String tentaikhoan) {
+		tenTaiKhoan = tentaikhoan;
 		this.init();
-		this.DisplayTest(tentaikhoan);
+		this.DisplayData(tentaikhoan);
 	}
 	
-    public void DisplayTest(String tentaikhoan) {
+    public void DisplayData(String tentaikhoan) {
+    	tenTaiKhoan = tentaikhoan;
     	ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
     	nvDTO =  nvBLL.GetNhanVienByTenTaiKhoan(tentaikhoan);
-    	textFieldMatKhauCu.setText(nvDTO.getMatKhau());
+//    	textFieldMatKhauCu.setText(nvDTO.getMatKhau());
     }
 	
+    public boolean CheckNull() {
+    	if(!textFieldMatKhauMoi.getText().trim().isEmpty() || !textFieldMatKhauMoiAgain.getText().trim().isEmpty()) {
+    		return true;
+    	}
+    	else {
+    		JOptionPane.showMessageDialog(null, "Vui lòng không để trống các trường!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    		return false;
+    	}
+    }
+    
+    public boolean CheckData() {
+    	if(textFieldMatKhauMoi.getText().equals(textFieldMatKhauMoiAgain.getText())) {
+    		return true;
+    	}
+    	else {
+    		JOptionPane.showMessageDialog(null, "Mật khẩu mới và xác nhận mật khẩu không được khác nhau!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    		return false;
+    	}
+    }
+    
+    public int ChangePass() {
+    	nvDTO = new ENTITY.NHANVIEN();
+    	String mkmoi = textFieldMatKhauMoiAgain.getText();
+    	nvDTO.setTenTaiKhoan(tenTaiKhoan);
+    	nvDTO.setMatKhau(mkmoi);
+    	return nvBLL.updateMK(nvDTO);
+    }
+    
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnSave) {
-//			nvBLL.updateMK();
+			int checkMatKhau = NhanVienBLL.getInstance().KiemTraDangNhap(tenTaiKhoan, textFieldMatKhauCu.getText());
+			System.out.println(checkMatKhau);
+			if((checkMatKhau == 0)) {
+				JOptionPane.showMessageDialog(null, "Sai mật khẩu cũ!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else {
+				if ((checkMatKhau != 0)  && (CheckData() == true) && (CheckNull() == true))
+	            {
+					ChangePass();
+					JOptionPane.showMessageDialog(null, "Đã đổi mật khẩu thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+	                this.dispose();
+	            }
+//	            else
+//	            {
+//	            	JOptionPane.showMessageDialog(null, "Đổi mật khẩu không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+////	                lblValidatedMatKhauCu.Visible = true;
+//	            }
+			}
 		}
 	}
 }

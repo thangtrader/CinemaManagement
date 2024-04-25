@@ -123,10 +123,16 @@ public class NhanVienDAL {
 		int k = cnn.Execute_StoredProcedures("XoaNhanVien", param);
 		return k;
 	}
-//	public int updateMK(Object[] param) {
-//		int k = cnn.Execute_StoredProcedures("SuaMatKhau", param);
-//		return k;
-//	}
+	public int updateMK(Object[] param) {
+		int k = cnn.Execute_StoredProcedures("SuaMatKhau", param);
+		return k;
+	}
+	
+	public int updateAnh(Object[] param) {
+		int k = cnn.Execute_StoredProcedures("SuaAnh", param);
+		return k;
+	}
+	
     public ENTITY.NHANVIEN GetNhanVienByTenTaiKhoan(Object[] param) {
         ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
         try {
@@ -141,6 +147,29 @@ public class NhanVienDAL {
             	nvDTO.setCccd(rs.getString("CCCD"));
             	nvDTO.setTenTaiKhoan(rs.getString("TenTaiKhoan"));
             	nvDTO.setMatKhau(rs.getString("MatKhau"));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return nvDTO;
+    }
+    public ENTITY.NHANVIEN GetNhanVienByTest(Object[] param) {
+        ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
+        try {
+            ResultSet rs = cnn.getResultSet_StoredProcedures("GetNhanVienByTest", param);
+            while(rs.next()) {
+            	nvDTO.setMaNhanVien(rs.getString("MaNhanVien"));
+            	nvDTO.setTenNhanVien(rs.getString("TenNhanVien"));
+            	nvDTO.setNgaySinh(rs.getDate("NgaySinh"));
+            	nvDTO.setGioiTinh(rs.getString("GioiTinh"));
+            	nvDTO.setDiaChi(rs.getString("DiaChi"));
+            	nvDTO.setSdt(rs.getString("SoDienThoai"));
+            	nvDTO.setCccd(rs.getString("CCCD"));
+            	nvDTO.setTenTaiKhoan(rs.getString("TenTaiKhoan"));
+            	nvDTO.setMatKhau(rs.getString("MatKhau"));
+            	nvDTO.setAnh(rs.getBytes("Anh"));
 
             }
         } catch (Exception e) {
