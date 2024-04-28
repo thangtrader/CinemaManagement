@@ -6,6 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.NumberFormat;
+<<<<<<< HEAD
+=======
+import java.util.Calendar;
+>>>>>>> DucThang
 import java.util.Currency;
 import java.util.Locale;
 import java.util.Vector;
@@ -19,9 +23,14 @@ import Process_Data.ThongKePhimDAL;
 
 public class ThongKePhimBLL extends DBHelper {
 	private static ThongKePhimBLL instance;
+<<<<<<< HEAD
 	GUI.panelTHONGKEPHIM GUITKPhim;
 	ThongKePhimDAL tkpDAL;
 	JLabel lbDoanhThu;
+=======
+	public GUI.panelTHONGKEPHIM GUITKPhim;
+	ThongKePhimDAL tkpDAL;
+>>>>>>> DucThang
 
 	public static ThongKePhimBLL getInstance() {
 		if (instance == null) {
@@ -32,16 +41,21 @@ public class ThongKePhimBLL extends DBHelper {
 
 	public ThongKePhimBLL(GUI.panelTHONGKEPHIM p) {
 		GUITKPhim = p;
+<<<<<<< HEAD
 		lbDoanhThu = p.lbDoanhThu; // Lưu trữ tham chiếu đến label tổng lương
 		tkpDAL = ThongKePhimDAL.getInstance();
 		UpdateTongDoanhThuLabel();
 		LoadTKPhim();
+=======
+		tkpDAL = ThongKePhimDAL.getInstance();
+>>>>>>> DucThang
 	}
 
 	public ThongKePhimBLL() {
 
 	}
 
+<<<<<<< HEAD
 //	public Vector<ENTITY.TKPhim> ListTKPhim(String proc) {
 //		Vector<ENTITY.TKPhim> vector = new Vector<ENTITY.TKPhim>();
 //		try {
@@ -227,6 +241,16 @@ public class ThongKePhimBLL extends DBHelper {
 		format.setCurrency(Currency.getInstance("VND"));
 		String kq = format.format(tongDoanhThu);
 		GUITKPhim.lbDoanhThu.setText(kq); // Cập nhật label với kết quả
+=======
+	public int tinhDoanhThu(String dateIsEmpty,Boolean checkBox,int month,int year) {
+		
+		return tkpDAL.tinhDoanhThuDAL(dateIsEmpty, checkBox, month, year);
+		
+	}
+	
+	public Vector<ENTITY.TKPhim> LoadTKPhim(String date, Boolean log, int month, int year) {
+		return tkpDAL.LoadTKPhim(date, log, month, year); 
+>>>>>>> DucThang
 	}
 
 }

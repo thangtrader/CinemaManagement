@@ -6,11 +6,6 @@
 	import java.sql.ResultSet;
 	import java.sql.SQLException;
 	import java.sql.Statement;
-	import java.sql.Types;
-	import java.util.ArrayList;
-	import java.util.HashMap;
-	import java.util.List;
-	import java.util.Map;
 	import java.sql.CallableStatement;
 	
 	public class DBHelper {
@@ -194,12 +189,6 @@
 	            e.printStackTrace();
 	        }
 	    }
-	    
-	    
-	    
-	    
-	    
-	    
 	    public ResultSet ExecuteQuery(String query, Object[] parameters) throws SQLException {
 	        ResultSet resultSet = null;
 	        try {
@@ -222,6 +211,15 @@
 	            e.printStackTrace();
 	        }
 	        return resultSet;
+	    }
+	    public ResultSet getResultSet(String SQL) {
+	        try {
+	            ResultSet rs;
+	            rs = this.stm.executeQuery(SQL);
+	            return rs;
+	        } catch (Exception ex) {
+	        }
+	        return null;
 	    }
 	}
 =======

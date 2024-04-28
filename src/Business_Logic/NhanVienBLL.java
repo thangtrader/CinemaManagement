@@ -1,5 +1,6 @@
 package Business_Logic;
 
+
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -12,8 +13,6 @@ import java.sql.ResultSet;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
-
-import ENTITY.PhimViewDTO;
 import Process_Data.DBHelper;
 import Process_Data.NhanVienDAL;
 
@@ -84,22 +83,7 @@ public class NhanVienBLL extends DBHelper {
     	Object[] param = new Object[] {nvDTO.getTenTaiKhoan(), nvDTO.getMatKhau()};
     	return nvDAL.updateMK(param);
     }
-    
-    public static byte[] readImageBytes(String imagePath) throws IOException {
-        return Files.readAllBytes(Paths.get(imagePath));
-    }
-
-    public static byte[] ChuyenAnhThanhMangByte(BufferedImage bufferedImage) throws IOException {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "jpeg", byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
-    }
-
-    public static Image ChuyenMangByteSangAnh(byte[] byteArray) throws IOException {
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
-        return ImageIO.read(byteArrayInputStream);
-    }
-    
+       
     public int updateAnh(ENTITY.NHANVIEN nvDTO) {
     	Object[] param = new Object[] {nvDTO.getMaNhanVien(), nvDTO.getAnh()};
     	return nvDAL.updateAnh(param);
@@ -216,5 +200,19 @@ public class NhanVienBLL extends DBHelper {
             e.printStackTrace();
         }
         return vec;
+    }
+    public static byte[] readImageBytes(String imagePath) throws IOException {
+        return Files.readAllBytes(Paths.get(imagePath));
+    }
+
+    public static byte[] ChuyenAnhThanhMangByte(BufferedImage bufferedImage) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "jpeg", byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    public static Image ChuyenMangByteSangAnh(byte[] byteArray) throws IOException {
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
+        return ImageIO.read(byteArrayInputStream);
     }
 }
