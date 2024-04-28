@@ -1,109 +1,220 @@
 package Business_Logic;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Date;
 import java.util.Vector;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.table.DefaultTableModel;
+import javax.imageio.ImageIO;
 
+import ENTITY.PhimViewDTO;
 import Process_Data.DBHelper;
 import Process_Data.NhanVienDAL;
-import Process_Data.PhimDAL;
 
 public class NhanVienBLL extends DBHelper {
 	private static NhanVienBLL instance;
-	GUI.frmNHANVIEN nhanvien;
-	GUI.dialogThemNhanVien themnv;
 	NhanVienDAL nvDAL;
 
+	
     public static NhanVienBLL getInstance() {
         if (instance == null) {
             instance = new NhanVienBLL();
         }
         return instance;
     }
-
-    public Vector<ENTITY.NhanVienViewDTO> ListPhim() {
-        Vector<ENTITY.NhanVienViewDTO> vector = new Vector<ENTITY.NhanVienViewDTO>();
-        try {
-        	String sql = "	Select n.MaNhanVien, n.TenNhanVien, n.NgaySinh, n.GioiTinh, n.SoDienThoai, c.TenChinhSach, cv.TenChucVu From NHAN_VIEN as n INNER JOIN CHINH_SACH as c On n.MaChinhSach = c.MaChinhSach INNER JOIN  CHUC_VU as cv On n.MaChucVu = cv.MaChucVu";
-        	PreparedStatement pre = cnn.prepareStatement(sql);
-        	ResultSet rs = pre.executeQuery();
-            while (rs.next()) {
-            	ENTITY.NhanVienViewDTO nvview = new ENTITY.NhanVienViewDTO();
-            	nvview.setMaNhanVien(rs.getString("MaNhanVien"));
-            	nvview.setTenNhanVien(rs.getString("TenNhanVien"));
-            	nvview.setNgaySinh(rs.getDate("NgaySinh"));
-            	nvview.setGioiTinh(rs.getString("GioiTinh"));
-            	nvview.setSdt(rs.getString("SoDienThoai"));
-            	nvview.setTenChinhSach(rs.getString("TenChinhSach"));
-            	nvview.setTenChucVu(rs.getString("TenChucVu"));
-
-            	
-                vector.addElement(nvview);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return vector;
-    }
-    public NhanVienBLL(GUI.frmNHANVIEN nv) {
-    	nhanvien = nv;
-    	nvDAL = new NhanVienDAL();
-    	LoadNhanVien();
-    }
-    public NhanVienBLL(GUI.dialogThemNhanVien nv) {
-    	themnv = nv;
-    	nvDAL = new NhanVienDAL();
-    	LoadChinhSach();
-    	LoadChucVu();
-    }
+    
     public NhanVienBLL() {
-
+    	nvDAL = new NhanVienDAL();
     }
-    public void LoadChinhSach() {
-        DefaultComboBoxModel<ENTITY.CHINHSACH> model = new DefaultComboBoxModel<ENTITY.CHINHSACH>(nvDAL.ListChinhSach());
-        themnv.cbboxChinhSach.setModel(model);
+  
+    public Vector<ENTITY.CHINHSACH> LoadChinhSach() {
+        return nvDAL.ListChinhSach(); 
     }
-    public void LoadChucVu() {
-        DefaultComboBoxModel<ENTITY.CHUCVU> model = new DefaultComboBoxModel<ENTITY.CHUCVU>(nvDAL.ListChucVu());
-        themnv.cbboxChucVu.setModel(model);
+    
+    public Vector<ENTITY.CHUCVU> LoadChucVu() {
+    	return nvDAL.ListChucVu();
     }	
-    public void LoadNhanVien() {
-    	nhanvien.model = (DefaultTableModel) nhanvien.table.getModel();
-        for (int i = nhanvien.model.getRowCount() - 1; i >= 0; i--) {
-        	nhanvien.model.removeRow(i);
-        }
-        for (ENTITY.NhanVienViewDTO nvview : nvDAL.ListNhanVien()) {
-        	nhanvien.model.addRow(new Object[]{nvview.getMaNhanVien(), nvview.getTenNhanVien(), nvview.getNgaySinh(), nvview.getGioiTinh(), nvview.getSdt(), nvview.getTenChinhSach(), nvview.getTenChucVu()});
-        }
-        System.out.println("ok");
+    
+    public Vector<ENTITY.NhanVienViewDTO> LoadNhanVien() {
+        return nvDAL.ListNhanVien(); 
     }
+    
     public int KiemTraDangNhap(String tenTaiKhoan, String matKhau) {
 
         return NhanVienDAL.getInstance().KiemTraDangNhap(tenTaiKhoan, matKhau);
     }
-    public int addData() {
-    	String tennv = themnv.txtTenNV.getText().trim();
-    	String ngaysinh = themnv.txtNgaySinh.getText().trim();
-    	String gioitinh = themnv.txtGioiTinh.getText().trim();
-    	String diachi = themnv.txtDiaChi.getText().trim();
-    	String sdt = themnv.txtSDT.getText().trim();
-    	String cccd = themnv.txtCCCD.getText().trim();
-    	String tk = themnv.txtTK.getText().trim();
-    	String mk = themnv.txtMK.getText().trim();
-    	String machinhsach = ((ENTITY.CHINHSACH) themnv.cbboxChinhSach.getSelectedItem()).getMaChinhSach();
-    	String machucvu = ((ENTITY.CHUCVU) themnv.cbboxChucVu.getSelectedItem()).getMaChucVu();
-    	String trangthai = themnv.txtTrangThai.getText().trim();
-    	Object[] param = new Object[] {tennv, ngaysinh, gioitinh, diachi, sdt, cccd, tk, mk, machinhsach, machucvu, trangthai};
+    
+    public int addData(ENTITY.NhanVienViewDTO nvviewDTO) {
+    	
+    	Object[] param = new Object[] {nvviewDTO.getTenNhanVien(), nvviewDTO.getNgaySinh(), nvviewDTO.getGioiTinh(), nvviewDTO.getDiaChi(), nvviewDTO.getSdt(), nvviewDTO.getCccd(), nvviewDTO.getTenTaiKhoan(), nvviewDTO.getMatKhau(), nvviewDTO.getTenChinhSach(), nvviewDTO.getTenChucVu(), nvviewDTO.getTrangThai()};
     	return nvDAL.addData(param);
     }
-    public int removeData() {
-        int selectedRow = nhanvien.table.getSelectedRow();
-    	String manv = nhanvien.table.getValueAt(selectedRow, 0).toString(); 
-    	Object[] param = new Object[] {manv};
+    
+    public int updateData(ENTITY.NhanVienViewDTO nvviewDTO) {   	
+    	Object[] param = new Object[] {nvviewDTO.getMaNhanVien() ,nvviewDTO.getTenNhanVien(), nvviewDTO.getNgaySinh(), nvviewDTO.getGioiTinh(), nvviewDTO.getDiaChi(), nvviewDTO.getSdt(), nvviewDTO.getCccd(), nvviewDTO.getTenTaiKhoan(), nvviewDTO.getMatKhau(), nvviewDTO.getTenChinhSach(), nvviewDTO.getTenChucVu(), nvviewDTO.getTrangThai()};
+    	return nvDAL.updateData(param);
+    }
+    
+    public int removeData(ENTITY.NhanVienViewDTO nvviewDTO) {
+    	Object[] param = new Object[] {nvviewDTO.getMaNhanVien()};
     	return nvDAL.removeData(param);
+    }
+    
+    public ENTITY.NhanVienViewDTO selectData(String manv) {
+    	ENTITY.NhanVienViewDTO nvviewDTO = new ENTITY.NhanVienViewDTO();
+    	Object[] param = new Object[] {manv};
+    	nvviewDTO = nvDAL.GetNhanVienByMa(param);
+    	return nvviewDTO;
+    }
+    
+    public ENTITY.NHANVIEN GetNhanVienByTenTaiKhoan(String tentaikhoan) {
+    	ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
+    	Object[] param = new Object[] {tentaikhoan};
+    	nvDTO = nvDAL.GetNhanVienByTenTaiKhoan(param);
+    	return nvDTO;
+    }
+    
+    public int updateMK(ENTITY.NHANVIEN nvDTO) {
+    	Object[] param = new Object[] {nvDTO.getTenTaiKhoan(), nvDTO.getMatKhau()};
+    	return nvDAL.updateMK(param);
+    }
+    
+    public static byte[] readImageBytes(String imagePath) throws IOException {
+        return Files.readAllBytes(Paths.get(imagePath));
+    }
+
+    public static byte[] ChuyenAnhThanhMangByte(BufferedImage bufferedImage) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "jpeg", byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    public static Image ChuyenMangByteSangAnh(byte[] byteArray) throws IOException {
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
+        return ImageIO.read(byteArrayInputStream);
+    }
+    
+    public int updateAnh(ENTITY.NHANVIEN nvDTO) {
+    	Object[] param = new Object[] {nvDTO.getMaNhanVien(), nvDTO.getAnh()};
+    	return nvDAL.updateAnh(param);
+    }
+    
+    
+    public ENTITY.NHANVIEN GetNhanVienByTest(String tentaikhoan) {
+    	ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
+    	Object[] param = new Object[] {tentaikhoan};
+    	nvDTO = nvDAL.GetNhanVienByTenTaiKhoan(param);
+    	return nvDTO;
+    }
+    
+    public Vector<ENTITY.NhanVienViewDTO> TimKiemByTenNhanVien(String tenNV){
+        Vector<ENTITY.NhanVienViewDTO> vec = new Vector<ENTITY.NhanVienViewDTO>();
+        try {
+
+            String sql = "Select n.MaNhanVien, n.TenNhanVien, n.NgaySinh, n.GioiTinh, n.SoDienThoai, c.TenChinhSach, cv.TenChucVu\r\n"
+            		+ "From NHAN_VIEN as n Inner Join CHINH_SACH as c On n.MaChinhSach = c.MaChinhSach Inner Join CHUC_VU as cv On n.MaChucVu = cv.MaChucVu\r\n"
+            		+ "Where n.TenNhanVien LIKE ?";
+            PreparedStatement pre = cnn.prepareStatement(sql);
+            pre.setString(1, "%" + tenNV + "%");
+            ResultSet rs = pre.executeQuery();	
+            while (rs.next()) {
+            	ENTITY.NhanVienViewDTO nvviewDTO = new ENTITY.NhanVienViewDTO();
+            	nvviewDTO.setMaNhanVien(rs.getString("MaNhanVien"));
+            	nvviewDTO.setTenNhanVien(rs.getString("TenNhanVien"));
+            	nvviewDTO.setNgaySinh(rs.getDate("NgaySinh"));
+            	nvviewDTO.setGioiTinh(rs.getString("GioiTinh"));
+            	nvviewDTO.setSdt(rs.getString("SoDienThoai"));
+            	nvviewDTO.setTenChinhSach(rs.getString("TenChinhSach"));
+            	nvviewDTO.setTenChucVu(rs.getString("TenChucVu"));
+                vec.add(nvviewDTO);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return vec;
+    }
+    public Vector<ENTITY.NhanVienViewDTO> TimKiemByGioiTinh(String gioiTinh){
+        Vector<ENTITY.NhanVienViewDTO> vec = new Vector<ENTITY.NhanVienViewDTO>();
+        try {
+
+            String sql = "Select n.MaNhanVien, n.TenNhanVien, n.NgaySinh, n.GioiTinh, n.SoDienThoai, c.TenChinhSach, cv.TenChucVu\r\n"
+            		+ "From NHAN_VIEN as n Inner Join CHINH_SACH as c On n.MaChinhSach = c.MaChinhSach Inner Join CHUC_VU as cv On n.MaChucVu = cv.MaChucVu\r\n"
+            		+ "Where n.GioiTinh LIKE ?";
+            PreparedStatement pre = cnn.prepareStatement(sql);
+            pre.setString(1, "%" + gioiTinh + "%");
+            ResultSet rs = pre.executeQuery();	
+            while (rs.next()) {
+            	ENTITY.NhanVienViewDTO nvviewDTO = new ENTITY.NhanVienViewDTO();
+            	nvviewDTO.setMaNhanVien(rs.getString("MaNhanVien"));
+            	nvviewDTO.setTenNhanVien(rs.getString("TenNhanVien"));
+            	nvviewDTO.setNgaySinh(rs.getDate("NgaySinh"));
+            	nvviewDTO.setGioiTinh(rs.getString("GioiTinh"));
+            	nvviewDTO.setSdt(rs.getString("SoDienThoai"));
+            	nvviewDTO.setTenChinhSach(rs.getString("TenChinhSach"));
+            	nvviewDTO.setTenChucVu(rs.getString("TenChucVu"));
+                vec.add(nvviewDTO);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return vec;
+    }
+    public Vector<ENTITY.NhanVienViewDTO> TimKiemByTenChinhSach(String tenChinhSach){
+        Vector<ENTITY.NhanVienViewDTO> vec = new Vector<ENTITY.NhanVienViewDTO>();
+        try {
+
+            String sql = "Select n.MaNhanVien, n.TenNhanVien, n.NgaySinh, n.GioiTinh, n.SoDienThoai, c.TenChinhSach, cv.TenChucVu\r\n"
+            		+ "From NHAN_VIEN as n Inner Join CHINH_SACH as c On n.MaChinhSach = c.MaChinhSach Inner Join CHUC_VU as cv On n.MaChucVu = cv.MaChucVu\r\n"
+            		+ "Where c.TenChinhSach LIKE ?";
+            PreparedStatement pre = cnn.prepareStatement(sql);
+            pre.setString(1, "%" + tenChinhSach + "%");
+            ResultSet rs = pre.executeQuery();	
+            while (rs.next()) {
+            	ENTITY.NhanVienViewDTO nvviewDTO = new ENTITY.NhanVienViewDTO();
+            	nvviewDTO.setMaNhanVien(rs.getString("MaNhanVien"));
+            	nvviewDTO.setTenNhanVien(rs.getString("TenNhanVien"));
+            	nvviewDTO.setNgaySinh(rs.getDate("NgaySinh"));
+            	nvviewDTO.setGioiTinh(rs.getString("GioiTinh"));
+            	nvviewDTO.setSdt(rs.getString("SoDienThoai"));
+            	nvviewDTO.setTenChinhSach(rs.getString("TenChinhSach"));
+            	nvviewDTO.setTenChucVu(rs.getString("TenChucVu"));
+                vec.add(nvviewDTO);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return vec;
+    }
+    public Vector<ENTITY.NhanVienViewDTO> TimKiemByTenChucVu(String tenChucVu){
+        Vector<ENTITY.NhanVienViewDTO> vec = new Vector<ENTITY.NhanVienViewDTO>();
+        try {
+
+            String sql = "Select n.MaNhanVien, n.TenNhanVien, n.NgaySinh, n.GioiTinh, n.SoDienThoai, c.TenChinhSach, cv.TenChucVu\r\n"
+            		+ "From NHAN_VIEN as n Inner Join CHINH_SACH as c On n.MaChinhSach = c.MaChinhSach Inner Join CHUC_VU as cv On n.MaChucVu = cv.MaChucVu\r\n"
+            		+ "Where cv.TenChucVu LIKE ?";
+            PreparedStatement pre = cnn.prepareStatement(sql);
+            pre.setString(1, "%" + tenChucVu + "%");
+            ResultSet rs = pre.executeQuery();	
+            while (rs.next()) {
+            	ENTITY.NhanVienViewDTO nvviewDTO = new ENTITY.NhanVienViewDTO();
+            	nvviewDTO.setMaNhanVien(rs.getString("MaNhanVien"));
+            	nvviewDTO.setTenNhanVien(rs.getString("TenNhanVien"));
+            	nvviewDTO.setNgaySinh(rs.getDate("NgaySinh"));
+            	nvviewDTO.setGioiTinh(rs.getString("GioiTinh"));
+            	nvviewDTO.setSdt(rs.getString("SoDienThoai"));
+            	nvviewDTO.setTenChinhSach(rs.getString("TenChinhSach"));
+            	nvviewDTO.setTenChucVu(rs.getString("TenChucVu"));
+                vec.add(nvviewDTO);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return vec;
     }
 }

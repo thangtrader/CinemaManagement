@@ -1,5 +1,6 @@
 package Process_Data;
 
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -7,8 +8,6 @@ import java.util.Vector;
 public class NhanVienDAL {
 	private static NhanVienDAL instance;
 	DBHelper cnn;
-	GUI.frmNHANVIEN nhanvien;
-	GUI.dialogThemNhanVien themnv;
 
     public static NhanVienDAL getInstance() {
         if (instance == null) {
@@ -19,19 +18,35 @@ public class NhanVienDAL {
     public NhanVienDAL() {
         cnn = new DBHelper();
     }
-    
-    public NhanVienDAL(GUI.frmNHANVIEN nv) {
-    	nhanvien = nv;
-        cnn = new DBHelper();
-    }
-    public NhanVienDAL(GUI.dialogThemNhanVien nv) {
-    	themnv = nv;
-        cnn = new DBHelper();
+
+    public ENTITY.NhanVienViewDTO GetNhanVienByMa(Object[] param) {
+        ENTITY.NhanVienViewDTO nvviewDTO = new ENTITY.NhanVienViewDTO();
+        try {
+            ResultSet rs = cnn.getResultSet_StoredProcedures("GetNhanVien", param);
+            while(rs.next()) {
+            	nvviewDTO.setMaNhanVien(rs.getString("MaNhanVien"));
+            	nvviewDTO.setTenNhanVien(rs.getString("TenNhanVien"));
+            	nvviewDTO.setNgaySinh(rs.getDate("NgaySinh"));
+            	nvviewDTO.setGioiTinh(rs.getString("GioiTinh"));
+            	nvviewDTO.setDiaChi(rs.getString("DiaChi"));
+            	nvviewDTO.setSdt(rs.getString("SoDienThoai"));
+            	nvviewDTO.setCccd(rs.getString("CCCD"));
+            	nvviewDTO.setTenTaiKhoan(rs.getString("TenTaiKhoan"));
+            	nvviewDTO.setMatKhau(rs.getString("MatKhau"));
+            	nvviewDTO.setTenChinhSach(rs.getString("TenChinhSach"));
+            	nvviewDTO.setTenChucVu(rs.getString("TenChucVu"));
+            	nvviewDTO.setTrangThai(rs.getString("TrangThai"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return nvviewDTO;
     }
 	public Vector<ENTITY.NhanVienViewDTO> ListNhanVien() {
         Vector<ENTITY.NhanVienViewDTO> vector = new Vector<ENTITY.NhanVienViewDTO>();
         try {
-            ResultSet rs = cnn.getResultSet_StoredProcedures("LoadNhanVien");
+            ResultSet rs = cnn.getResultSet_StoredProcedures("SelectNhanVien");
             while (rs.next()) {
             	ENTITY.NhanVienViewDTO nvview = new ENTITY.NhanVienViewDTO();
             	nvview.setMaNhanVien(rs.getString("MaNhanVien"));
@@ -95,12 +110,72 @@ public class NhanVienDAL {
     public int KiemTraDangNhap(String tenTaiKhoan, String matKhau) {
         return Integer.parseInt(DBHelper.getInstance().executeScalar(tenTaiKhoan,matKhau).toString());
     }
+    
 	public int addData(Object[] param) {
 		int k = cnn.Execute_StoredProcedures("ThemNhanVien", param);
+		return k;
+	}
+	public int updateData(Object[] param) {
+		int k = cnn.Execute_StoredProcedures("SuaNhanVien", param);
 		return k;
 	}
 	public int removeData(Object[] param) {
 		int k = cnn.Execute_StoredProcedures("XoaNhanVien", param);
 		return k;
 	}
+	public int updateMK(Object[] param) {
+		int k = cnn.Execute_StoredProcedures("SuaMatKhau", param);
+		return k;
+	}
+	
+	public int updateAnh(Object[] param) {
+		int k = cnn.Execute_StoredProcedures("SuaAnh", param);
+		return k;
+	}
+	
+    public ENTITY.NHANVIEN GetNhanVienByTenTaiKhoan(Object[] param) {
+        ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
+        try {
+            ResultSet rs = cnn.getResultSet_StoredProcedures("GetNhanVienByTenTaiKhoan", param);
+            while(rs.next()) {
+            	nvDTO.setMaNhanVien(rs.getString("MaNhanVien"));
+            	nvDTO.setTenNhanVien(rs.getString("TenNhanVien"));
+            	nvDTO.setNgaySinh(rs.getDate("NgaySinh"));
+            	nvDTO.setGioiTinh(rs.getString("GioiTinh"));
+            	nvDTO.setDiaChi(rs.getString("DiaChi"));
+            	nvDTO.setSdt(rs.getString("SoDienThoai"));
+            	nvDTO.setCccd(rs.getString("CCCD"));
+            	nvDTO.setTenTaiKhoan(rs.getString("TenTaiKhoan"));
+            	nvDTO.setMatKhau(rs.getString("MatKhau"));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return nvDTO;
+    }
+    public ENTITY.NHANVIEN GetNhanVienByTest(Object[] param) {
+        ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
+        try {
+            ResultSet rs = cnn.getResultSet_StoredProcedures("GetNhanVienByTest", param);
+            while(rs.next()) {
+            	nvDTO.setMaNhanVien(rs.getString("MaNhanVien"));
+            	nvDTO.setTenNhanVien(rs.getString("TenNhanVien"));
+            	nvDTO.setNgaySinh(rs.getDate("NgaySinh"));
+            	nvDTO.setGioiTinh(rs.getString("GioiTinh"));
+            	nvDTO.setDiaChi(rs.getString("DiaChi"));
+            	nvDTO.setSdt(rs.getString("SoDienThoai"));
+            	nvDTO.setCccd(rs.getString("CCCD"));
+            	nvDTO.setTenTaiKhoan(rs.getString("TenTaiKhoan"));
+            	nvDTO.setMatKhau(rs.getString("MatKhau"));
+            	nvDTO.setAnh(rs.getBytes("Anh"));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return nvDTO;
+    }
 }

@@ -60,4 +60,9 @@ public class LICHCHIEU {
 		this.ngayChieu = ngayChieu;
 		this.trangThai = trangThai;
 	}
+	@Override
+	public String toString() {
+		return "LICHCHIEU [maPhim=" + maPhim + ", maPhongChieu=" + maPhongChieu + ", maKhungGioChieu=" + maKhungGioChieu
+				+ ", ngayChieu=" + ngayChieu + ", trangThai=" + trangThai + "]";
+	}
 }

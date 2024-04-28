@@ -2,45 +2,57 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import Business_Logic.NhanVienBLL;
+import Process_Data.NhanVienDAL;
 
 public class frmCANHAN extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textFieldTen;
-	private JTextField textFieldNgaySinh;
 	private JTextField textFieldDiaChi;
 	private JTextField textFieldDienThoai;
 	private JTextField textFieldTenTaiKhoan;
-	private JTextField textFieldMatKhau;
+	public JTextField textFieldMatKhau;
 	private JButton btnDoiMatKhau;
 	private JButton btnLuu;
 	private JTextField textFieldGioiTinh;
 	private JTextField textFieldCCCD;
-	/**
-	 * Create the panel.
-	 */
-	public frmCANHAN() {
+	
+	private NhanVienBLL nvBLL;
+	private NhanVienDAL nvDAL;
+	private JTextField textFieldMaNhanVien;
+	private String tenTaiKhoan;
+	private JButton btnChinhSua;
+	private JLabel lbAvatar;
+	private JTextField textFieldNgaySinh;
+
+	public void init() {
 		setBackground(new Color(192, 192, 192));
 		setLayout(null);
 		
-		JLabel lbAvatar = new JLabel("");
+		lbAvatar = new JLabel("");
 		lbAvatar.setBackground(new Color(245, 245, 245));
 		lbAvatar.setHorizontalAlignment(SwingConstants.CENTER);
-		lbAvatar.setBounds(311, 68, 129, 143);
+		lbAvatar.setBounds(321, 23, 129, 143);
 		add(lbAvatar);
 		
 		// ví dụ cái avatar cho dễ thấy // tự đổi địa chỉ ảnh
@@ -54,7 +66,7 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		lbChucVu.setForeground(new Color(0, 0, 0));
 		lbChucVu.setHorizontalAlignment(SwingConstants.CENTER);
 		lbChucVu.setBackground(new Color(64, 128, 128));
-		lbChucVu.setBounds(327, 233, 76, 27);
+		lbChucVu.setBounds(341, 248, 76, 27);
 		add(lbChucVu);
 		
 		Font font = new Font("Tahoma", Font.PLAIN, 14);
@@ -104,12 +116,6 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		textFieldTen.setFont(textFieldFont);
 		textFieldTen.setBorder(null);
 		
-		textFieldNgaySinh = new JTextField();
-		textFieldNgaySinh.setColumns(15);
-		textFieldNgaySinh.setBounds(91, 137, 129, 25);
-		textFieldNgaySinh.setFont(textFieldFont);
-		textFieldNgaySinh.setBorder(null);
-		
 		textFieldDiaChi = new JTextField();
 		textFieldDiaChi.setColumns(15);
 		textFieldDiaChi.setBounds(91, 238, 129, 25);
@@ -131,12 +137,11 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		
 		textFieldMatKhau = new JTextField();
 		textFieldMatKhau.setColumns(15);
-		textFieldMatKhau.setBounds(627, 337, 122, 25);
+		textFieldMatKhau.setBounds(627, 335, 122, 25);
 		textFieldMatKhau.setFont(new Font("Roboto", Font.PLAIN, 12));
 		textFieldMatKhau.setBorder(null);
 		
 		add(textFieldTen);
-		add(textFieldNgaySinh);
 		add(textFieldDiaChi);
 		add(textFieldDienThoai);
 		add(textFieldTenTaiKhoan);
@@ -146,7 +151,7 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		btnDoiMatKhau.setBackground(new Color(207, 208, 218));
 		btnDoiMatKhau.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDoiMatKhau.setForeground(new Color(0, 128, 192));
-		btnDoiMatKhau.setBounds(250, 388, 115, 27);
+		btnDoiMatKhau.setBounds(208, 399, 115, 27);
 		btnDoiMatKhau.setBorder(null);
 		btnDoiMatKhau.addActionListener(this);
 		add(btnDoiMatKhau);
@@ -155,7 +160,7 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLuu.setForeground(new Color(255, 255, 255));
 		btnLuu.setBackground(new Color(64, 128, 128));
-		btnLuu.setBounds(403, 388, 60, 27);
+		btnLuu.setBounds(376, 399, 60, 27);
 		btnLuu.setBorder(null);
 		add(btnLuu);
 		
@@ -184,16 +189,147 @@ public class frmCANHAN extends JPanel implements ActionListener {
 		lblSCccd.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblSCccd.setBounds(513, 37, 84, 21);
 		add(lblSCccd);
+		
+        btnChinhSua = new JButton("Chỉnh sửa");
+        btnChinhSua.setBounds(484, 399, 85, 25);
+        add(btnChinhSua);
+        
+        JLabel lblNewLabel = new JLabel("Mã");
+        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        lblNewLabel.setBounds(304, 225, 45, 21);
+        add(lblNewLabel);
+        
+        textFieldMaNhanVien = new JTextField();
+        textFieldMaNhanVien.setBounds(340, 227, 96, 19);
+        add(textFieldMaNhanVien);
+        textFieldMaNhanVien.setColumns(10);
+        
+        JButton btnThemAnh = new JButton("Upload");
+        btnThemAnh.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
+                JFileChooser fileChooser = new JFileChooser();
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    String imagePath = selectedFile.getAbsolutePath();
+
+                    try {
+                        byte[] imageBytes = nvBLL.readImageBytes(imagePath);
+                      
+                        
+                        Image image = nvBLL.ChuyenMangByteSangAnh(imageBytes);
+
+                        displayImage(image);
+                        
+                        nvDTO.setAnh(imageBytes);
+                        nvDTO.setMaNhanVien(textFieldMaNhanVien.getText());
+                        nvBLL.updateAnh(nvDTO);
+
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+        	}
+        });
+        btnThemAnh.setBounds(352, 176, 85, 21);
+        add(btnThemAnh);
+        
+        textFieldNgaySinh = new JTextField();
+        textFieldNgaySinh.setBounds(93, 139, 127, 19);
+        add(textFieldNgaySinh);
+        textFieldNgaySinh.setColumns(10);
+        
+        
+        nvBLL = new Business_Logic.NhanVienBLL();
+        nvDAL = new Process_Data.NhanVienDAL();
 	}
+	
+	public frmCANHAN(String tentaikhoan) {
+		tenTaiKhoan = tentaikhoan;
+		this.init();
+		this.DisplayDataTest(tentaikhoan);
+//        String imagePath = "C:\\Users\\acer\\Pictures\\anh.png";
+//
+//        try {
+//            byte[] imageBytes = nvBLL.readImageBytes(imagePath);
+//
+//            Image image = nvBLL.ChuyenMangByteSangAnh(imageBytes);
+//
+//            displayImage(image);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+	}
+	
+	
+    public void DisplayData(String tentaikhoan) {
+    	ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
+    	nvDTO =  nvBLL.GetNhanVienByTenTaiKhoan(tentaikhoan);
+    	textFieldMaNhanVien.setText(nvDTO.getMaNhanVien());
+    	textFieldTen.setText(nvDTO.getTenNhanVien());
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
+        Date ngaySinh = nvDTO.getNgaySinh();		
+        String ngaySinhString = dateFormat.format(ngaySinh);
+        
+    	textFieldNgaySinh.setText(ngaySinhString);
+        textFieldDiaChi.setText(nvDTO.getDiaChi());
+        textFieldGioiTinh.setText(nvDTO.getGioiTinh());
+        textFieldCCCD.setText(nvDTO.getCccd());
+        textFieldDienThoai.setText(nvDTO.getSdt());
+        textFieldTenTaiKhoan.setText(nvDTO.getTenTaiKhoan());
+        textFieldMatKhau.setText(nvDTO.getMatKhau());
+        
+    }
+    
+    
+    public void DisplayDataTest(String tentaikhoan) {
+    	ENTITY.NHANVIEN nvDTO = new ENTITY.NHANVIEN();
+    	nvDTO =  nvBLL.GetNhanVienByTest(tentaikhoan);
+    	textFieldMaNhanVien.setText(nvDTO.getMaNhanVien());
+    	textFieldTen.setText(nvDTO.getTenNhanVien());
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d,y");
+        Date ngaySinh = nvDTO.getNgaySinh();		
+        String ngaySinhString = dateFormat.format(ngaySinh);
+        
+    	textFieldNgaySinh.setText(ngaySinhString);
+        textFieldDiaChi.setText(nvDTO.getDiaChi());
+        textFieldGioiTinh.setText(nvDTO.getGioiTinh());
+        textFieldCCCD.setText(nvDTO.getCccd());
+        textFieldDienThoai.setText(nvDTO.getSdt());
+        textFieldTenTaiKhoan.setText(nvDTO.getTenTaiKhoan());
+        textFieldMatKhau.setText(nvDTO.getMatKhau());
+        byte[] imageData = nvDTO.getAnh();
+        if (imageData != null && imageData.length > 0) {
+            ImageIcon imageIcon = new ImageIcon(imageData);
+            lbAvatar.setIcon(imageIcon);
+        } else {
+
+        }
+        
+    }
+    
+    private void displayImage(Image image) {
+        ImageIcon icon = new ImageIcon(image);
+        lbAvatar.setIcon(icon);
+    }
+	//thangadmin
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == btnDoiMatKhau) {
-			diaCHANGEPASSWORD fm = new diaCHANGEPASSWORD();
-			fm.show();
+			diaCHANGEPASSWORD fm = new diaCHANGEPASSWORD(tenTaiKhoan);
+			fm.addWindowListener(new WindowAdapter() {
+    		    @Override
+    		    public void windowClosed(WindowEvent e) {
+    		        textFieldMatKhau.setText(fm.textFieldMatKhauMoiAgain.getText());
+    		    }
+    		});
+			fm.setVisible(true);
 		}else if(e.getSource() == btnLuu) {
 			
 		}
 	}
-	
 }

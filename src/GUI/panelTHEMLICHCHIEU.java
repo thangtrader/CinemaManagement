@@ -2,27 +2,56 @@ package GUI;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
+
+import Business_Logic.TaoLichChieuBLL;
+import Process_Data.TaoLichChieuDAL;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-public class panelTHEMLICHCHIEU extends JPanel {
+public class panelTHEMLICHCHIEU extends JPanel implements MouseListener,  ActionListener{
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textFieldTenPhim;
-	private JTextField textFieldPhongChieu;
-	private JTextField textFieldNgayGioChieu;
-	private JTable tableDAPhim;
-	private JTable tableDSPhognChieu;
+	public JTextField textFieldMaPhim;
+	public JTextField textFieldPhongChieu;
+	public JTextField textFieldTrangThai;
+	public JTable tableDAPhim;
+	public JTable tableDSPhognChieu;
+	public JComboBox comboBoxKhungGioChieu;
+	TaoLichChieuDAL TLCDAL;
+	TaoLichChieuBLL TLCBLL;
+	public DefaultTableModel model;
+	int current = 0;
+	public JButton btnLuu;
+	public JButton btnHuy;
+	public JDateChooser calendar;
+	public JLabel lbRegexMaPhim;
+	public JLabel lbRegexPhongChieu;
+	public JLabel lbRegexNgayChieu;
+	public JLabel lbRegexTrangThai;
+	public JTextField textFieldNgayChieu;
 
 	/**
 	 * Create the panel.
@@ -33,13 +62,13 @@ public class panelTHEMLICHCHIEU extends JPanel {
 		JLabel lblNewLabel = new JLabel("Danh sách phim");
 		lblNewLabel.setForeground(new Color(0, 139, 139));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
-		lblNewLabel.setBounds(62, 10, 136, 20);
+		lblNewLabel.setBounds(75, 10, 150, 20);
 		add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Danh sách phòng chiếu");
 		lblNewLabel_1.setForeground(new Color(0, 139, 139));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
-		lblNewLabel_1.setBounds(251, 10, 185, 20);
+		lblNewLabel_1.setBounds(265, 10, 250, 20);
 		add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Khung giờ chiếu");
@@ -49,20 +78,38 @@ public class panelTHEMLICHCHIEU extends JPanel {
 		add(lblNewLabel_2);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(34, 40, 165, 146);
+		scrollPane.setBounds(36, 40, 190, 146);
 		add(scrollPane);
 
 		tableDAPhim = new JTable();
+		scrollPane.setViewportView(tableDAPhim);
+		tableDAPhim.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+					"M\u00E3 phim","T\u00EAn phim"
+			}
+		));
+		
 		tableDAPhim.setFillsViewportHeight(true);
 		tableDAPhim.setColumnSelectionAllowed(true);
 		tableDAPhim.setCellSelectionEnabled(true);
-		scrollPane.setRowHeaderView(tableDAPhim);
+		scrollPane.setViewportView(tableDAPhim);
+	
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(251, 40, 165, 146);
+		scrollPane_1.setBounds(251, 40, 190, 146);
 		add(scrollPane_1);
 
 		tableDSPhognChieu = new JTable();
+//		scrollPane.setViewportView(tableDSPhognChieu);
+		tableDSPhognChieu.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Mã phòng chiếu","Tên phòng chiếu"
+				}
+			));
 		tableDSPhognChieu.setCellSelectionEnabled(true);
 		tableDSPhognChieu.setFillsViewportHeight(true);
 		tableDSPhognChieu.setColumnSelectionAllowed(true);
@@ -78,8 +125,10 @@ public class panelTHEMLICHCHIEU extends JPanel {
 		add(panel);
 		panel.setLayout(null);
 
-		JDateChooser calendar = new JDateChooser();
-		calendar.setBounds(0, 5, 261, 143);
+		calendar = new JDateChooser();
+		calendar.setToolTipText("");
+		calendar.getCalendarButton().setToolTipText("");
+		calendar.setBounds(0, 5, 100, 19);
 		panel.add(calendar);  
 
 		JLabel lblNewLabel_4 = new JLabel("Lịch chiếu");
@@ -94,7 +143,7 @@ public class panelTHEMLICHCHIEU extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 
-		JLabel lblNewLabel_5 = new JLabel("Tên phim");
+		JLabel lblNewLabel_5 = new JLabel("Mã phim");
 		lblNewLabel_5.setBounds(10, 10, 84, 16);
 		panel_1.add(lblNewLabel_5);
 
@@ -102,54 +151,142 @@ public class panelTHEMLICHCHIEU extends JPanel {
 		lblNewLabel_6.setBounds(10, 54, 84, 16);
 		panel_1.add(lblNewLabel_6);
 
-		JLabel lblNewLabel_7 = new JLabel("Ngày giờ chiếu");
+		JLabel lblNewLabel_7 = new JLabel("Trạng thái");
 		lblNewLabel_7.setBounds(10, 98, 102, 16);
 		panel_1.add(lblNewLabel_7);
 
-		textFieldTenPhim = new JTextField();
-		textFieldTenPhim.setBounds(113, 7, 127, 19);
-		panel_1.add(textFieldTenPhim);
-		textFieldTenPhim.setColumns(10);
+		textFieldMaPhim = new JTextField();
+		textFieldMaPhim.setBounds(113, 7, 127, 19);
+		panel_1.add(textFieldMaPhim);
+		textFieldMaPhim.setColumns(10);
 
 		textFieldPhongChieu = new JTextField();
 		textFieldPhongChieu.setColumns(10);
 		textFieldPhongChieu.setBounds(113, 51, 127, 19);
 		panel_1.add(textFieldPhongChieu);
 
-		textFieldNgayGioChieu = new JTextField();
-		textFieldNgayGioChieu.setColumns(10);
-		textFieldNgayGioChieu.setBounds(113, 95, 127, 19);
-		panel_1.add(textFieldNgayGioChieu);
+		textFieldTrangThai = new JTextField();
+		textFieldTrangThai.setColumns(10);
+		textFieldTrangThai.setBounds(113, 95, 127, 19);
+		panel_1.add(textFieldTrangThai);
 		
-//		Calendar c = calendar.getCalendar();
-//		int ngay = c.get(Calendar.DAY_OF_MONTH);
-//		int thang = c.get(Calendar.MONTH);
-//		int nam = c.get(Calendar.YEAR);
-//		System.out.println(ngay + " "+thang + " "+nam);
-//		textFieldNgayGioChieu.setText(ngay + "/"+thang + "/"+nam);
 
-		JButton btnLuu = new JButton("Lưu");
+		btnLuu = new JButton("Lưu");
 		btnLuu.setForeground(new Color(255, 235, 205));
 		btnLuu.setBackground(new Color(32, 178, 170));
 		btnLuu.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLuu.setBounds(504, 309, 85, 30);
-		add(btnLuu);
+		this.add(btnLuu);
 
-		JButton btnHuy = new JButton("Hủy");
+		btnHuy = new JButton("Hủy");
 		btnHuy.setForeground(new Color(255, 235, 205));
 		btnHuy.setBackground(new Color(205, 92, 92));
 		btnHuy.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnHuy.setBounds(640, 309, 85, 30);
-		add(btnHuy);
+		this.add(btnHuy);
 
 		JLabel lblNewLabel_8 = new JLabel("Khung giờ chiếu:");
 		lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_8.setBounds(497, 242, 120, 18);
 		add(lblNewLabel_8);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(651, 242, 108, 21);
-		add(comboBox);
+		comboBoxKhungGioChieu = new JComboBox();
+		comboBoxKhungGioChieu.setBounds(651, 242, 115, 23);
+		add(comboBoxKhungGioChieu);
+	    
+	    lbRegexMaPhim = new JLabel("");
+	    lbRegexMaPhim.setBounds(251, 286, 152, 19);
+	    add(lbRegexMaPhim);
+	    
+	    lbRegexPhongChieu = new JLabel("");
+	    lbRegexPhongChieu.setBounds(672, 286, 134, 13);
+	    add(lbRegexPhongChieu);
+	    
+	    lbRegexNgayChieu = new JLabel("");
+	    lbRegexNgayChieu.setBounds(261, 352, 142, 13);
+	    add(lbRegexNgayChieu);
+	    
+	    lbRegexTrangThai = new JLabel("");
+	    lbRegexTrangThai.setBounds(261, 352, 142, 13);
+	    add(lbRegexTrangThai);
+	    
+	    
+		tableDAPhim.addMouseListener(this);
+		tableDSPhognChieu.addMouseListener(this);
+		TLCDAL = new TaoLichChieuDAL(this);
+		TLCBLL = new TaoLichChieuBLL(this);	
+		btnLuu.addActionListener(this);
+	}
+		
+	public void getRowDataPhim() {
+	    int selectedRow = tableDAPhim.getSelectedRow();
+	    if (selectedRow != -1 && selectedRow < tableDAPhim.getRowCount()) {
+	        String maphim = tableDAPhim.getValueAt(selectedRow, 0).toString();
 
+	        textFieldMaPhim.setText(maphim);
+	    }
+	}
+	
+	public void getRowDataPhongChieu() {
+	    int selectedRow = tableDSPhognChieu.getSelectedRow();
+	    if (selectedRow != -1 && selectedRow < tableDSPhognChieu.getRowCount()) {
+	        String tenphongchieu = tableDSPhognChieu.getValueAt(selectedRow, 0).toString();
+
+	        textFieldPhongChieu.setText(tenphongchieu);
+	    }
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	    System.out.println("Mouse Clicked");
+	    if (e.getSource() == tableDAPhim) {
+	        if (tableDAPhim.getSelectedRow() >= 0) {
+	            getRowDataPhim(); 
+	        }
+	    }
+	    if (e.getSource() == tableDSPhognChieu) {
+	        if (tableDSPhognChieu.getSelectedRow() >= 0) {
+	            getRowDataPhongChieu();
+	        }
+	    }
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+	    if (e.getSource() == btnLuu) {
+	    	System.out.println("cc");
+			int result = TLCBLL.addDataLC();
+			if (result == 1) {
+			            
+			   JOptionPane.showMessageDialog(null, "Thêm lịch thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+			   TLCBLL.LoadTLC();  
+			} else {
+			                
+			   JOptionPane.showMessageDialog(null, "không thêm lịch thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+
+			}
+	    }
 	}
 }

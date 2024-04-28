@@ -1,6 +1,6 @@
 package ENTITY;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.swing.Icon;
 
@@ -146,5 +146,7 @@ public class NhanVienViewDTO {
 		this.trangThai = trangThai;
 	}
 	
-	
+	public String toString() {
+		return this.trangThai;
+	}
 }

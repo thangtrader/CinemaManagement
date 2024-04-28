@@ -51,5 +51,8 @@ public class KHUNGGIOCHIEU {
 	public void setTgKeuThuc(Time tgKeuThuc) {
 		this.tgKeuThuc = tgKeuThuc;
 	}
-
+	@Override
+	public String toString() {
+		return this.maKhungGioChieu;
+	}
 }
