@@ -171,7 +171,6 @@ public class frmThemNhanVien extends JFrame implements ActionListener {
 		});
 		calendar.setToolTipText("");
 		calendar.getCalendarButton().setToolTipText("");
-//		calendar.setColumns(10);
 		calendar.setBounds(271, 133, 22, 19);
 		getContentPane().add(calendar);
 		

@@ -6,7 +6,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import Business_Logic.TKNhanVienBBL;
-import Process_Data.TKNhanVien;
+import Process_Data.TKNhanVienDAL;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -17,7 +17,7 @@ public class panelTKNHANVIEN extends JPanel {
 	private static final long serialVersionUID = 1L;
 	public JTable table;
     public DefaultTableModel model;
-    TKNhanVien tknvDAL;
+    TKNhanVienDAL tknvDAL;
     TKNhanVienBBL tknvBLL;
 	public JLabel lbLuong,top1,top2,top3,top4,top5;
 
@@ -87,9 +87,27 @@ public class panelTKNHANVIEN extends JPanel {
 		top5.setFont(new Font("Tahoma", Font.BOLD, 12));
 		top5.setBounds(622, 210, 132, 22);
 		add(top5);
-		
-		tknvDAL = new Process_Data.TKNhanVien(this);
-		tknvBLL = new Business_Logic.TKNhanVienBBL(this);
-		
+	
+		tknvBLL = new Business_Logic.TKNhanVienBBL();
+		loadTableData();
+        updateTotalSalaryLabel();
+        updateTopEmployees();
 	}
+	private void loadTableData() {
+		model =  (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+	    
+		for (ENTITY.TKNHANVIEN tknv : tknvBLL.LoadNhanVien()) {
+			model.addRow(new Object[]{tknv.getMaNhanVien(), tknv.getTenNhanVien(), tknv.getGioiTinh(), tknv.getSogiolam(), tknv.getTongtien()});
+		}
+    }
+    private void updateTotalSalaryLabel() {
+        TKNhanVienBBL bbl = new TKNhanVienBBL();
+        bbl.UpdateTongLuongLabel(lbLuong);
+    }
+    private void updateTopEmployees() {
+        TKNhanVienBBL bbl = new TKNhanVienBBL();
+        JLabel[] topLabels = {top1, top2, top3, top4, top5};
+        bbl.UpdateTop5(topLabels);
+    }
 }
