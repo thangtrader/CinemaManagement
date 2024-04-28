@@ -5,6 +5,15 @@ package Process_Data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+<<<<<<< HEAD:src/Process_Data/TKNhanVienDAL.java
+=======
+import java.sql.Statement;
+import java.sql.Time;
+import java.text.NumberFormat;
+import java.time.Duration;
+import java.util.Currency;
+import java.util.Locale;
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c:src/Process_Data/TKNhanVien.java
 import java.util.Vector;
 
 public class TKNhanVienDAL {
@@ -40,7 +49,16 @@ public class TKNhanVienDAL {
         }
         return vector;
     }
+<<<<<<< HEAD:src/Process_Data/TKNhanVienDAL.java
 
+=======
+    public void UpdateTongLuongLabel(JLabel label) {
+        int tongLuong = TinhTongLuongNhanVien(); // Gọi phương thức để lấy tổng lương từ procedure
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        format.setCurrency(Currency.getInstance("VND"));
+        label.setText(String.valueOf(format.format(tongLuong))); // Cập nhật label với kết quả
+    }
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c:src/Process_Data/TKNhanVien.java
     public int TinhTongLuongNhanVien() {
         int result = 0;
         try {

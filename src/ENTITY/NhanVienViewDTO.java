@@ -1,6 +1,12 @@
 package ENTITY;
 
+<<<<<<< HEAD
 import java.util.Date;
+=======
+
+
+import java.sql.Date;
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c
 
 import javax.swing.Icon;
 

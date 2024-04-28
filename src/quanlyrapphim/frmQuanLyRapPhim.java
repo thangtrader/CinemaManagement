@@ -1,9 +1,5 @@
 package quanlyrapphim;
 
-
-
-import GUI.frmCANHAN;
-
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -18,37 +14,27 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import GUI.diaCHANGEPASSWORD;
-import GUI.dialogLOGIN;
-
-<<<<<<< HEAD
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Dialog.ModalExclusionType;
-import java.awt.Window.Type;
-=======
-
->>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c
-
-public class frmQuanLyPhim extends JFrame {
+public class frmQuanLyRapPhim extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel mainPanel;
 	private JPanel panelTHONGTINPHIM;
 	private JPanel panelLICHCHIEUPHIM;
-	public JPanel panelCANHAN;
+	private JPanel panelCANHAN;
 	private JPanel panelTHONGKE;
-	public JPanel panelNHANVIEN;
-	private String tentaikhoan;
+	private JPanel panelNHANVIEN;
+	private JPanel panel6;
 
-	
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frmQuanLyPhim qlp = new frmQuanLyPhim(null);
-					qlp.setVisible(true);
+					frmQuanLyRapPhim frame = new frmQuanLyRapPhim();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -59,7 +45,7 @@ public class frmQuanLyPhim extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public frmQuanLyPhim(String tentaikhoan) {
+	public frmQuanLyRapPhim() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -68,20 +54,25 @@ public class frmQuanLyPhim extends JFrame {
 		setContentPane(contentPane);
 		setTitle("QUẢN LÝ RẠP PHIM");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(939, 540);
+        setSize(938, 536);
         
         mainPanel = new JPanel(new CardLayout());
         mainPanel.setBounds(121, 60, 800, 441);
+//        mainPanel.setBorder(null);
 
         panelTHONGTINPHIM = new GUI.frmTHONGTINPHIM();
 
         panelLICHCHIEUPHIM = new GUI.frmLICHCHIEUPHIM();
         
-        panelCANHAN = new GUI.frmCANHAN(tentaikhoan);
-       
+        panelCANHAN = new GUI.frmCANHAN();
+//        
         panelTHONGKE = new GUI.frmTHONGKE();
         
         panelNHANVIEN = new GUI.frmNHANVIEN();
+//
+//        panel5 = new GUI.home();
+//
+//        panel6 = new GUI.doiMatKhau();
         
         mainPanel.add(panelTHONGTINPHIM, "panelTHONGTINPHIM");
         mainPanel.add(panelLICHCHIEUPHIM, "panelLICHCHIEUPHIM");
@@ -95,7 +86,7 @@ public class frmQuanLyPhim extends JFrame {
         getContentPane().add(mainPanel);
         
         ImageIcon icon = new ImageIcon("image\\pngwing.com (1).png");
-        JButton btnNewButton = new JButton(new ImageIcon(frmQuanLyPhim.class.getResource("/image/pngwing.com (1).png")));
+        JButton btnNewButton = new JButton(new ImageIcon(frmQuanLyRapPhim.class.getResource("/image/pngwing.com (1).png")));
         btnNewButton.setForeground(new Color(0, 0, 0));
         btnNewButton.setText("VIP CINEMA");
         btnNewButton.setBounds(0, 0, 921, 62);

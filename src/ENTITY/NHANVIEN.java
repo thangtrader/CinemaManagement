@@ -1,7 +1,11 @@
 package ENTITY;
 
 
+<<<<<<< HEAD
 import java.awt.Image;
+=======
+
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c
 import java.sql.Date;
 
 import javax.swing.Icon;

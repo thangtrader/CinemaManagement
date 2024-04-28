@@ -225,20 +225,20 @@ insert into PHIEU(MaLoaiPhieu,NgayLapPhieu,MaNhanVien)
 values ('LP001','2022-05-27','NV0006');
 
 insert into PHIEU(MaLoaiPhieu,NgayLapPhieu,MaNhanVien)
-values ('LP001','2022-05-27','NV0001');					
+values ('LP001','2023-05-27','NV0001');					
 insert into PHIEU(MaLoaiPhieu,NgayLapPhieu,MaNhanVien)
-values ('LP001','2022-05-28','NV0002');
+values ('LP001','2023-05-28','NV0002');
 insert into PHIEU(MaLoaiPhieu,NgayLapPhieu,MaNhanVien)
-values ('LP002','2022-05-26','NV0002');		
+values ('LP002','2023-05-26','NV0002');		
 
 insert into PHIEU(MaLoaiPhieu,NgayLapPhieu,MaNhanVien)
-values ('LP001','2022-05-29','NV0006');
+values ('LP001','2023-06-29','NV0006');
 insert into PHIEU(MaLoaiPhieu,NgayLapPhieu,MaNhanVien)
-values ('LP001','2022-05-29','NV0007');
+values ('LP001','2022-04-29','NV0007');
 insert into PHIEU(MaLoaiPhieu,NgayLapPhieu,MaNhanVien)
-values ('LP002','2022-05-30','NV0008');
+values ('LP002','2022-04-30','NV0008');
 insert into PHIEU(MaLoaiPhieu,NgayLapPhieu,MaNhanVien)
-values ('LP002','2022-05-31','NV0006');
+values ('LP002','2022-04-20','NV0006');
 
 ---- Đã xong
 -----32. Chi tiết phiếu phim
