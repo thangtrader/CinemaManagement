@@ -1,7 +1,11 @@
 package ENTITY;
 
 
+<<<<<<< HEAD
+import java.awt.Image;
+=======
 
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c
 import java.sql.Date;
 
 import javax.swing.Icon;
@@ -11,19 +15,19 @@ public class NHANVIEN {
 	private String maNhanVien;
 	private String tenNhanVien;
 	private Date ngaySinh;
-	private boolean gioiTinh;
+	private String gioiTinh;
 	private String diaChi;
 	private String sdt;
 	private String cccd;
 	private String tenTaiKhoan;
 	private String matKhau;
-	private Icon anh;
+	private byte[] anh;
 	private String maChinhSach;
 	private String maChucVu;
 	private String trangThai;
 
-	public NHANVIEN(String maNhanVien, String tenNhanVien, Date ngaySinh, boolean gioiTinh, String diaChi, String sdt,
-			String cccd, String tenTaiKhoan, String matKhau, Icon anh, String maChinhSach, String maChucVu,
+	public NHANVIEN(String maNhanVien, String tenNhanVien, Date ngaySinh, String gioiTinh, String diaChi, String sdt,
+			String cccd, String tenTaiKhoan, String matKhau, byte[] anh, String maChinhSach, String maChucVu,
 			String trangThai) {
 		this.maNhanVien = maNhanVien;
 		this.tenNhanVien = tenNhanVien;
@@ -75,12 +79,12 @@ public class NHANVIEN {
 	}
 
 
-	public boolean isGioiTinh() {
+	public String getGioiTinh() {
 		return gioiTinh;
 	}
 
 
-	public void setGioiTinh(boolean gioiTinh) {
+	public void setGioiTinh(String gioiTinh) {
 		this.gioiTinh = gioiTinh;
 	}
 
@@ -135,12 +139,12 @@ public class NHANVIEN {
 	}
 
 
-	public Icon getAnh() {
+	public byte[] getAnh() {
 		return anh;
 	}
 
 
-	public void setAnh(Icon anh) {
+	public void setAnh(byte[] anh) {
 		this.anh = anh;
 	}
 

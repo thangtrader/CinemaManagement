@@ -5,33 +5,26 @@ package Process_Data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+<<<<<<< HEAD:src/Process_Data/TKNhanVienDAL.java
+=======
 import java.sql.Statement;
 import java.sql.Time;
 import java.text.NumberFormat;
 import java.time.Duration;
 import java.util.Currency;
 import java.util.Locale;
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c:src/Process_Data/TKNhanVien.java
 import java.util.Vector;
 
-import javax.swing.JLabel;
-
-public class TKNhanVien {
+public class TKNhanVienDAL {
     DBHelper cnn;
     GUI.panelTKNHANVIEN GUITKNhanVien;
-    private static TKNhanVien instance;
 
-    public static TKNhanVien getInstance() {
-        if (instance == null) {
-            instance = new TKNhanVien();
-        }
-        return instance;
-    }
-
-    public TKNhanVien() {
+    public TKNhanVienDAL() {
         cnn = new DBHelper();
     }
     
-    public TKNhanVien(GUI.panelTKNHANVIEN pnv) {
+    public TKNhanVienDAL(GUI.panelTKNHANVIEN pnv) {
     	GUITKNhanVien = pnv;
     	cnn = new DBHelper();
     }
@@ -56,26 +49,25 @@ public class TKNhanVien {
         }
         return vector;
     }
+<<<<<<< HEAD:src/Process_Data/TKNhanVienDAL.java
+
+=======
     public void UpdateTongLuongLabel(JLabel label) {
         int tongLuong = TinhTongLuongNhanVien(); // Gọi phương thức để lấy tổng lương từ procedure
         NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         format.setCurrency(Currency.getInstance("VND"));
         label.setText(String.valueOf(format.format(tongLuong))); // Cập nhật label với kết quả
     }
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c:src/Process_Data/TKNhanVien.java
     public int TinhTongLuongNhanVien() {
         int result = 0;
         try {
-            // Chuẩn bị câu lệnh gọi stored procedure
             String sql = "{CALL TinhTongLuongNhanVien()}";
-            // Tạo đối tượng PreparedStatement
             PreparedStatement statement = cnn.getConnection().prepareStatement(sql);
-            // Thực thi câu lệnh
             ResultSet rs = statement.executeQuery();
-            // Lấy kết quả
             if (rs.next()) {
-                result = rs.getInt(1); // Giả sử stored procedure trả về một số nguyên
+                result = rs.getInt(1); 
             }
-            // Đóng kết nối và các tài nguyên
             rs.close();
             statement.close();
         } catch (SQLException e) {
@@ -83,25 +75,15 @@ public class TKNhanVien {
         }
         return result;
     }
-
-	  public void UpdateTop5(JLabel label) {
-		  String top5 = Top5NhanVien(); // Gọi phương thức để lấy tổng lương từ procedure
-	      label.setText(String.valueOf(top5));// Cập nhật label với kết quả
-    }
 	  public String Top5NhanVien() {
 		    String result = "";
 		    try {
-		        // Chuẩn bị câu lệnh gọi stored procedure
 		        String sql = "{CALL HienThiTop5()}";
-		        // Tạo đối tượng PreparedStatement
 		        PreparedStatement statement = cnn.getConnection().prepareStatement(sql);
-		        // Thực thi câu lệnh
 		        ResultSet rs = statement.executeQuery();
-		        // Lặp qua tất cả các nhân viên trả về từ stored procedure
 		        while (rs.next()) {
-		            result += rs.getString("TenNhanVien") + "\n"; // Thêm tên của nhân viên vào chuỗi kết quả
+		            result += rs.getString("TenNhanVien") + "\n";
 		        }
-		        // Đóng kết nối và các tài nguyên
 		        rs.close();
 		        statement.close();
 		    } catch (SQLException e) {

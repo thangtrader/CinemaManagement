@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //package GUI;
 //
 //import javax.swing.JPanel;
@@ -14,6 +15,9 @@
 //	}
 //
 //}
+=======
+
+>>>>>>> DucThang
 package GUI;
 
 import javax.swing.JPanel;
@@ -35,6 +39,21 @@ import java.awt.event.ActionListener;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+<<<<<<< HEAD
+import java.text.NumberFormat;
+=======
+<<<<<<< HEAD
+>>>>>>> 9983d78d39632af35eb1d665625fb4eee3b7214a
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Currency;
+import java.util.Date;
+<<<<<<< HEAD
+import java.util.Locale;
+import java.util.Vector;
+=======
+
+=======
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,6 +61,8 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Vector;
+>>>>>>> DucThang
+>>>>>>> 9983d78d39632af35eb1d665625fb4eee3b7214a
 import java.awt.Color;
 
 import javax.swing.JCheckBox;
@@ -54,12 +75,31 @@ public class panelTHONGKEPHIM extends JPanel {
 	public JLabel lbDoanhThu;
 	public DefaultTableModel model;
 	public String dateString;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+	ThongKePhimDAL tkpDAL;
+>>>>>>> 9983d78d39632af35eb1d665625fb4eee3b7214a
+	ThongKePhimBLL tkpBLL;
+	public JDateChooser dateChooser;
+	public JCheckBox checkBoxDoanhThu;
+<<<<<<< HEAD
+	public Calendar calendar;
+	private JCheckBox checkBoxTongDoanhThu;
+
+=======
+	/**
+	 * Create the panel.
+	 */
+=======
 	ThongKePhimBLL tkpBLL;
 	public JDateChooser dateChooser;
 	public JCheckBox checkBoxDoanhThu;
 	public Calendar calendar;
 	private JCheckBox checkBoxTongDoanhThu;
 
+>>>>>>> DucThang
+>>>>>>> 9983d78d39632af35eb1d665625fb4eee3b7214a
 	public panelTHONGKEPHIM() {
 		setLayout(null);
 		JScrollPane scrollPane = new JScrollPane();
@@ -74,6 +114,30 @@ public class panelTHONGKEPHIM extends JPanel {
 		table.setColumnSelectionAllowed(true);
 		table.setRowHeight(25);
 		scrollPane.setViewportView(table);
+<<<<<<< HEAD
+
+		JLabel lblNewLabel = new JLabel("Doanh thu:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		lblNewLabel.setBounds(560, 340, 84, 22);
+=======
+<<<<<<< HEAD
+		
+		JLabel lblNewLabel = new JLabel("Tổng doanh thu:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel.setBounds(518, 340, 113, 22);
+>>>>>>> 9983d78d39632af35eb1d665625fb4eee3b7214a
+		add(lblNewLabel);
+
+		lbDoanhThu = new JLabel("");
+		lbDoanhThu.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbDoanhThu.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lbDoanhThu.setBounds(656, 340, 75, 22);
+		add(lbDoanhThu);
+<<<<<<< HEAD
+
+=======
+		
+=======
 
 		JLabel lblNewLabel = new JLabel("Doanh thu:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 12));
@@ -86,17 +150,109 @@ public class panelTHONGKEPHIM extends JPanel {
 		lbDoanhThu.setBounds(656, 340, 75, 22);
 		add(lbDoanhThu);
 
+>>>>>>> DucThang
+>>>>>>> 9983d78d39632af35eb1d665625fb4eee3b7214a
 		JLabel labelDoanhThuTheoNam = new JLabel("Doanh thu phim");
 		labelDoanhThuTheoNam.setFont(new Font("Tahoma", Font.BOLD, 12));
 		labelDoanhThuTheoNam.setForeground(new Color(255, 0, 0));
 		labelDoanhThuTheoNam.setBackground(new Color(255, 255, 255));
 		labelDoanhThuTheoNam.setBounds(27, 18, 197, 17);
 		add(labelDoanhThuTheoNam);
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+		
+=======
+
+>>>>>>> DucThang
+>>>>>>> 9983d78d39632af35eb1d665625fb4eee3b7214a
 		JPanel panel = new JPanel();
 		panel.setBounds(638, 10, 97, 32);
 		add(panel);
 		panel.setLayout(null);
+<<<<<<< HEAD
+		dateChooser = new JDateChooser();
+		dateChooser.setBounds(0, 0, 96, 31);
+		panel.add(dateChooser);
+		dateChooser.addPropertyChangeListener(new PropertyChangeListener() {
+=======
+<<<<<<< HEAD
+		calendar = new JDateChooser();
+		calendar.setBounds(0, 0, 96, 31);
+		panel.add(calendar);
+//		calendar.setDate(null);
+		calendar.addPropertyChangeListener(new PropertyChangeListener() {
+		    
+>>>>>>> 9983d78d39632af35eb1d665625fb4eee3b7214a
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if ("date".equals(evt.getPropertyName())) {
+					dateChooser.setDateFormatString("M, y");
+					Date selectedDate = (Date) evt.getNewValue();
+					SimpleDateFormat dateFormat = new SimpleDateFormat("M, y");
+					calendar = dateChooser.getCalendar();
+					dateString = dateFormat.format(selectedDate);
+					labelDoanhThuTheoNam.setText("Doanh thu tháng " + (calendar.get(Calendar.MONTH) + 1) + " năm "
+							+ calendar.get(Calendar.YEAR));
+					loadAll();
+					checkBoxTongDoanhThu.setSelected(false);
+				}
+			}
+		});
+		checkBoxDoanhThu = new JCheckBox("");
+		checkBoxDoanhThu.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		checkBoxDoanhThu.setBounds(467, 18, 21, 21);
+		add(checkBoxDoanhThu);
+
+		JLabel lblNewLabel_1 = new JLabel("Doanh thu theo năm");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1.setBounds(491, 20, 140, 16);
+		add(lblNewLabel_1);
+		checkBoxDoanhThu.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (checkBoxDoanhThu.isSelected() && dateChooser.getDate() == null) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn thời gian trước khi xem", "Doanh thu năm",
+							JOptionPane.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+					checkBoxDoanhThu.setSelected(false);
+				} else if (checkBoxDoanhThu.isSelected()) {
+					labelDoanhThuTheoNam.setText("Doanh thu năm " + calendar.get(Calendar.YEAR));
+					loadAll();
+				} else {
+					labelDoanhThuTheoNam.setText("Doanh thu tháng " + (calendar.get(Calendar.MONTH) + 1) + " năm "
+							+ calendar.get(Calendar.YEAR));
+					loadAll();
+				}
+			}
+		});
+
+		checkBoxTongDoanhThu = new JCheckBox("Tổng doanh thu");
+		checkBoxTongDoanhThu.setFont(new Font("Tahoma", Font.BOLD, 12));
+		checkBoxTongDoanhThu.setBounds(26, 342, 134, 21);
+		add(checkBoxTongDoanhThu);
+		checkBoxTongDoanhThu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (checkBoxTongDoanhThu.isSelected()) {
+					labelDoanhThuTheoNam.setText("Doanh thu phim");
+					dateString = null;
+					dateChooser.setDateFormatString("");
+					checkBoxDoanhThu.setSelected(false);
+				}
+				loadAll();
+			}
+		});
+		tkpBLL = new Business_Logic.ThongKePhimBLL(this);
+		loadAll();
+		
+
+	}
+<<<<<<< HEAD
+=======
+=======
 		dateChooser = new JDateChooser();
 		dateChooser.setBounds(0, 0, 96, 31);
 		panel.add(dateChooser);
@@ -166,6 +322,7 @@ public class panelTHONGKEPHIM extends JPanel {
 		
 
 	}
+>>>>>>> 9983d78d39632af35eb1d665625fb4eee3b7214a
 	public void loadAll() {
 		LoadTKPhim();
 		UpdateTongDoanhThuLabel();
@@ -202,4 +359,8 @@ public class panelTHONGKEPHIM extends JPanel {
 		String kq = format.format(tongDoanhThu);
 		lbDoanhThu.setText(kq);
 	}
+<<<<<<< HEAD
+=======
+>>>>>>> DucThang
+>>>>>>> 9983d78d39632af35eb1d665625fb4eee3b7214a
 }

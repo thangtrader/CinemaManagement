@@ -16,6 +16,8 @@ begin
         select 0 as code
     else select -1 as code
 end
+<<<<<<< HEAD
+=======
 go
 --- them nhan vien
 create proc themnhanvien
@@ -54,6 +56,7 @@ create proc CapNhatNhanVien
 	update  NHAN_VIEN set TenNhanVien=@TenNhanVien,GioiTinh=@GioiTinh,NgaySinh=@NgaySinh,DiaChi=@DiaChi,SoDienThoai=@SoDienThoai,CCCD=@CCCD,TenTaiKhoan=@TenTaiKhoan,MatKhau=@MatKhau,Anh=@Anh,MaChinhSach=@MaChinhSach,MaChucVu=@MaChucVu
 where MaNhanVien=@MaNhanVien
 end
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c
 go
 -- Them phong chieu
 create proc ThemPhongChieu
@@ -111,6 +114,9 @@ begin
 	where MaNhanVien = @MaNhanVien and MaCa = @MaCa and NgayLamViec = @NgayLamViec
 end
 Go
+<<<<<<< HEAD
+--Hiển thị tất cả bảng The Loai Phim
+=======
 
 Create proc SelectAllPhim
 As
@@ -133,14 +139,38 @@ Begin
 End
 Go
 
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c
 Create proc SelectTheLoaiPhim
 As
 Begin
 	Select * From THE_LOAI_PHIM
 End
+<<<<<<< HEAD
+Go
+--Hiện thị bảng Phim nhưng lấy TenTheLoai thay MaTheLoai
+Create proc SelectPhim
+As
+Begin
+	SELECT p.MaPhim, p.TenPhim, p.ThoiLuong, p.QuocGia, p.DaoDien, p.NamSanXuat, p.DoTuoiXem, t.TenTheLoaiPhim
+	FROM PHIM as p INNER JOIN THE_LOAI_PHIM as t ON p.MaTheLoai = t.MaTheLoaiPhim;
+End
+Go
+Create proc GetPhimByMa
+	@MaPhim varchar(6)
+As
+Begin
+	SELECT p.MaPhim, p.TenPhim, p.ThoiLuong, p.QuocGia, p.DaoDien, p.NamSanXuat, p.DoTuoiXem, t.TenTheLoaiPhim
+	FROM PHIM as p INNER JOIN THE_LOAI_PHIM as t ON p.MaTheLoai = t.MaTheLoaiPhim
+	Where @MaPhim = MaPhim
+End
+Exec GetPhimByMa P00001	
+Go
+--Thêm Phim
+=======
 
 go
 
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c
 Create proc ThemPhim
 
 	@TenPhim nvarchar(50),
@@ -155,6 +185,10 @@ Create proc ThemPhim
 		INSERT INTO PHIM (TenPhim,ThoiLuong,QuocGia,NamSanXuat,DoTuoiXem,MaTheLoai ,DaoDien)
 		Values (@TenPhim,@ThoiLuong,@QuocGia,@NamSanXuat, @DoTuoiXem, @MaTheLoai ,@DaoDien);
 	End
+<<<<<<< HEAD
+Go
+--Sửa Phim theo mã
+=======
 
 go
 
@@ -164,6 +198,7 @@ Begin
 	Delete PHIM Where MaPhim = @MaPhim
 End
 Go
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c
 Create proc SuaPhim
 	@MaPhim varchar(6),
 	@TenPhim nvarchar(50),
@@ -178,6 +213,9 @@ Create proc SuaPhim
 		Update PHIM Set TenPhim = @TenPhim, ThoiLuong = @ThoiLuong, QuocGia = @QuocGia, NamSanXuat = @NamSanXuat, DoTuoiXem = @DoTuoiXem, MaTheLoai = @MaTheLoai, DaoDien = @DaoDien
 		Where MaPhim = @MaPhim
 	End
+<<<<<<< HEAD
+Go
+=======
 go
 --
 Create proc LoadPhim
@@ -188,6 +226,7 @@ Begin
 End	
 Go
 
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c
 Create proc SelectAllTKNV
 As
 Begin
@@ -198,28 +237,15 @@ Begin
     INNER JOIN CHINH_SACH cs ON n.MaChinhSach = cs.MaChinhSach
 End	
 Go
-/*Create proc SelectTKNhanVien
-AS
-BEGIN
-    SELECT DISTINCT NV.MaNhanVien, 
-           NV.TenNhanVien, 
-           NV.GioiTinh, 
-           DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc) AS SoGioLam, 
-            ROUND((DATEDIFF(HOUR, CLV.GioBatDau, CLV.GioKetThuc) * CS.HeSoLuong*18000),2) AS TongTien
-    FROM NHAN_VIEN NV
-    INNER JOIN LICH_LAM_VIEC LLV ON NV.MaNhanVien = LLV.MaNhanVien
-    INNER JOIN CA_LAM_VIEC CLV ON LLV.MaCa = CLV.MaCa
-    INNER JOIN CHINH_SACH CS ON NV.MaChinhSach = CS.MaChinhSach
-END*/
-
-
-Create proc LoadNhanVien
+--Hiện thi bảng nhân viên
+Create proc SelectNhanVien
 As
 Begin
 	Select n.MaNhanVien, n.TenNhanVien, n.NgaySinh, n.GioiTinh, n.SoDienThoai, c.TenChinhSach, cv.TenChucVu
 	From NHAN_VIEN as n INNER JOIN CHINH_SACH as c On n.MaChinhSach = c.MaChinhSach INNER JOIN  CHUC_VU as cv On n.MaChucVu = cv.MaChucVu
 End
 Go
+--Thêm  nhân viên
 Create proc ThemNhanVien
 
 	@TenNhanVien nvarchar(30),
@@ -239,22 +265,56 @@ Create proc ThemNhanVien
 		Values (@TenNhanVien,@NgaySinh,@GioiTinh,@DiaChi,@SoDienThoai,@CCCD,@TenTaiKhoan,@MatKhau,@MaChinhSach,@MaChucVu,@TrangThai);
 	End
 Go
+--Cập nhật bảng nhân viên theo mã
+Create proc SuaNhanVien
+	@MaNhanVien varchar(6),
+	@TenNhanVien nvarchar(30),
+	@NgaySinh date,
+	@GioiTinh nvarchar(3),
+	@DiaChi nvarchar(50),
+	@SoDienThoai varchar(15),
+	@CCCD varchar(20),
+	@TenTaiKhoan varchar(30),
+	@MatKhau varchar(32),
+	@MaChinhSach varchar(6),
+	@MaChucVu varchar(6),
+	@TrangThai varchar(1)
+	As
+	Begin
+		Update NHAN_VIEN Set TenNhanVien = @TenNhanVien, NgaySinh = @NgaySinh, GioiTinh = @GioiTinh, DiaChi = @DiaChi, SoDienThoai = @SoDienThoai, CCCD = @CCCD, TenTaiKhoan = @TenTaiKhoan, MatKhau = @MatKhau, MaChinhSach = @MaChinhSach, MaChucVu = @MaChucVu, TrangThai = @TrangThai
+		Where MaNhanVien = @MaNhanVien
+		
+	End
+Go
+--Xóa nhân viên theo mã
+Create proc XoaNhanVien(@MaNhanVien varchar(6))
+As
+Begin
+	Delete NHAN_VIEN Where MaNhanVien = @MaNhanVien
+End
+Go
+--Lấy bảng nhân viên theo mã nhân viên
+Create proc GetNhanVien
+	@MaNhanVien varchar(6)
+As
+Begin
+	Select n.MaNhanVien, n.TenNhanVien, n.NgaySinh, n.GioiTinh, n.DiaChi, n.SoDienThoai, n.CCCD, n.TenTaiKhoan, n.MatKhau, c.TenChinhSach, cv.TenChucVu, n.TrangThai
+	From NHAN_VIEN as n INNER JOIN CHINH_SACH as c On n.MaChinhSach = c.MaChinhSach INNER JOIN  CHUC_VU as cv On n.MaChucVu = cv.MaChucVu
+	Where @MaNhanVien = MaNhanVien
+End
+Go
+--Hiện thị bảng chính sách
 Create proc SelectChinhSach
 As
 Begin
 	Select MaChinhSach, TenChinhSach From CHINH_SACH
 End
 Go
+--Hiện thị bảng chức vụ
 Create proc SelectChucVu
 As
 Begin
 	Select * From CHUC_VU
-End
-Go
-Create proc XoaNhanVien(@MaNhanVien varchar(6))
-As
-Begin
-	Delete NHAN_VIEN Where MaNhanVien = @MaNhanVien
 End
 Go
 create PROCEDURE HienThiThongTinNhanVien
@@ -349,6 +409,41 @@ BEGIN
         TongLuong DESC;
 END
 go 
+<<<<<<< HEAD
+Create proc GetNhanVienByTenTaiKhoan
+	@TenTaiKhoan varchar(30)
+	As
+	Begin
+		Select MaNhanVien, TenNhanVien, NgaySinh, DiaChi, GioiTinh, CCCD, SoDienThoai, TenTaiKhoan, MatKhau From NHAN_VIEN
+		Where @TenTaiKhoan = TenTaiKhoan
+	End
+Go
+Create proc SuaMatKhau
+	@TenTaiKhoan varchar(30),
+	@MatKhau varchar(32)
+As
+Begin
+	Update NHAN_VIEN Set MatKhau = @MatKhau
+	Where @TenTaiKhoan = TenTaiKhoan
+End
+Drop proc SuaMatKhau
+Exec SuaMatKhau 'thangadmin', '123456'
+Go
+Create proc SuaAnh
+	@MaNhanVien varchar(6),
+	@Anh image
+	As 
+	Begin 
+		Update NHAN_VIEN Set Anh = @Anh
+		Where MaNhanVien = @MaNhanVien
+	End
+Go
+Create proc GetLichByMa
+	@TenPhim nvarchar(50),
+	@TenPhong nvarchar(20),
+	@NgayChieu datetime,
+	@TGBatDau time(7)
+=======
 --------- Tong Thong ke Phim
 create proc selectThongKePhim 
 	as
@@ -475,4 +570,276 @@ BEGIN
     -- Xóa bảng tạm sau khi sử dụng
     DROP TABLE #TempTable;
 END;
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c
 
+As
+Begin
+	SELECT p.TenPhim, ph.TenPhong, l.NgayChieu, g.TGBatDau,g.TGKetThuc, tr.TenTinhTrang
+	FROM PHIM as p INNER JOIN LICH_CHIEU as l ON p.MaPhim =l.MaPhim
+	INNER JOIN PHONG_CHIEU as ph ON l.MaPhongChieu =ph.MaPhongChieu 
+	INNER JOIN KHUNG_GIO_CHIEU as g ON l.MaKhungGioChieu = g.MaKhungGioChieu 
+	INNER JOIN TINH_TRANG_PHONG_CHIEU as tr ON l.TrangThai = tr.MaTinhTrang  
+	Where 
+		  @TenPhim = p.TenPhim and
+		  @NgayChieu = NgayChieu and
+		  @TenPhong = ph.TenPhong and
+		  @TGBatDau = g.TGBatDau
+
+End
+
+Go
+Create Proc UpdateLichChieu
+    @TenPhim nvarchar(50),
+    @TenPhong nvarchar(20),
+    @NgayChieu datetime,
+    @TGBatDau time(7),
+    @TGKetThuc time(7),
+    @TenTinhTrang nvarchar(40)
+ as 
+ begin
+
+-- if @TenPhim = (SELECT TenPhim FROM Phim WHERE TenPhim = @TenPhim )
+ UPDATE LICH_CHIEU
+ set MaPhim = (SELECT MaPhim FROM Phim WHERE TenPhim = @TenPhim ),
+	 MaPhongChieu= ( SELECT MaPhongChieu FROM PHONG_CHIEU WHERE TenPhong = @TenPhong),
+	 NgayChieu = @NgayChieu,
+	 MaKhungGioChieu=(SELECT MaKhungGioChieu FROM KHUNG_GIO_CHIEU WHERE TGBatDau = @TGBatDau and TGKetThuc= @TGKetThuc),
+	 TrangThai=(SELECT MaTinhTrang FROM TINH_TRANG_PHONG_CHIEU WHERE TenTinhTrang = @TenTinhTrang)
+ where 
+		MaPhim In (SELECT MaPhim FROM Phim WHERE MaPhim = LICH_CHIEU.MaPhim)
+    and MaPhongChieu in (SELECT MaPhongChieu FROM PHONG_CHIEU WHERE MaPhongChieu = LICH_CHIEU.MaPhongChieu)
+    AND MaKhungGioChieu in (SELECT MaKhungGioChieu FROM KHUNG_GIO_CHIEU WHERE MaKhungGioChieu = LICH_CHIEU.MaKhungGioChieu)
+    AND NgayChieu = @NgayChieu
+	and TrangThai = (SELECT MaTinhTrang FROM TINH_TRANG_PHONG_CHIEU WHERE MaTinhTrang = LICH_CHIEU.TrangThai)
+	end
+
+Go
+Create PROCEDURE XoaLich
+	@TenPhim nvarchar(50),
+	@TenPhong nvarchar(20),
+	@NgayChieu datetime,
+	@TGBatDau time(7)
+AS
+BEGIN
+    DELETE FROM LICH_CHIEU
+    WHERE MaPhim = (SELECT MaPhim FROM Phim WHERE TenPhim = @TenPhim)
+    AND MaPhongChieu = (SELECT MaPhongChieu FROM PHONG_CHIEU WHERE TenPhong = @TenPhong)
+    AND MaKhungGioChieu in (SELECT MaKhungGioChieu FROM KHUNG_GIO_CHIEU WHERE TGBatDau = @TGBatDau)
+    AND NgayChieu = @NgayChieu;
+END
+Go
+create proc LoadLichChieu
+As
+Begin
+	SELECT p.TenPhim, ph.TenPhong, l.NgayChieu, g.TGBatDau,g.TGKetThuc, tr.TenTinhTrang
+	FROM PHIM as p INNER JOIN LICH_CHIEU as l ON p.MaPhim =l.MaPhim INNER JOIN PHONG_CHIEU as ph ON l.MaPhongChieu =ph.MaPhongChieu INNER JOIN KHUNG_GIO_CHIEU as g ON l.MaKhungGioChieu = g.MaKhungGioChieu INNER JOIN TINH_TRANG_PHONG_CHIEU as tr ON l.TrangThai = tr.MaTinhTrang  
+End	
+Go
+Create proc SelectKhungGioChieu
+As
+Begin
+	Select * From KHUNG_GIO_CHIEU
+End
+
+Go
+Create proc SelectTGBD
+As
+Begin
+	Select MaKhungGioChieu, TenKhungGio,TGBatDau
+	From KHUNG_GIO_CHIEU
+End
+
+Go
+Create proc SelectTGKT
+As
+Begin
+	Select MaKhungGioChieu, TenKhungGio,TGKetThuc
+	From KHUNG_GIO_CHIEU
+End
+
+Go
+Create proc SelectPhongChieu
+As
+Begin
+	Select * From PHONG_CHIEU
+End
+Go
+Create proc SelectKhungGioChieu
+As
+Begin
+	Select MaKhungGioChieu, TenKhungGio From KHUNG_GIO_CHIEU
+End
+
+go
+Create proc LuuLC
+	@MaPhim nvarchar(50),
+	@MaPhongChieu nvarchar(20),
+	@MaKhungGioChieu nvarchar(30),
+	@NgayChieu datetime,
+	@TrangThai varchar(1)
+	As 
+	Begin 
+		INSERT INTO LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai)
+		Values (@MaPhim,@MaPhongChieu,@MaKhungGioChieu,@NgayChieu,@TrangThai);
+	End
+	go
+	CREATE PROCEDURE ThemMoiLichChieu
+    @TenPhim NVARCHAR(50),
+    @TenPhong NVARCHAR(20),
+    @NgayChieu DATE,
+    @TGBatDau TIME(7),
+    @TGKetThuc TIME(7),
+    @TenTinhTrang NVARCHAR(40)
+AS
+BEGIN
+    DECLARE @MaPhim VARCHAR(6), @MaPhongChieu VARCHAR(6), @MaKhungGioChieu VARCHAR(8), @MaTinhTrang CHAR(1);
+
+    -- Lấy MaPhim từ bảng Phim dựa trên TenPhim
+    SELECT @MaPhim = MaPhim FROM Phim WHERE TenPhim = @TenPhim;
+
+    -- Lấy MaPhongChieu từ bảng PhongChieu dựa trên TenPhong
+    SELECT @MaPhongChieu = MaPhongChieu FROM PHONG_CHIEU WHERE TenPhong = @TenPhong;
+
+    -- Lấy MaKhungGioChieu từ bảng KhungGioChieu dựa trên TGBatDau
+    SELECT @MaKhungGioChieu = MaKhungGioChieu FROM KHUNG_GIO_CHIEU WHERE TGBatDau = @TGBatDau;
+
+    -- Lấy MaTinhTrang từ bảng TinhTrangPhongChieu dựa trên TenTinhTrang
+    SELECT @MaTinhTrang = MaTinhTrang FROM TINH_TRANG_PHONG_CHIEU WHERE TenTinhTrang = @TenTinhTrang;
+
+    -- Thêm mới dữ liệu vào bảng LICH_CHIEU
+    INSERT INTO LICH_CHIEU (MaPhim, MaPhongChieu, MaKhungGioChieu, NgayChieu, TrangThai)
+    VALUES (@MaPhim, @MaPhongChieu, @MaKhungGioChieu, @NgayChieu, @MaTinhTrang);
+END
+Go
+Create proc HT_DanhSachPhongChieu
+as
+begin
+     select MaPhongChieu,TenPhong
+	 from PHONG_CHIEU
+end
+GO
+Create proc HienThiDanhSachPhim
+AS
+BEGIN
+    SELECT MaPhim, TenPhim
+    FROM PHIM
+END
+Go
+--------- Tong Thong ke Phim
+create proc selectThongKePhim 
+	as
+	begin
+		select p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim,sum(c.SoLuong) as soluong,sum(c.SoLuong) * 60000 as doanhthu
+		from Phim p,CHI_TIET_PHIEU_PHIM c,THE_LOAI_PHIM t
+		where p.MaTheLoai = t.MaTheLoaiPhim and p.maPhim = c.maPhim
+		group by p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim
+	end
+go
+---- doanh thu tong $$$$$$$$$$$$$$$
+CREATE PROCEDURE tinhTongDoanhThu
+AS
+BEGIN
+    DECLARE @TongDoanhThu DECIMAL(18, 2);
+    -- Tạo bảng tạm để lưu kết quả từ procedure HienThiThongTinNhanVien
+    CREATE TABLE #TempTable (
+        MaPhim VARCHAR(6),
+        TenPhim NVARCHAR(50),
+        TenTheLoaiPhim nvarchar(20),
+        soLuongVe int,
+        doanhThu float
+    );
+
+    -- Thực thi procedure HienThiThongTinNhanVien và lưu kết quả vào bảng tạm
+    INSERT INTO #TempTable (MaPhim, TenPhim, TenTheLoaiPhim, soLuongVe, doanhThu)
+    EXEC selectThongKePhim;
+
+    -- Tính tổng số lương của tất cả các nhân viên
+    SELECT @TongDoanhThu = SUM(doanhThu) FROM #TempTable;
+
+    -- Hiển thị tổng số lương
+    SELECT @TongDoanhThu AS tongDoanhThu;
+
+    -- Xóa bảng tạm sau khi sử dụng
+    DROP TABLE #TempTable;
+END;
+go
+---- thong ke Doanh thu theo thang 
+create proc selectThongKePhimTheoThangNam
+	@thang int,
+	@nam int
+	as
+	begin
+		select p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim,sum(c.SoLuong) as soluong,sum(c.SoLuong) * 60000 as doanhthu
+		from Phim p,CHI_TIET_PHIEU_PHIM c,THE_LOAI_PHIM t,PHIEU ph
+		where p.MaTheLoai = t.MaTheLoaiPhim 
+			and p.maPhim = c.maPhim
+			and c.MaPhieu = ph.MaPhieu 
+			and Month(ph.NgayLapPhieu) = @thang
+			and Year(ph.NgayLapPhieu) = @nam
+		group by p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim
+	end
+go
+------- Doanh thu theo thang $$$$$$$$$$$$$$$$$$$$
+CREATE PROCEDURE tinhTongDoanhThuTheoThangNam
+	@thang int,
+	@nam int
+AS
+BEGIN
+    DECLARE @TongDoanhThu DECIMAL(18, 2);
+    -- Tạo bảng tạm để lưu kết quả từ procedure HienThiThongTinNhanVien
+    CREATE TABLE #TempTable (
+        MaPhim VARCHAR(6),
+        TenPhim NVARCHAR(50),
+        TenTheLoaiPhim nvarchar(20),
+        soLuongVe int,
+        doanhThu float
+    );
+
+    -- Thực thi procedure HienThiThongTinNhanVien và lưu kết quả vào bảng tạm
+    INSERT INTO #TempTable (MaPhim, TenPhim, TenTheLoaiPhim, soLuongVe, doanhThu)
+    EXEC selectThongKePhimTheoThangNam @thang,@nam;
+
+    -- Tính tổng số lương của tất cả các nhân viên
+    SELECT @TongDoanhThu = SUM(doanhThu) FROM #TempTable;
+
+    -- Hiển thị tổng số lương
+    SELECT @TongDoanhThu AS tongDoanhThu;
+
+    -- Xóa bảng tạm sau khi sử dụng
+    DROP TABLE #TempTable;
+END;
+go
+---- thong ke Doanh thu theo nam 
+create proc selectThongKePhimTheoNam
+	@nam int
+	as
+	begin
+		select p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim,sum(c.SoLuong) as soluong,sum(c.SoLuong) * 60000 as doanhthu
+		from Phim p,CHI_TIET_PHIEU_PHIM c,THE_LOAI_PHIM t,PHIEU ph
+		where p.MaTheLoai = t.MaTheLoaiPhim
+and p.maPhim = c.maPhim
+			and c.MaPhieu = ph.MaPhieu 
+			and Year(ph.NgayLapPhieu) = @nam
+		group by p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim
+	end
+go
+------- Doanh thu theo thang $$$$$$$$$$$$$$$$$$$$
+CREATE PROCEDURE tinhTongDoanhThuTheoNam
+	@nam int
+AS
+BEGIN
+    DECLARE @TongDoanhThu DECIMAL(18, 2);
+    CREATE TABLE #TempTable (
+        MaPhim VARCHAR(6),
+        TenPhim NVARCHAR(50),
+        TenTheLoaiPhim nvarchar(20),
+        soLuongVe int,
+        doanhThu float
+    );
+    INSERT INTO #TempTable (MaPhim, TenPhim, TenTheLoaiPhim, soLuongVe, doanhThu)
+    EXEC selectThongKePhimTheoNam @nam;
+    SELECT @TongDoanhThu = SUM(doanhThu) FROM #TempTable;
+    SELECT @TongDoanhThu AS tongDoanhThu;
+    -- Xóa bảng tạm sau khi sử dụng
+    DROP TABLE #TempTable;
+END;

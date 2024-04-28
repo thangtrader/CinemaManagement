@@ -21,7 +21,14 @@ import javax.swing.border.EmptyBorder;
 import GUI.diaCHANGEPASSWORD;
 import GUI.dialogLOGIN;
 
+<<<<<<< HEAD
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Dialog.ModalExclusionType;
+import java.awt.Window.Type;
+=======
 
+>>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c
 
 public class frmQuanLyPhim extends JFrame {
 
@@ -30,20 +37,23 @@ public class frmQuanLyPhim extends JFrame {
 	private JPanel mainPanel;
 	private JPanel panelTHONGTINPHIM;
 	private JPanel panelLICHCHIEUPHIM;
-	private JPanel panelCANHAN;
+	public JPanel panelCANHAN;
 	private JPanel panelTHONGKE;
 	public JPanel panelNHANVIEN;
-	private JPanel panel6;
+	private String tentaikhoan;
 
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+<<<<<<< HEAD
 					frmQuanLyPhim frame = new frmQuanLyPhim();
 					frame.setVisible(true);
+=======
+					frmQuanLyPhim qlp = new frmQuanLyPhim(null);
+					qlp.setVisible(true);
+>>>>>>> 9983d78d39632af35eb1d665625fb4eee3b7214a
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -54,7 +64,7 @@ public class frmQuanLyPhim extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public frmQuanLyPhim() {
+	public frmQuanLyPhim(String tentaikhoan) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -67,21 +77,16 @@ public class frmQuanLyPhim extends JFrame {
         
         mainPanel = new JPanel(new CardLayout());
         mainPanel.setBounds(121, 60, 800, 441);
-//        mainPanel.setBorder(null);
 
         panelTHONGTINPHIM = new GUI.frmTHONGTINPHIM();
 
         panelLICHCHIEUPHIM = new GUI.frmLICHCHIEUPHIM();
         
-        panelCANHAN = new GUI.frmCANHAN();
-//        
+        panelCANHAN = new GUI.frmCANHAN(tentaikhoan);
+       
         panelTHONGKE = new GUI.frmTHONGKE();
         
         panelNHANVIEN = new GUI.frmNHANVIEN();
-//
-//        panel5 = new GUI.home();
-//
-//        panel6 = new GUI.doiMatKhau();
         
         mainPanel.add(panelTHONGTINPHIM, "panelTHONGTINPHIM");
         mainPanel.add(panelLICHCHIEUPHIM, "panelLICHCHIEUPHIM");
@@ -95,7 +100,7 @@ public class frmQuanLyPhim extends JFrame {
         getContentPane().add(mainPanel);
         
         ImageIcon icon = new ImageIcon("image\\pngwing.com (1).png");
-        JButton btnNewButton = new JButton(new ImageIcon(frmQuanLyRapPhim.class.getResource("/image/pngwing.com (1).png")));
+        JButton btnNewButton = new JButton(new ImageIcon(frmQuanLyPhim.class.getResource("/image/pngwing.com (1).png")));
         btnNewButton.setForeground(new Color(0, 0, 0));
         btnNewButton.setText("VIP CINEMA");
         btnNewButton.setBounds(0, 0, 921, 62);
