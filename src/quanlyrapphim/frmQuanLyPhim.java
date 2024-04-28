@@ -42,7 +42,7 @@ public class frmQuanLyPhim extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frmQuanLyRapPhim frame = new frmQuanLyRapPhim();
+					frmQuanLyPhim frame = new frmQuanLyPhim();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

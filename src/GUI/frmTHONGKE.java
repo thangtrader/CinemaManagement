@@ -55,14 +55,11 @@ public class frmTHONGKE extends JPanel {
 		btnPhim.setBorder(null);
 		add(btnPhim);
 		btnPhim.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
 				cardLayout.show(mainPanel, "panelTHONGKEPHIM");
 				GUI.panelTHONGKEPHIM tkp = new panelTHONGKEPHIM();
-				tkp.tkpBLL.LoadTKPhim();
 			}
 		});
 		
@@ -74,36 +71,11 @@ public class frmTHONGKE extends JPanel {
 		btnNhanVien.setBorder(null);
 		add(btnNhanVien);
 		btnNhanVien.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
 				cardLayout.show(mainPanel, "panelTKNHANVIEN");
 			}
 		});
-		
-		
-		
-//		JLabel lblNewLabel_2 = new JLabel("New label");
-//		lblNewLabel_2.setBounds(510, 18, 53, 20);
-//		add(lblNewLabel_2);
-//		
-//		JLabel lblNewLabel_2_1 = new JLabel("New label");
-//		lblNewLabel_2_1.setBounds(573, 18, 53, 20);
-//		add(lblNewLabel_2_1);
-        
-//		JCalendar calendar = new JCalendar();
-//		calendar.getMonthChooser().getSpinner().setBounds(0, 0, 96, 0);
-//		calendar.getDayChooser().setBounds(0, 19, 686, 412);
-//		JMonthChooser monthChooserPanel = calendar.getMonthChooser();
-//		monthChooserPanel.setBounds(0, 0, 96, 19);
-//        JYearChooser yearChooserPanel = calendar.getYearChooser();
-//        yearChooserPanel.setBounds(96, 0, 590, 19);
-
-        
-        
-		
-		
 	}
 }
