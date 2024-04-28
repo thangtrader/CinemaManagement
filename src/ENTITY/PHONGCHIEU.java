@@ -4,6 +4,7 @@ public class PHONGCHIEU {
 	private String maPhongChieu;
 	private String tenPhong;
 	private int maTinhTrang;
+	
 	public String getMaPhongChieu() {
 		return maPhongChieu;
 	}
@@ -29,5 +30,11 @@ public class PHONGCHIEU {
 	}
 	public PHONGCHIEU() {
 	}
-	
+	@Override
+	public String toString() {
+		return this.tenPhong;
+	}
+//	public String toString1() {
+//		return "PHONGCHIEU [maPhongChieu=" + maPhongChieu + ", tenPhong=" + tenPhong + ", maTinhTrang=" + maTinhTrang + "]";
+//	}
 }
