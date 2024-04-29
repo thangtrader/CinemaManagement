@@ -42,7 +42,7 @@ public class TaoLichChieuDAL {
 		        while (rs.next()) {
 		            ENTITY.PHONGCHIEU dspchieu = new ENTITY.PHONGCHIEU();
 		            dspchieu.setMaPhongChieu(rs.getString("MaPhongChieu"));
-		            dspchieu.setTenPhong("TenPhong");
+		            dspchieu.setTenPhong(rs.getString("TenPhong"));
 		            vector.addElement(dspchieu);
 		        }
 		    } catch (Exception e) {
@@ -52,7 +52,7 @@ public class TaoLichChieuDAL {
 		    return vector;
 		}
 		public int addData(Object[] param) {
-			int k = cnn.Execute_StoredProcedures("ThemMoiLichChieu", param);
+			int k = cnn.Execute_StoredProcedures("LuuLC", param);
 			return k;
 		}
 

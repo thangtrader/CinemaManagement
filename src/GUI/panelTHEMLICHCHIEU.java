@@ -52,6 +52,7 @@ public class panelTHEMLICHCHIEU extends JPanel implements MouseListener,  Action
 	public JLabel lbRegexNgayChieu;
 	public JLabel lbRegexTrangThai;
 	public JTextField textFieldNgayChieu;
+	GUI.panelLICHCHIEU pnLC;
 
 	/**
 	 * Create the panel.
@@ -230,14 +231,13 @@ public class panelTHEMLICHCHIEU extends JPanel implements MouseListener,  Action
 	public void getRowDataPhongChieu() {
 	    int selectedRow = tableDSPhognChieu.getSelectedRow();
 	    if (selectedRow != -1 && selectedRow < tableDSPhognChieu.getRowCount()) {
-	        String tenphongchieu = tableDSPhognChieu.getValueAt(selectedRow, 0).toString();
+	        String maphongchieu = tableDSPhognChieu.getValueAt(selectedRow, 0).toString();
 
-	        textFieldPhongChieu.setText(tenphongchieu);
+	        textFieldPhongChieu.setText(maphongchieu);
 	    }
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-	    System.out.println("Mouse Clicked");
 	    if (e.getSource() == tableDAPhim) {
 	        if (tableDAPhim.getSelectedRow() >= 0) {
 	            getRowDataPhim(); 
@@ -274,14 +274,13 @@ public class panelTHEMLICHCHIEU extends JPanel implements MouseListener,  Action
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 	    if (e.getSource() == btnLuu) {
-	    	System.out.println("cc");
 			int result = TLCBLL.addDataLC();
-			if (result == 1) {
-			            
-			   JOptionPane.showMessageDialog(null, "Thêm lịch thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-			   TLCBLL.LoadTLC();  
+			if (result == 1) { 
+//				pnLC = new GUI.panelLICHCHIEU();
+//				pnLC.LoadLichChieu();
+//				System.out.println(pnLC);
+			    JOptionPane.showMessageDialog(null, "Thêm lịch thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 			                
 			   JOptionPane.showMessageDialog(null, "không thêm lịch thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
