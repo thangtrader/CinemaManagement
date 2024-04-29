@@ -17,63 +17,6 @@ begin
     else select -1 as code
 end
 go
--- Them phong chieu
-create proc ThemPhongChieu
-	@TenPhong nvarchar(20),
-	@MaTinhTrang int,
-	@MaLoaiPhongChieu  varchar(6)
-as
-begin
-	insert into PHONG_CHIEU(TenPhong,MaTinhTrang) values (@TenPhong, @MaTinhTrang)
-end
-go
--- CapNhatPhongChieu
-create proc CapNhatPhongChieu
-	@MaPhongChieu varchar(6),
-	@TenPhong nvarchar(20),
-	@MaTinhTrang int
-as
-begin
-	Update PHONG_CHIEU set	TenPhong = @TenPhong,	MaTinhTrang = @MaTinhTrang
-	where MaPhongChieu = @MaPhongChieu
-end
-go
----CapNhatLichChieu
-create proc CapNhatLichChieu
-	@MaPhim varchar(6), 
-	@MaPhongChieu varchar(6),
-	@MaKhungGio varchar(8),
-	@NgayChieu date,
-	@TrangThai varchar(1)
-as
-begin
-	Update LICH_CHIEU set	TrangThai = @TrangThai
-	where MaPhim = @MaPhim and 	MaPhongChieu = @MaPhongChieu and MaKhungGioChieu=@MaKhungGio and NgayChieu=@NgayChieu 
-end
-go
---- Them lich lam viec
-go
-create proc ThemLichLamViec
-	@MaNhanVien varchar(6),
-	@MaCa varchar(6),
-	@NgayLamViec date
-as
-begin
-	insert into LICH_LAM_VIEC(MaNhanVien,MaCa,NgayLamViec) values (@MaNhanVien, @MaCa, @NgayLamViec)
-end
-go
------ xoa lich lam viec
-go
-create proc XoaLichLamViec
-	@MaNhanVien varchar(6),
-	@MaCa varchar(6),
-	@NgayLamViec date
-as
-begin 
-	DELETE FROM LICH_LAM_VIEC
-	where MaNhanVien = @MaNhanVien and MaCa = @MaCa and NgayLamViec = @NgayLamViec
-end
-Go
 --Hiển thị tất cả bảng The Loai Phim
 Create proc SelectTheLoaiPhim
 As
@@ -457,34 +400,6 @@ Create proc LuuLC
 		INSERT INTO LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai)
 		Values (@MaPhim,@MaPhongChieu,@MaKhungGioChieu,@NgayChieu,@TrangThai);
 	End
-	go
-	CREATE PROCEDURE ThemMoiLichChieu
-    @TenPhim NVARCHAR(50),
-    @TenPhong NVARCHAR(20),
-    @NgayChieu DATE,
-    @TGBatDau TIME(7),
-    @TGKetThuc TIME(7),
-    @TenTinhTrang NVARCHAR(40)
-AS
-BEGIN
-    DECLARE @MaPhim VARCHAR(6), @MaPhongChieu VARCHAR(6), @MaKhungGioChieu VARCHAR(8), @MaTinhTrang CHAR(1);
-
-    -- Lấy MaPhim từ bảng Phim dựa trên TenPhim
-    SELECT @MaPhim = MaPhim FROM Phim WHERE TenPhim = @TenPhim;
-
-    -- Lấy MaPhongChieu từ bảng PhongChieu dựa trên TenPhong
-    SELECT @MaPhongChieu = MaPhongChieu FROM PHONG_CHIEU WHERE TenPhong = @TenPhong;
-
-    -- Lấy MaKhungGioChieu từ bảng KhungGioChieu dựa trên TGBatDau
-    SELECT @MaKhungGioChieu = MaKhungGioChieu FROM KHUNG_GIO_CHIEU WHERE TGBatDau = @TGBatDau;
-
-    -- Lấy MaTinhTrang từ bảng TinhTrangPhongChieu dựa trên TenTinhTrang
-    SELECT @MaTinhTrang = MaTinhTrang FROM TINH_TRANG_PHONG_CHIEU WHERE TenTinhTrang = @TenTinhTrang;
-
-    -- Thêm mới dữ liệu vào bảng LICH_CHIEU
-    INSERT INTO LICH_CHIEU (MaPhim, MaPhongChieu, MaKhungGioChieu, NgayChieu, TrangThai)
-    VALUES (@MaPhim, @MaPhongChieu, @MaKhungGioChieu, @NgayChieu, @MaTinhTrang);
-END
 Go
 Create proc HT_DanhSachPhongChieu
 as
