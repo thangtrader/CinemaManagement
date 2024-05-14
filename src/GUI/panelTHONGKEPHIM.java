@@ -87,6 +87,7 @@ public class panelTHONGKEPHIM extends JPanel {
 		add(scrollPane);
 
 		table = new JTable();
+		table.setBackground(new Color(253, 243, 225));
 		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "M\u00E3 phim", "T\u00EAn phim",
 				"Th\u1EC3 lo\u1EA1i", "S\u1ED1 l\u01B0\u1EE3ng v\u00E9", "Doanh thu" }));
 		table.setFillsViewportHeight(true);
@@ -94,6 +95,7 @@ public class panelTHONGKEPHIM extends JPanel {
 		table.setColumnSelectionAllowed(true);
 		table.setRowHeight(25);
 		scrollPane.setViewportView(table);
+<<<<<<< HEAD
 <<<<<<< HEAD
 		
 		JLabel lblNewLabel = new JLabel("Tổng doanh thu:");
@@ -109,6 +111,9 @@ public class panelTHONGKEPHIM extends JPanel {
 		
 =======
 
+=======
+ 
+>>>>>>> a7233d192d57dbdc14f72bbe0f4415a8cf386427
 		JLabel lblNewLabel = new JLabel("Doanh thu:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 12));
 		lblNewLabel.setBounds(560, 340, 84, 22);
@@ -122,7 +127,7 @@ public class panelTHONGKEPHIM extends JPanel {
 
 >>>>>>> DucThang
 		JLabel labelDoanhThuTheoNam = new JLabel("Doanh thu phim");
-		labelDoanhThuTheoNam.setFont(new Font("Tahoma", Font.BOLD, 12));
+		labelDoanhThuTheoNam.setFont(new Font("Tahoma", Font.BOLD, 16));
 		labelDoanhThuTheoNam.setForeground(new Color(255, 0, 0));
 		labelDoanhThuTheoNam.setBackground(new Color(255, 255, 255));
 		labelDoanhThuTheoNam.setBounds(27, 18, 197, 17);
@@ -133,7 +138,7 @@ public class panelTHONGKEPHIM extends JPanel {
 
 >>>>>>> DucThang
 		JPanel panel = new JPanel();
-		panel.setBounds(638, 10, 97, 32);
+		panel.setBounds(638, 15, 97, 25);
 		add(panel);
 		panel.setLayout(null);
 <<<<<<< HEAD

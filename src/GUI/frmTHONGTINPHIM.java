@@ -49,12 +49,12 @@ public class frmTHONGTINPHIM extends JPanel implements ActionListener {
 		setBackground(new Color(241, 241, 241));
 		setLayout(null);
 		
-		
+//		setFont(new Font("Tahoma", Font.BOLD, 14));
 		JLabel lblNewLabel_6 = new JLabel("Danh sách phim");
-		lblNewLabel_6.setFont(new Font("Times New Roman", Font.PLAIN, 17));
-		lblNewLabel_6.setBounds(10, 42, 123, 30);
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblNewLabel_6.setBounds(10, 42,400, 30);
 		this.add(lblNewLabel_6);
-		
+	
 		textFieldTimKiem = new JTextField();
 		textFieldTimKiem.addKeyListener(new KeyAdapter() {
 			@Override
@@ -78,23 +78,27 @@ public class frmTHONGTINPHIM extends JPanel implements ActionListener {
 		textFieldTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textFieldTimKiem.setBorder(null);
 		textFieldTimKiem.setBackground(new Color(227, 227, 227));
-		textFieldTimKiem.setBounds(466, 42, 147, 32);
+		textFieldTimKiem.setBounds(466, 46, 147, 25);
 		this.add(textFieldTimKiem);
 		textFieldTimKiem.setColumns(10);
-		
+	
 		btnThem = new JButton("Thêm phim");
-		btnThem.setForeground(new Color(85, 173, 183));
 		btnThem.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnThem.setBackground(new Color(240, 240, 240));
-		btnThem.setFont(new Font("Roboto", Font.BOLD, 14));
+		btnThem.setIcon(new ImageIcon(frmTHONGTINPHIM.class.getResource("/image/them.png")));
+		btnThem.setForeground(new Color(255, 235, 205));
+		btnThem.setBackground(new Color(32, 178, 170));
+		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnThem.setBounds(231, 388, 108, 39);
 		this.add(btnThem);
 		
+		
+		
 		btnSua = new JButton("Chỉnh sửa");
-		btnSua.setForeground(new Color(85, 173, 183));
+		btnSua.setForeground(new Color(255, 235, 205));
+		btnSua.setBackground(new Color(255, 165, 0));
+		btnSua.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSua.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		btnSua.setBackground(new Color(240, 240, 240));
-		btnSua.setFont(new Font("Roboto", Font.BOLD, 14));
+		btnSua.setIcon(new ImageIcon(frmTHONGTINPHIM.class.getResource("/image/sua.png.png")));
 		btnSua.setBounds(435, 388, 108, 39);
 		this.add(btnSua);
 		
@@ -111,9 +115,9 @@ public class frmTHONGTINPHIM extends JPanel implements ActionListener {
 		panel.add(lblNewLabel_5);
 		lblNewLabel_5.setBackground(new Color(71, 141, 141));
 		lblNewLabel_5.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage("D:\\eclipse\\DoAnJavaNangCao2\\src\\image\\pngwing.com (14).png")));
-		lblNewLabel_5.setForeground(new Color(81, 171, 181));
+		lblNewLabel_5.setForeground(new Color(85, 173, 183));
 		lblNewLabel_5.setBorder(null);
-		lblNewLabel_5.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 14));
 		
 		table = new JTable();
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -154,7 +158,7 @@ public class frmTHONGTINPHIM extends JPanel implements ActionListener {
 		
 		JLabel lblNewLabel_6_1_2_2 = new JLabel("Tìm kiếm:");
 		lblNewLabel_6_1_2_2.setForeground(Color.BLACK);
-		lblNewLabel_6_1_2_2.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblNewLabel_6_1_2_2.setFont(new Font("Tahoman", Font.BOLD, 14));
 		lblNewLabel_6_1_2_2.setBounds(388, 43, 72, 30);
 		add(lblNewLabel_6_1_2_2);
         

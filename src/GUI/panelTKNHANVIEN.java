@@ -29,6 +29,7 @@ public class panelTKNHANVIEN extends JPanel {
 		add(scrollPane);
 		
 		table = new JTable();
+		table.setBackground(new Color(253, 243, 225));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},

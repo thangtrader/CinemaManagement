@@ -306,12 +306,10 @@ Begin
 	Update NHAN_VIEN Set MatKhau = @MatKhau
 	Where @TenTaiKhoan = TenTaiKhoan
 End
-Drop proc SuaMatKhau
-Exec SuaMatKhau 'thangadmin', '123456'
 Go
 Create proc SuaAnh
 	@MaNhanVien varchar(6),
-	@Anh image
+	@Anh varchar(1000)
 	As 
 	Begin 
 		Update NHAN_VIEN Set Anh = @Anh
@@ -386,13 +384,6 @@ Begin
 	FROM PHIM as p INNER JOIN LICH_CHIEU as l ON p.MaPhim =l.MaPhim INNER JOIN PHONG_CHIEU as ph ON l.MaPhongChieu =ph.MaPhongChieu INNER JOIN KHUNG_GIO_CHIEU as g ON l.MaKhungGioChieu = g.MaKhungGioChieu INNER JOIN TINH_TRANG_PHONG_CHIEU as tr ON l.TrangThai = tr.MaTinhTrang  
 End	
 Go
-Create proc SelectKhungGioChieu
-As
-Begin
-	Select * From KHUNG_GIO_CHIEU
-End
-
-Go
 Create proc SelectTGBD
 As
 Begin
@@ -454,7 +445,7 @@ create proc selectThongKePhim
 	begin
 		select p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim,sum(c.SoLuong) as soluong,sum(c.SoLuong) * 60000 as doanhthu
 		from Phim p,CHI_TIET_PHIEU_PHIM c,THE_LOAI_PHIM t
-		where p.MaTheLoai = t.MaTheLoaiPhim and p.maPhim = c.maPhim
+		where p.MaTheLoai = t.MaTheLoaiPhim and p.MaPhim = c.MaPhim
 		group by p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim
 	end
 go
@@ -495,7 +486,7 @@ create proc selectThongKePhimTheoThangNam
 		select p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim,sum(c.SoLuong) as soluong,sum(c.SoLuong) * 60000 as doanhthu
 		from Phim p,CHI_TIET_PHIEU_PHIM c,THE_LOAI_PHIM t,PHIEU ph
 		where p.MaTheLoai = t.MaTheLoaiPhim 
-			and p.maPhim = c.maPhim
+			and p.MaPhim = c.MaPhim
 			and c.MaPhieu = ph.MaPhieu 
 			and Month(ph.NgayLapPhieu) = @thang
 			and Year(ph.NgayLapPhieu) = @nam
@@ -540,7 +531,11 @@ create proc selectThongKePhimTheoNam
 		select p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim,sum(c.SoLuong) as soluong,sum(c.SoLuong) * 60000 as doanhthu
 		from Phim p,CHI_TIET_PHIEU_PHIM c,THE_LOAI_PHIM t,PHIEU ph
 		where p.MaTheLoai = t.MaTheLoaiPhim
+<<<<<<< HEAD
 		and p.maPhim = c.maPhim
+=======
+and p.MaPhim = c.MaPhim
+>>>>>>> a7233d192d57dbdc14f72bbe0f4415a8cf386427
 			and c.MaPhieu = ph.MaPhieu 
 			and Year(ph.NgayLapPhieu) = @nam
 		group by p.MaPhim,p.TenPhim ,t.TenTheLoaiPhim

@@ -56,7 +56,7 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 			}
 		});
 		comboBoxSapXep.setModel(new DefaultComboBoxModel(new String[] {"Tên nhân viên", "Giới tính", "Tên chính sách", "Tên chức vụ"}));
-		comboBoxSapXep.setBounds(472, 22, 101, 21);
+		comboBoxSapXep.setBounds(472, 22, 120, 21);
 		add(comboBoxSapXep);
 		
 		textFieldTimKiem = new JTextField();
@@ -90,6 +90,7 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 		add(scrollPane);
 		
 		table = new JTable();
+		table.setBackground(new Color(253, 243, 225));
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -116,6 +117,7 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 		scrollPane.setViewportView(table);
 		
 		btnXemChiTiet = new JButton("Xem chi tiết");
+		btnXemChiTiet.setForeground(new Color(255, 235, 205));
 		btnXemChiTiet.setBackground(new Color(255, 165, 0));
 		btnXemChiTiet.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnXemChiTiet.setIcon(new ImageIcon(frmNHANVIEN.class.getResource("/image/find.png")));
@@ -123,6 +125,7 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 		add(btnXemChiTiet);
 		
 		btnXoa = new JButton("Xóa");
+		btnXoa.setForeground(new Color(255, 235, 205));
 		btnXoa.setBackground(new Color(255, 147, 150));
 		btnXoa.setIcon(new ImageIcon(frmNHANVIEN.class.getResource("/image/x.png")));
 		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -130,12 +133,13 @@ public class frmNHANVIEN extends JPanel implements MouseListener, ActionListener
 		add(btnXoa);
 		
 		btnThem = new JButton("Thêm");
-		btnThem.setBackground(new Color(192, 192, 192));
-		btnThem.setIcon(new ImageIcon(frmNHANVIEN.class.getResource("/image/them.png")));
-		btnThem.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnThem.setBounds(516, 376, 85, 34);
+		btnThem.setIcon(new ImageIcon(frmTHONGTINPHIM.class.getResource("/image/them.png")));
+		btnThem.setForeground(new Color(255, 235, 205));
+		btnThem.setBackground(new Color(32, 178, 170));
+		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnThem.setBounds(516, 376, 100, 34);
 		add(btnThem);
-		
+	
 		btnTimKiem = new JButton("");
 		btnTimKiem.setIcon(new ImageIcon(frmNHANVIEN.class.getResource("/image/find.png")));
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 10));
