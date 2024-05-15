@@ -21,14 +21,11 @@ import javax.swing.border.EmptyBorder;
 import GUI.diaCHANGEPASSWORD;
 import GUI.dialogLOGIN;
 
-<<<<<<< HEAD
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.Window.Type;
-=======
 
->>>>>>> 4b1b9ed42a112412c5ac1030e243a684545cf98c
 
 public class frmQuanLyPhim extends JFrame {
 

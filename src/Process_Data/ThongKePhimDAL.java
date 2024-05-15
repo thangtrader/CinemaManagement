@@ -7,10 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.NumberFormat;
-<<<<<<< HEAD
-=======
 import java.util.Calendar;
->>>>>>> DucThang
 import java.util.Currency;
 import java.util.Locale;
 import java.util.Vector;
@@ -19,8 +16,8 @@ import javax.swing.JLabel;
 
 import ENTITY.TKPhim;
 
-<<<<<<< HEAD
-public class ThongKePhimDAL {
+public class ThongKePhimDAL
+{
 	DBHelper cnn;
 //	GUI.panelTHONGKEPHIM guiThongKePhim;
 	private static ThongKePhimDAL instance;
@@ -106,7 +103,6 @@ public class ThongKePhimDAL {
 				result = rs.getInt(1); // Giả sử stored procedure trả về một số nguyên
 			}
 			// Đóng kết nối và các tài nguyên
-=======
 public class ThongKePhimDAL extends DBHelper {
 	DBHelper cnn;
 	private static ThongKePhimDAL instance;
@@ -130,7 +126,6 @@ public class ThongKePhimDAL extends DBHelper {
 			if (rs.next()) {
 				result = rs.getInt(1);
 			}
->>>>>>> DucThang
 			rs.close();
 			statement.close();
 		} catch (SQLException e) {
@@ -138,7 +133,6 @@ public class ThongKePhimDAL extends DBHelper {
 		}
 		return result;
 	}
-<<<<<<< HEAD
 //	public int tongDoanhThu() {
 //		return tinhDoanhThu();
 //	}
@@ -147,7 +141,6 @@ public class ThongKePhimDAL extends DBHelper {
 
 		
    
-=======
 
 	public int tinhDoanhThuDAL(String date, Boolean log, int month, int year) {
 		int result = 0;
@@ -194,5 +187,4 @@ public class ThongKePhimDAL extends DBHelper {
 		return vector;
 	}
 
->>>>>>> DucThang
 }

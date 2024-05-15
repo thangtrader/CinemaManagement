@@ -13,7 +13,7 @@ go
 Create table PHIM(
 	MaPhim varchar(6) primary key not null constraint IDP default dbo.AUTO_IDP(),
 	TenPhim nvarchar(50),
-	AnhPhim image,
+	AnhPhim varchar(1000),
 	ThoiLuong int,
 	QuocGia nvarchar(20),
 	NamSanXuat date,

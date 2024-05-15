@@ -1,23 +1,4 @@
-<<<<<<< HEAD
-//package GUI;
-//
-//import javax.swing.JPanel;
-//
-//public class panelTHONGKEPHIM1 extends JPanel {
-//
-//	private static final long serialVersionUID = 1L;
-//
-//	/**
-//	 * Create the panel.
-//	 */
-//	public panelTHONGKEPHIM1() {
-//
-//	}
-//
-//}
-=======
 
->>>>>>> DucThang
 package GUI;
 
 import javax.swing.JPanel;
@@ -39,11 +20,9 @@ import java.awt.event.ActionListener;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-<<<<<<< HEAD
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-=======
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -51,7 +30,6 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Vector;
->>>>>>> DucThang
 import java.awt.Color;
 
 import javax.swing.JCheckBox;
@@ -64,7 +42,6 @@ public class panelTHONGKEPHIM extends JPanel {
 	public JLabel lbDoanhThu;
 	public DefaultTableModel model;
 	public String dateString;
-<<<<<<< HEAD
 	ThongKePhimDAL tkpDAL;
 	ThongKePhimBLL tkpBLL;
 	public JDateChooser calendar;
@@ -72,14 +49,12 @@ public class panelTHONGKEPHIM extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-=======
 	ThongKePhimBLL tkpBLL;
 	public JDateChooser dateChooser;
 	public JCheckBox checkBoxDoanhThu;
 	public Calendar calendar;
 	private JCheckBox checkBoxTongDoanhThu;
 
->>>>>>> DucThang
 	public panelTHONGKEPHIM() {
 		setLayout(null);
 		JScrollPane scrollPane = new JScrollPane();
@@ -94,7 +69,6 @@ public class panelTHONGKEPHIM extends JPanel {
 		table.setColumnSelectionAllowed(true);
 		table.setRowHeight(25);
 		scrollPane.setViewportView(table);
-<<<<<<< HEAD
 		
 		JLabel lblNewLabel = new JLabel("Tổng doanh thu:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -107,7 +81,6 @@ public class panelTHONGKEPHIM extends JPanel {
 		lbDoanhThu.setBounds(634, 340, 97, 22);
 		add(lbDoanhThu);
 		
-=======
 
 		JLabel lblNewLabel = new JLabel("Doanh thu:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 12));
@@ -120,23 +93,17 @@ public class panelTHONGKEPHIM extends JPanel {
 		lbDoanhThu.setBounds(656, 340, 75, 22);
 		add(lbDoanhThu);
 
->>>>>>> DucThang
 		JLabel labelDoanhThuTheoNam = new JLabel("Doanh thu phim");
 		labelDoanhThuTheoNam.setFont(new Font("Tahoma", Font.BOLD, 12));
 		labelDoanhThuTheoNam.setForeground(new Color(255, 0, 0));
 		labelDoanhThuTheoNam.setBackground(new Color(255, 255, 255));
 		labelDoanhThuTheoNam.setBounds(27, 18, 197, 17);
 		add(labelDoanhThuTheoNam);
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> DucThang
 		JPanel panel = new JPanel();
 		panel.setBounds(638, 10, 97, 32);
 		add(panel);
 		panel.setLayout(null);
-<<<<<<< HEAD
 		calendar = new JDateChooser();
 		calendar.setBounds(0, 0, 96, 31);
 		panel.add(calendar);
@@ -191,7 +158,6 @@ public class panelTHONGKEPHIM extends JPanel {
 		
 
 	}
-=======
 		dateChooser = new JDateChooser();
 		dateChooser.setBounds(0, 0, 96, 31);
 		panel.add(dateChooser);
@@ -297,5 +263,4 @@ public class panelTHONGKEPHIM extends JPanel {
 		String kq = format.format(tongDoanhThu);
 		lbDoanhThu.setText(kq);
 	}
->>>>>>> DucThang
 }
