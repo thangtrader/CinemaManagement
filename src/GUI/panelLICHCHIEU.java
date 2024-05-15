@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
@@ -59,6 +60,7 @@ public class panelLICHCHIEU extends JPanel implements ActionListener,ItemListene
 		panel.add(scrollPane);
 		
 		table = new JTable();
+		table.setBackground(new Color(253, 243, 225));
 		table.setModel(new DefaultTableModel(
 				new Object[][] {
 				},
@@ -70,22 +72,24 @@ public class panelLICHCHIEU extends JPanel implements ActionListener,ItemListene
 		table.setRowHeight(25);
 //		table.setColumnSelectionAllowed(true);
 //		table.setCellSelectionEnabled(true);
-		
+
 		scrollPane.setViewportView(table);
-		
 		btnCapNhat = new JButton("Cập nhật");
-		btnCapNhat.setForeground(new Color(32, 178, 170));
-		btnCapNhat.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCapNhat.setBackground(new Color(248, 248, 255));
-		btnCapNhat.setBounds(259, 337, 112, 36);
+		btnCapNhat.setForeground(new Color(255, 235, 205));
+		btnCapNhat.setBackground(new Color(32, 178, 170));
+		btnCapNhat.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCapNhat.setIcon(new ImageIcon(frmLICHCHIEUPHIM.class.getResource("/image/sapxep.png")));
+		btnCapNhat.setBounds(230, 337, 130, 36);
 		btnCapNhat.addActionListener(this);
 		panel.add(btnCapNhat);
 		
+
 		btnXoa = new JButton("Xóa Lịch");
-		btnXoa.setForeground(new Color(32, 178, 170));
-		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnXoa.setBackground(new Color(248, 248, 255));
-		btnXoa.setBounds(420, 337, 112, 36);
+		btnXoa.setForeground(new Color(255, 235, 205));
+		btnXoa.setBackground(new Color(205, 92, 92));
+		btnXoa.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnXoa.setIcon(new ImageIcon(frmLICHCHIEUPHIM.class.getResource("/image/x.png")));
+		btnXoa.setBounds(420, 337, 120, 36);
 		btnXoa.addActionListener(this);
 		panel.add(btnXoa);
 		

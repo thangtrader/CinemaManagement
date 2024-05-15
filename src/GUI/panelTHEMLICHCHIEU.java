@@ -52,6 +52,7 @@ public class panelTHEMLICHCHIEU extends JPanel implements MouseListener,  Action
 	public JLabel lbRegexNgayChieu;
 	public JLabel lbRegexTrangThai;
 	public JTextField textFieldNgayChieu;
+	GUI.panelLICHCHIEU pnLC;
 
 	/**
 	 * Create the panel.
@@ -62,26 +63,27 @@ public class panelTHEMLICHCHIEU extends JPanel implements MouseListener,  Action
 		JLabel lblNewLabel = new JLabel("Danh sách phim");
 		lblNewLabel.setForeground(new Color(0, 139, 139));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
-		lblNewLabel.setBounds(75, 10, 150, 20);
+		lblNewLabel.setBounds(90, 10, 150, 20);
 		add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Danh sách phòng chiếu");
 		lblNewLabel_1.setForeground(new Color(0, 139, 139));
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
-		lblNewLabel_1.setBounds(265, 10, 250, 20);
+		lblNewLabel_1.setBounds(310, 10, 250, 20);
 		add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Khung giờ chiếu");
 		lblNewLabel_2.setForeground(new Color(0, 139, 139));
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
-		lblNewLabel_2.setBounds(555, 10, 136, 20);
+		lblNewLabel_2.setBounds(580, 10, 136, 20);
 		add(lblNewLabel_2);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(36, 40, 190, 146);
+		scrollPane.setBounds(36, 40, 230, 146);
 		add(scrollPane);
 
 		tableDAPhim = new JTable();
+		tableDAPhim.setBackground(new Color(253, 243, 225));
 		scrollPane.setViewportView(tableDAPhim);
 		tableDAPhim.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -98,10 +100,11 @@ public class panelTHEMLICHCHIEU extends JPanel implements MouseListener,  Action
 	
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(251, 40, 190, 146);
+		scrollPane_1.setBounds(300, 40, 190, 146);
 		add(scrollPane_1);
 
 		tableDSPhognChieu = new JTable();
+		tableDSPhognChieu.setBackground(new Color(253, 243, 225));
 //		scrollPane.setViewportView(tableDSPhognChieu);
 		tableDSPhognChieu.setModel(new DefaultTableModel(
 				new Object[][] {
@@ -117,18 +120,18 @@ public class panelTHEMLICHCHIEU extends JPanel implements MouseListener,  Action
 
 		JLabel lblNewLabel_3 = new JLabel("Ngày chiếu");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_3.setBounds(517, 37, 72, 20);
+		lblNewLabel_3.setBounds(590, 37, 72, 20);
 		add(lblNewLabel_3);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(497, 67, 262, 146);
+		panel.setBounds(570, 67, 262, 146);
 		add(panel);
 		panel.setLayout(null);
 
 		calendar = new JDateChooser();
 		calendar.setToolTipText("");
 		calendar.getCalendarButton().setToolTipText("");
-		calendar.setBounds(0, 5, 100, 19);
+		calendar.setBounds(0, 5, 150, 19);
 		panel.add(calendar);  
 
 		JLabel lblNewLabel_4 = new JLabel("Lịch chiếu");
@@ -177,7 +180,7 @@ public class panelTHEMLICHCHIEU extends JPanel implements MouseListener,  Action
 		btnLuu.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLuu.setBounds(504, 309, 85, 30);
 		this.add(btnLuu);
-
+		
 		btnHuy = new JButton("Hủy");
 		btnHuy.setForeground(new Color(255, 235, 205));
 		btnHuy.setBackground(new Color(205, 92, 92));
@@ -230,14 +233,13 @@ public class panelTHEMLICHCHIEU extends JPanel implements MouseListener,  Action
 	public void getRowDataPhongChieu() {
 	    int selectedRow = tableDSPhognChieu.getSelectedRow();
 	    if (selectedRow != -1 && selectedRow < tableDSPhognChieu.getRowCount()) {
-	        String tenphongchieu = tableDSPhognChieu.getValueAt(selectedRow, 0).toString();
+	        String maphongchieu = tableDSPhognChieu.getValueAt(selectedRow, 0).toString();
 
-	        textFieldPhongChieu.setText(tenphongchieu);
+	        textFieldPhongChieu.setText(maphongchieu);
 	    }
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-	    System.out.println("Mouse Clicked");
 	    if (e.getSource() == tableDAPhim) {
 	        if (tableDAPhim.getSelectedRow() >= 0) {
 	            getRowDataPhim(); 
@@ -274,14 +276,13 @@ public class panelTHEMLICHCHIEU extends JPanel implements MouseListener,  Action
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 	    if (e.getSource() == btnLuu) {
-	    	System.out.println("cc");
 			int result = TLCBLL.addDataLC();
-			if (result == 1) {
-			            
-			   JOptionPane.showMessageDialog(null, "Thêm lịch thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-			   TLCBLL.LoadTLC();  
+			if (result == 1) { 
+//				pnLC = new GUI.panelLICHCHIEU();
+//				pnLC.LoadLichChieu();
+//				System.out.println(pnLC);
+			    JOptionPane.showMessageDialog(null, "Thêm lịch thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 			                
 			   JOptionPane.showMessageDialog(null, "không thêm lịch thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);

@@ -1,5 +1,7 @@
 package GUI;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -23,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.KeyAdapter;
@@ -67,6 +70,7 @@ public class frmThemThongTinPhim extends JFrame implements ActionListener {
 		setBounds(100, 100, 616, 402);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(new Color(253, 243, 225));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -80,27 +84,27 @@ public class frmThemThongTinPhim extends JFrame implements ActionListener {
 		contentPane.add(lbTenPhim);
 		
 		JLabel lblNewLabel_2 = new JLabel("Thời lượng:");
-		lblNewLabel_2.setBounds(45, 188, 71, 13);
+		lblNewLabel_2.setBounds(45, 188, 71, 16);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel txtField = new JLabel("Quốc gia");
-		txtField.setBounds(45, 243, 45, 13);
+		txtField.setBounds(45, 243, 70, 13);
 		contentPane.add(txtField);
 		
-		JLabel lblNewLabel_4 = new JLabel("Đạo diễn");
-		lblNewLabel_4.setBounds(308, 78, 45, 13);
+		JLabel lblNewLabel_4 = new JLabel("Đạo diễn:");
+		lblNewLabel_4.setBounds(305, 78, 70, 13);
 		contentPane.add(lblNewLabel_4);
 		
-		JLabel lblNewLabel_5 = new JLabel("Năm sản xuất");
-		lblNewLabel_5.setBounds(308, 128, 87, 13);
+		JLabel lblNewLabel_5 = new JLabel("Năm sản xuất:");
+		lblNewLabel_5.setBounds(305, 128, 92, 13);
 		contentPane.add(lblNewLabel_5);
 		
-		JLabel lblNewLabel_6 = new JLabel("Độ tuổi");
-		lblNewLabel_6.setBounds(308, 188, 45, 13);
+		JLabel lblNewLabel_6 = new JLabel("Độ tuổi:");
+		lblNewLabel_6.setBounds(305, 188, 50, 16);
 		contentPane.add(lblNewLabel_6);
 		
-		JLabel lblNewLabel_7 = new JLabel("Thể loại");
-		lblNewLabel_7.setBounds(308, 243, 45, 13);
+		JLabel lblNewLabel_7 = new JLabel("Thể loại:");
+		lblNewLabel_7.setBounds(305, 243, 70, 13);
 		contentPane.add(lblNewLabel_7);
 		
 		txtFieldMaPhim = new JTextField();
@@ -235,10 +239,18 @@ public class frmThemThongTinPhim extends JFrame implements ActionListener {
 		txtFieldDoTuoi.setColumns(10);
 		
 		btnThem = new JButton("Thêm");
-		btnThem.setBounds(88, 297, 85, 36);
+		btnThem.setForeground(new Color(255, 235, 205));
+		btnThem.setBackground(new Color(255, 165, 0));
+		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnThem.setBounds(88, 297, 100, 36);
+		btnThem.setIcon(new ImageIcon(getClass().getResource("/image/them.png")));
 		contentPane.add(btnThem);
 		
 		btnDong = new JButton("Đóng");
+		btnDong.setForeground(new Color(255, 235, 205));
+		btnDong.setIcon(new ImageIcon(getClass().getResource("/image/x.png")));
+		btnDong.setBackground(new Color(255, 147, 150));
+		btnDong.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnDong.setBounds(437, 297, 85, 36);
 		contentPane.add(btnDong);
 		
@@ -246,32 +258,37 @@ public class frmThemThongTinPhim extends JFrame implements ActionListener {
 		cbboxTheLoai.setBounds(392, 239, 109, 21);
 		contentPane.add(cbboxTheLoai);
 		
-		lbRegexTen = new JLabel("New label");
+		lbRegexTen = new JLabel();
 		lbRegexTen.setBounds(139, 154, 45, 13);
 		contentPane.add(lbRegexTen);
 		
-		lbRegexThoiLuong = new JLabel("New label");
+		lbRegexThoiLuong = new JLabel();
 		lbRegexThoiLuong.setBounds(139, 214, 45, 13);
 		contentPane.add(lbRegexThoiLuong);
 		
-		lbRegexQuocGia = new JLabel("New label");
+		lbRegexQuocGia = new JLabel();
 		lbRegexQuocGia.setBounds(139, 269, 45, 13);
 		contentPane.add(lbRegexQuocGia);
 		
-		lbRegexDaoDien = new JLabel("New label");
+		lbRegexDaoDien = new JLabel();
 		lbRegexDaoDien.setBounds(392, 104, 45, 13);
 		contentPane.add(lbRegexDaoDien);
 		
-		lbRegexNamSX = new JLabel("New label");
+		lbRegexNamSX = new JLabel();
 		lbRegexNamSX.setBounds(392, 154, 45, 13);
 		contentPane.add(lbRegexNamSX);
 		
-		lbRegexTuoi = new JLabel("New label");
+		lbRegexTuoi = new JLabel();
 		lbRegexTuoi.setBounds(392, 214, 45, 13);
 		contentPane.add(lbRegexTuoi);
 		
+		
 		btnChinhSua = new JButton("Chỉnh sửa");
-		btnChinhSua.setBounds(268, 297, 85, 36);
+		btnChinhSua.setForeground(new Color(255, 235, 205));
+		btnChinhSua.setBackground(new Color(255, 165, 0));
+		btnChinhSua.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnChinhSua.setIcon(new ImageIcon(getClass().getResource("/image/sua.png.png")));
+		btnChinhSua.setBounds(260, 297, 130, 36);
 		contentPane.add(btnChinhSua);
 		
         phimBLL = new Business_Logic.PhimBLL();

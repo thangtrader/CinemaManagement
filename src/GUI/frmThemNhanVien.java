@@ -9,6 +9,8 @@ import quanlyrapphim.frmQuanLyPhim;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +29,7 @@ import javax.swing.JRadioButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 
 public class frmThemNhanVien extends JFrame implements ActionListener {
 
@@ -66,68 +69,69 @@ public class frmThemNhanVien extends JFrame implements ActionListener {
 		this.setVisible(true);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(new Color(253, 243, 225));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+	
 		JLabel lblNewLabel = new JLabel("Mã Nhân viên:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(50, 37, 78, 13);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel.setBounds(35, 37, 90, 13);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Tên nhân viên: ");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1.setBounds(50, 85, 78, 13);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1.setBounds(35, 85, 110, 13);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Ngày sinh:");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_2.setBounds(50, 136, 66, 13);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_2.setBounds(35, 136, 66, 16);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Giới tính:");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_3.setBounds(50, 183, 66, 13);
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_3.setBounds(35, 183, 66, 13);
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("Địa chỉ:");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_4.setBounds(50, 232, 66, 13);
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_4.setBounds(35, 232, 66, 16);
 		contentPane.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("Số điện thoại:");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_5.setBounds(50, 290, 78, 13);
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_5.setBounds(35, 290, 110, 16);
 		contentPane.add(lblNewLabel_5);
 		
 		JLabel lblNewLabel_6 = new JLabel("Số CCCD:");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_6.setBounds(335, 37, 66, 13);
 		contentPane.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_7 = new JLabel("Tên tài khoản:");
-		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_7.setBounds(335, 85, 84, 13);
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_7.setBounds(335, 85, 100, 13);
 		contentPane.add(lblNewLabel_7);
 		
 		JLabel lblNewLabel_8 = new JLabel("Mật khẩu:");
-		lblNewLabel_8.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_8.setBounds(335, 136, 66, 13);
+		lblNewLabel_8.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_8.setBounds(335, 136, 66, 16);
 		contentPane.add(lblNewLabel_8);
 		
 		JLabel lblNewLabel_9 = new JLabel("Chính sách");
-		lblNewLabel_9.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel_9.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_9.setBounds(335, 183, 84, 13);
 		contentPane.add(lblNewLabel_9);
 		
 		JLabel lblNewLabel_10 = new JLabel("Chức vụ: ");
-		lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_10.setBounds(335, 232, 84, 13);
+		lblNewLabel_10.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_10.setBounds(335, 232, 84, 16);
 		contentPane.add(lblNewLabel_10);
 		
 		JLabel lblNewLabel_11 = new JLabel("Trạng thái: ");
-		lblNewLabel_11.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_11.setBounds(335, 290, 66, 13);
+		lblNewLabel_11.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_11.setBounds(335, 290, 70, 16);
 		contentPane.add(lblNewLabel_11);
 		
 		txtMaNV = new JTextField();
@@ -250,11 +254,19 @@ public class frmThemNhanVien extends JFrame implements ActionListener {
 		contentPane.add(cbboxChucVu);
 		
 		btnThem = new JButton("Thêm");
-		btnThem.setBounds(132, 359, 85, 21);
+		btnThem.setForeground(new Color(255, 235, 205));
+		btnThem.setBackground(new Color(255, 165, 0));
+		btnThem.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnThem.setIcon(new ImageIcon(getClass().getResource("/image/them.png")));
+		btnThem.setBounds(132, 359, 120, 28);
 		contentPane.add(btnThem);
 		
 		btnDong = new JButton("Đóng");
-		btnDong.setBounds(271, 359, 85, 21);
+		btnDong.setForeground(new Color(255, 235, 205));
+		btnDong.setIcon(new ImageIcon(getClass().getResource("/image/x.png")));
+		btnDong.setBackground(new Color(255, 147, 150));
+		btnDong.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnDong.setBounds(271, 359, 85, 28);
 		contentPane.add(btnDong);
 		
 		txtNgaySinh = new JTextField();
@@ -292,7 +304,11 @@ public class frmThemNhanVien extends JFrame implements ActionListener {
 		contentPane.add(rbtnNu);
 		
 		btnChinhSua = new JButton("Chỉnh sửa");
-		btnChinhSua.setBounds(429, 359, 103, 21);
+		btnChinhSua.setForeground(new Color(255, 235, 205));
+		btnChinhSua.setBackground(new Color(255, 165, 0));
+		btnChinhSua.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnChinhSua.setIcon(new ImageIcon(getClass().getResource("/image/sua.png.png")));
+		btnChinhSua.setBounds(429, 359, 130, 28);
 		contentPane.add(btnChinhSua);
 		
 		lbRegexTen = new JLabel("");

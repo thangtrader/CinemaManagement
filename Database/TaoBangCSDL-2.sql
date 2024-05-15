@@ -93,7 +93,7 @@ Create table NHAN_VIEN(
 	CCCD varchar(20),
 	TenTaiKhoan varchar(30),
 	MatKhau varchar(32),
-	Anh image,
+	Anh varchar(1000),
 	MaChinhSach varchar(6) foreign key(MaChinhSach) references CHINH_SACH,
 	MaChucVu varchar(6) foreign key(MaChucVu) references CHUC_VU,
 	TrangThai varchar(1)---0(tat),1(bat)
@@ -132,3 +132,6 @@ Create table CHI_TIET_PHIEU_PHIM(
 	SoLuong int,
 	constraint pk_CTPhieuPhim primary key(MaPhieu,MaPhim)
 )
+
+ALTER TABLE NHAN_VIEN
+ALTER COLUMN MatKhau varchar(100);

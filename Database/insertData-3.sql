@@ -63,32 +63,13 @@ insert into KHUNG_GIO_CHIEU(TenKhungGio,TGBatDau,TGKetThuc) values(N'Khung giờ
 ----Đã xong
 ------13.Lịch chiếu
 insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0002','KGC00001','2024-01-02','1');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0002','KGC00002','2024-02-01','0');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0002','KGC00004','2024-01-02','2');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0002','KGC00003','2024-03-01','0');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0003','KGC00001','2024-04-02','2');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0003','KGC00002','2024-01-03','2');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0003','KGC00004','2024-02-03','1');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00002','PC0003','KGC00003','2024-03-03','0');
-
 insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00002','PC0002','KGC00001','2024-02-02','0');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00003','PC0002','KGC00002','2024-03-03','1');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0002','KGC00004','2024-01-04','2');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0002','KGC00003','2024-01-04','0');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0003','KGC00001','2024-03-05','1');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0003','KGC00002','2024-02-02','2');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0003','KGC00004','2024-01-12','1');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00002','PC0003','KGC00003','2024-03-01','0');
-
 insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00004','PC0005','KGC00001','2024-04-12','0');
 insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00005','PC0005','KGC00002','2024-01-05','1');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00005','PC0005','KGC00004','2024-02-03','1');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00005','PC0005','KGC00003','2024-01-06','2');
-
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0006','KGC00001','2024-03-07','1');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0006','KGC00002','2024-03-04','2');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00001','PC0006','KGC00004','2024-03-02','1');
-insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00002','PC0006','KGC00003','2024-01-03','0');
+insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00003','PC0006','KGC00001','2024-03-07','1');
+insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00007','PC0006','KGC00002','2024-03-04','2');
+insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00008','PC0006','KGC00004','2024-03-02','1');
+insert into LICH_CHIEU(MaPhim,MaPhongChieu,MaKhungGioChieu,NgayChieu,TrangThai) VALUES('P00009','PC0006','KGC00003','2024-01-03','0');
 
 ------14.Ca làm việc ----- CLV001
 insert into CA_LAM_VIEC(TenCa,GioBatDau,GioKetThuc) values(N'Ca 1','08:00:00.0000000','12:00:00.0000000');
@@ -108,26 +89,26 @@ insert into CHUC_VU(TenChucVu) values (N'Nhân viên');
 insert into CHUC_VU(TenChucVu) values (N'Quản trị viên');
 ----- Đã xong
 ------18.Nhân viên -----
-insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456789
-Values (N'Nguyễn Đức Thắng','2004-08-30',N'Nam',N'Quảng Trị','0325043590','045204000730','thangadmin','123456','CS0002','CV0002','1');
-insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456789
-Values (N'Nguyễn Văn Toàn','2004-06-15',N'Nam',N'Quảng Nam','0325045456','0452041234674','toanadmin','123456','CS0002','CV0002','1');
-insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456789
-Values (N'Lê Thành Ý','2004-07-24',N'Nam',N'Bình Định','0325041234','045204999808','ynhanvien','123456','CS0001','CV0001','1');
-insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456
-Values (N'Hồ Văn Thanh','2004-07-30',N'Nam',N'Quảng Trị','0325011234','04520401252','thanhnhanvien','123456','CS0001','CV0001','1');
-insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--987654321
-Values (N'Nguyễn Thị Huyền Thương','2004-05-12',N'Nữ',N'Hà Tĩnh','031452342','0452041111235','thuongnhanvien','123456','CS0002','CV0001','1');
-insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456
-Values (N'Phan Thị Kim Ngân','2004-08-03',N'Nữ',N'Quảng Trị','0325041236','04520430078242','ngannhanvien','123456','CS0001','CV0001','1');
-insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456
-Values (N'Nguyễn Văn Thắng','2004-10-30',N'Nam',N'Đà Nẵng','097860007','045201234567','thangnhanvien','123456','CS0002','CV0001','1');
-insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456
-Values (N'Trần Trung Hiếu','2004-01-30',N'Nam',N'Quảng Trị','0325049999','045204550730','hieuadmin','123456','CS0002','CV0002','1');
-insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456
-Values (N'Nguyễn Thị Yến Nhi','2004-04-30',N'Nữ',N'Hà Nội','0325048888','045204099990','nhinhanvien','123456','CS0001','CV0001','1');
-insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai)--123456
-Values (N'Nguyễn Phan Hà','2004-11-30',N'Nữ',N'Cà Mau','0943754517','045204700898','hanhanvien','123456','CS0001','CV0001','1');
+insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai,Anh)--123456789
+Values (N'Nguyễn Đức Thắng','2004-08-30',N'Nam',N'Quảng Trị','0325043590','045204000730','thangadmin','123456','CS0002','CV0002','1','anhnv1.png');
+insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai,Anh)--123456789
+Values (N'Nguyễn Văn Toàn','2004-06-15',N'Nam',N'Quảng Nam','0325045456','0452041234674','toanadmin','123456','CS0002','CV0002','1','anhnv2.png');
+insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai,Anh)--123456789
+Values (N'Lê Thành Ý','2004-07-24',N'Nam',N'Bình Định','0325041234','045204999808','ynhanvien','123456','CS0001','CV0001','1','anhnv3.png');
+insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai,Anh)--123456
+Values (N'Hồ Văn Thanh','2004-07-30',N'Nam',N'Quảng Trị','0325011234','04520401252','thanhnhanvien','123456','CS0001','CV0001','1','anhnv4.png');
+insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai,Anh)--987654321
+Values (N'Nguyễn Thị Huyền Thương','2004-05-12',N'Nữ',N'Hà Tĩnh','031452342','0452041111235','thuongnhanvien','123456','CS0002','CV0001','1','anhnv5.png');
+insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai,Anh)--123456
+Values (N'Phan Thị Kim Ngân','2004-08-03',N'Nữ',N'Quảng Trị','0325041236','04520430078242','ngannhanvien','123456','CS0001','CV0001','1','anhnv5.png');
+insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai,Anh)--123456
+Values (N'Nguyễn Văn Thắng','2004-10-30',N'Nam',N'Đà Nẵng','097860007','045201234567','thangnhanvien','123456','CS0002','CV0001','1','anhnv1.png');
+insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai,Anh)--123456
+Values (N'Trần Trung Hiếu','2004-01-30',N'Nam',N'Quảng Trị','0325049999','045204550730','hieuadmin','123456','CS0002','CV0002','1','anhnv2.png');
+insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai,Anh)--123456
+Values (N'Nguyễn Thị Yến Nhi','2004-04-30',N'Nữ',N'Hà Nội','0325048888','045204099990','nhinhanvien','123456','CS0001','CV0001','1','anhnv5.png');
+insert into NHAN_VIEN(TenNhanVien,NgaySinh,GioiTinh,DiaChi,SoDienThoai,CCCD,TenTaiKhoan,MatKhau,MaChinhSach,MaChucVu,TrangThai,Anh)--123456
+Values (N'Nguyễn Phan Hà','2004-11-30',N'Nữ',N'Cà Mau','0943754517','045204700898','hanhanvien','123456','CS0001','CV0001','1','anhnv5.png');
 
 -----Đã xong
 ------19. lịch làm việc
